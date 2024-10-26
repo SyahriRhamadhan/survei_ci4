@@ -62,7 +62,7 @@ class Security extends BaseConfig
      *
      * Defaults to two hours (in seconds).
      */
-    public int $expires = 7200;
+    public int $expires = 86400;  // ubah default sessionnya jadi 1 hari (jadi setelah 1 hari akan logout otomatis (jika tidak di regenerate))
 
     /**
      * --------------------------------------------------------------------------

@@ -36,8 +36,8 @@
         foreach ($pertanyaan as $per) : ?>
             <tr>
                 <td><?= $no++ ?>.</td>
-                <td><?= $per['pertanyaan'] ?></td>
-                <td><?= $per['tipe_pertanyaan'] ?></td>
+                <td><?= htmlspecialchars($per['pertanyaan']) ?></td>
+                <td><?= htmlspecialchars($per['tipe_pertanyaan']) ?></td>
                 <td>
                     <a href="<?= base_url('admin/pertanyaan/edit/' . $per['id']) ?>" class="btn btn-primary">Edit</a>
                     <a href="<?= base_url('admin/pertanyaan/delete/' . $per['id']) ?>" class="btn btn-danger tombol-hapus">Delete</a>

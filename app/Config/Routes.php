@@ -5,21 +5,35 @@ use CodeIgniter\Router\RouteCollection;
 /**
  * @var RouteCollection $routes
  */
+
 // Landing Page
 $routes->get('/', 'Home::index');
-// Login
-$routes->get('auth/login', 'Auth\Login::index');
-$routes->post('auth/login', 'Auth\Login::login_action');
-$routes->get('auth/logout', 'Auth\Login::logout');
-// Dashboard
-$routes->get('admin/dashboard', 'Admin\Dashboard::index');
-$routes->get('pimpinan/dashboard', 'Pimpinan\Dashboard::index');
-$routes->get('unit/dashboard', 'Unit\Dashboard::index');
 
-//Admin pertanyaan
-$routes->get('admin/pertanyaan', 'Admin\Pertanyaan::index');
-$routes->get('admin/pertanyaan/create', 'Admin\Pertanyaan::create');
-$routes->post('admin/pertanyaan/store', 'Admin\Pertanyaan::store');
-$routes->get('admin/pertanyaan/edit/(:segment)', 'Admin\Pertanyaan::edit/$1',);
-$routes->post('admin/pertanyaan/update/(:segment)', 'Admin\Pertanyaan::update/$1');
-$routes->get('admin/pertanyaan/delete/(:segment)', 'Admin\Pertanyaan::delete/$1');
+// Authentication Routes
+$routes->group('auth', function($routes) {
+    $routes->get('login', 'Login::index');
+    $routes->post('login', 'Login::login_action');
+    $routes->get('logout', 'Login::logout');
+});
+
+
+// Admin Routes
+$routes->group('admin', function($routes) {
+    $routes->get('admin', 'Admin\Dashboard::index');
+
+    $routes->get('pertanyaan', 'Pertanyaan::index');
+    $routes->get('pertanyaan/create', 'Pertanyaan::create');
+    $routes->post('pertanyaan/store', 'Pertanyaan::store');
+    $routes->get('pertanyaan/edit/(:segment)', 'Pertanyaan::edit/$1');
+    $routes->post('pertanyaan/update/(:segment)', 'Pertanyaan::update/$1');
+    $routes->get('pertanyaan/delete/(:segment)', 'Pertanyaan::delete/$1');
+});
+
+$routes->group('pimpinan', function($routes) {
+    $routes->get('pimpinan', 'Pimpinan\Dashboard::index');
+
+});
+
+$routes->group('unit', function($routes) {
+    $routes->get('unit', 'Unit\Dashboard::index');
+});

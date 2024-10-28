@@ -15,44 +15,13 @@ class UnitPlaceholderPertanyaan extends Migration
                 'unsigned' => true,
                 'auto_increment' => true,
             ],
-            'jenis_unit' => [ 
-                'type' => 'ENUM',
-                'constraint' => [
-                    'UPPS', //setahun sekali
-                    'Unit Layanan', //sehabis survei
-                ],
-                'null' => true,
+            'jenis_unit' => [ //unit layanan(setiap melakukan pelayanan) / upps(setahun sekali di desember)
+                'type' => 'VARCHAR',
+                'constraint' => '255',
             ],
             'nama_unit' => [ 
-                'type' => 'ENUM',
-                'constraint' => [ // hal 7-8 pdf
-                    //Unit Pengelola Program Studi (UPPS)
-                    'Fakultas Ekonomi dan Bisnis Maritim (FEBM)',
-                    'Fakultas Ilmu Kelautan dan Perikanan (FIKP)',
-                    'Fakultas Ilmu Sosial dan Ilmu Pemerintahan (FISIP)',
-                    'Fakultas Keguruan dan Ilmu Pendidikan (FKIP)',
-                    'Fakultas Teknik dan Teknologi Kemaritiman (FTTK)',
-                    'Magister Ilmu Lingkungan (MIL)',
-                    'Magister Administrasi Publik (MAP)',
-                    'Biro Akademik, Perencanaan, dan Kemahasiswaan',
-                    //biro
-                    'Layanan umum',
-                    'Layanan keuangan',
-                    'Layanan kepegawaian',
-                    'Layanan akademik', 
-                    'Layanan kemahasiswaan', 
-                    'Layanan perencanaan',
-                    //lembaga
-                    'Lembaga Penelitian dan Pengabdian Masyarakat',
-                    'Lembaga Penjaminan Mutu dan Pusat Pembelajaran',
-                    //Unit Penunjang Akademik (UPA)
-                    'UPA Teknologi, Informasi, dan Komunikasi (TIK)',
-                    'UPA Bahasa',
-                    'UPA Karir',
-                    'UPA Perpustakaan',
-                    'UPA Lab Terpadu',
-                ],
-                'null' => true,
+                'type' => 'VARCHAR', //contoh input di hal 7-8 pdf
+                'constraint' => '255',
             ],
             'created_at' => [
                 'type' => 'DATETIME',

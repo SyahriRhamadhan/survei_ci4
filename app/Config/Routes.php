@@ -40,6 +40,17 @@ $routes->group('admin', static function($routes) {
         
     });
 
+    // survei crud_unit_placeholder_pertanyaan
+    $routes->group('placeholder', function($routes){
+        $routes->get('', 'Admin\Placeholder::index');
+        $routes->get('create', 'Admin\Placeholder::create');
+        $routes->post('store', 'Admin\Placeholder::store');
+        $routes->get('edit/(:segment)', 'Admin\Placeholder::edit/$1');
+        $routes->post('update/(:segment)', 'Admin\Placeholder::update/$1');
+        $routes->get('delete/(:segment)', 'Admin\Placeholder::delete/$1');
+        
+    });
+
 });
 
 $routes->group('pimpinan', function($routes) {

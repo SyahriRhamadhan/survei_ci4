@@ -155,14 +155,19 @@
                                             class="hide-menu h6"> Tipe Pengunjung
                                         </span></a>
                                 </li>
-                                <li class="sidebar-item"><a href="<?= base_url('admin/pertanyaan') ?>" href="form-input-grid.html" class="sidebar-link"><span
-                                            class="hide-menu h6"> Petanyaan
-                                        </span></a>
-                                </li>
                                 <li class="sidebar-item"><a href="<?= base_url('admin/survei') ?>" href="form-input-grid.html" class="sidebar-link"><span
                                             class="hide-menu h6"> Survei
                                         </span></a>
                                 </li>
+                                <li class="sidebar-item"><a href="<?= base_url('admin/pertanyaan') ?>" href="form-input-grid.html" class="sidebar-link"><span
+                                            class="hide-menu h6"> Petanyaan
+                                        </span></a>
+                                </li>
+                                <li class="sidebar-item"><a href="<?= base_url('admin/placeholder') ?>" href="form-input-grid.html" class="sidebar-link"><span
+                                            class="hide-menu h6"> Placeholder
+                                        </span></a>
+                                </li>
+
 
                             </ul>
                         </li>

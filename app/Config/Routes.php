@@ -9,31 +9,37 @@ use CodeIgniter\Router\RouteCollection;
 // Landing Page
 $routes->get('/', 'Home::index');
 
-// Authentication Routes
-$routes->group('auth', function($routes) {
-    $routes->get('login', 'Login::index');
-    $routes->post('login', 'Login::login_action');
-    $routes->get('logout', 'Login::logout');
+// Login
+$routes->get('auth/login', 'Auth\Login::index');
+$routes->post('auth/login', 'Auth\Login::login_action');
+$routes->get('auth/logout', 'Auth\Login::logout');
+
+/**
+ * Grouping for separating routes for admin, pimpinan, and unit
+ */
+
+// Admin routes
+$routes->group('admin', static function ($routes) {
+    // Dashboard
+    $routes->get('dashboard', 'Admin\Dashboard::index');
+
+    // Pertanyaan routes
+    $routes->get('pertanyaan', 'Admin\Pertanyaan::index');
+    $routes->get('pertanyaan/create', 'Admin\Pertanyaan::create');
+    $routes->post('pertanyaan/store', 'Admin\Pertanyaan::store');
+    $routes->get('pertanyaan/edit/(:segment)', 'Admin\Pertanyaan::edit/$1');
+    $routes->post('pertanyaan/update/(:segment)', 'Admin\Pertanyaan::update/$1');
+    $routes->get('pertanyaan/delete/(:segment)', 'Admin\Pertanyaan::delete/$1');
 });
 
-
-// Admin Routes
-$routes->group('admin', function($routes) {
-    $routes->get('admin', 'Admin\Dashboard::index');
-
-    $routes->get('pertanyaan', 'Pertanyaan::index');
-    $routes->get('pertanyaan/create', 'Pertanyaan::create');
-    $routes->post('pertanyaan/store', 'Pertanyaan::store');
-    $routes->get('pertanyaan/edit/(:segment)', 'Pertanyaan::edit/$1');
-    $routes->post('pertanyaan/update/(:segment)', 'Pertanyaan::update/$1');
-    $routes->get('pertanyaan/delete/(:segment)', 'Pertanyaan::delete/$1');
+// Pimpinan routes
+$routes->group('pimpinan', static function ($routes) {
+    // Dashboard
+    $routes->get('dashboard', 'Pimpinan\Dashboard::index');
 });
 
-$routes->group('pimpinan', function($routes) {
-    $routes->get('pimpinan', 'Pimpinan\Dashboard::index');
-
-});
-
-$routes->group('unit', function($routes) {
-    $routes->get('unit', 'Unit\Dashboard::index');
+// Unit routes
+$routes->group('unit', static function ($routes) {
+    // Dashboard
+    $routes->get('dashboard', 'Unit\Dashboard::index');
 });

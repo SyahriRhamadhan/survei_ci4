@@ -159,6 +159,10 @@
                                             class="hide-menu h6"> Petanyaan
                                         </span></a>
                                 </li>
+                                <li class="sidebar-item"><a href="<?= base_url('admin/survei') ?>" href="form-input-grid.html" class="sidebar-link"><span
+                                            class="hide-menu h6"> Survei
+                                        </span></a>
+                                </li>
 
                             </ul>
                         </li>

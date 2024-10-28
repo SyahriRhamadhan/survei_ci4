@@ -10,30 +10,43 @@ use CodeIgniter\Router\RouteCollection;
 $routes->get('/', 'Home::index');
 
 // Authentication Routes
-$routes->group('auth', function($routes) {
-    $routes->get('login', 'Login::index');
-    $routes->post('login', 'Login::login_action');
-    $routes->get('logout', 'Login::logout');
+$routes->group('auth', static function($routes) {
+    $routes->get('login', 'Auth\Login::index');
+    $routes->post('login', 'Auth\Login::login_action');
+    $routes->get('logout', 'Auth\Login::logout');
 });
 
 
 // Admin Routes
-$routes->group('admin', function($routes) {
-    $routes->get('admin', 'Admin\Dashboard::index');
+$routes->group('admin', static function($routes) {
+    $routes->get('dashboard', 'Admin\Dashboard::index');
 
-    $routes->get('pertanyaan', 'Pertanyaan::index');
-    $routes->get('pertanyaan/create', 'Pertanyaan::create');
-    $routes->post('pertanyaan/store', 'Pertanyaan::store');
-    $routes->get('pertanyaan/edit/(:segment)', 'Pertanyaan::edit/$1');
-    $routes->post('pertanyaan/update/(:segment)', 'Pertanyaan::update/$1');
-    $routes->get('pertanyaan/delete/(:segment)', 'Pertanyaan::delete/$1');
+    // pertanyaan crud
+    $routes->get('pertanyaan', 'Admin\Pertanyaan::index');
+    $routes->get('pertanyaan/create', 'Admin\Pertanyaan::create');
+    $routes->post('pertanyaan/store', 'Admin\Pertanyaan::store');
+    $routes->get('pertanyaan/edit/(:segment)', 'Admin\Pertanyaan::edit/$1');
+    $routes->post('pertanyaan/update/(:segment)', 'Admin\Pertanyaan::update/$1');
+    $routes->get('pertanyaan/delete/(:segment)', 'Admin\Pertanyaan::delete/$1');
+
+    // survei crud
+    $routes->group('survei', function($routes){
+        $routes->get('', 'Admin\Survei::index');
+        $routes->get('create', 'Admin\Survei::create');
+        $routes->post('store', 'Admin\Survei::store');
+        $routes->get('edit/(:segment)', 'Admin\Survei::edit/$1');
+        $routes->post('update/(:segment)', 'Admin\Survei::update/$1');
+        $routes->get('delete/(:segment)', 'Admin\Survei::delete/$1');
+        
+    });
+
 });
 
 $routes->group('pimpinan', function($routes) {
-    $routes->get('pimpinan', 'Pimpinan\Dashboard::index');
+    $routes->get('dashboard', 'Pimpinan\Dashboard::index');
 
 });
 
 $routes->group('unit', function($routes) {
-    $routes->get('unit', 'Unit\Dashboard::index');
+    $routes->get('dashboard', 'Unit\Dashboard::index');
 });

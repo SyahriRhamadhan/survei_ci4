@@ -31,11 +31,11 @@ class Survei extends Migration
                 'null' => true,
             ],
             'tgl_mulai' => [
-                'type' => 'DATETIME',
+                'type' => 'DATE',
                 'null' => true,
             ],
             'tgl_selesai' => [
-                'type' => 'DATETIME',
+                'type' => 'DATE',
                 'null' => true,
             ],
             'status' => [ 

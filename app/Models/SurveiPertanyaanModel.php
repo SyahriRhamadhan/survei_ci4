@@ -6,7 +6,7 @@ use CodeIgniter\Model;
 
 class SurveiPertanyaanModel extends Model
 {
-    protected $table            = 'surveipertanyaans';
+    protected $table            = 'survei_pertanyaan';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';

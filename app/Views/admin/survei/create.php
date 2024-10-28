@@ -69,17 +69,17 @@
                     </select>
                 </div>
             </div>
-            <div class="input-style-1 my-1">
-                <div class="form-group mb-4">
-                    <label class="mr-sm-2" for="inlineFormCustomSelect">Pertanyaan</label>
-                    <select class="form-select mr-sm-2" id="inlineFormCustomSelect" name="pertanyaan" required>
-                        <option selected value="">Pilih Pertanyaan</option>
-                        <?php foreach ($pertanyaan as $key) { ?>
-                            <option value="<?= $key['id'] ?>"> <?= $key['pertanyaan'] ?></option>
-                        <?php } ?>
-                    </select>
+            <?php foreach ($pertanyaanGrouped as $kategori => $pertanyaans): ?>
+                <div class="category-group">
+                    <h5 class="fw-bold">Kategori = <?= htmlspecialchars($kategori) ?></h5>
+                    <?php foreach ($pertanyaans as $pertanyaan): ?>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="pertanyaan[]" value="<?= htmlspecialchars($pertanyaan['id']) ?>">
+                            <label class="form-check-label"><?= htmlspecialchars($pertanyaan['pertanyaan']) ?></label>
+                        </div>
+                    <?php endforeach; ?>
                 </div>
-            </div>
+            <?php endforeach; ?>
 
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>

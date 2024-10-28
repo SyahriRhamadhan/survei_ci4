@@ -27,8 +27,10 @@
         <tr>
             <th>No</th>
             <th>Survei</th>
+            <th>Nama Unit</th>
+            <th>Jenis Unit</th>
             <th>Status</th>
-            <th>No Aksi</th>
+            <th>Aksi</th>
         </tr>
     </thead>
     <tbody>
@@ -37,6 +39,8 @@
             <tr>
                 <td><?= $no++ ?>.</td>
                 <td><?= htmlspecialchars($s['judul']) ?></td>
+                <td><?= htmlspecialchars($s['nama_unit']) ?></td>
+                <td><?= htmlspecialchars($s['jenis_unit']) ?></td>
                 <td><?= htmlspecialchars($s['status']) ?></td>
                 <td>
                     <a href="<?= base_url('admin/survei/edit/' . $s['id']) ?>" class="btn btn-primary">Edit</a>
@@ -46,5 +50,6 @@
         <?php endforeach; ?>
     </tbody>
 </table>
+
 
 <?= $this->endSection() ?>

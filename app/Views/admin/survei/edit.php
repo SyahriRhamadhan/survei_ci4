@@ -30,17 +30,17 @@
             </div>
             <div class="input-style-1 my-1">
                 <label>Deskripsi</label>
-                <textarea class=" form-control <?= ($validation->hasError('deskripsi')) ? 'is-invalid' : '' ?>" type="text" name="deskripsi" placeholder="" required><?= $survei['deskripsi_survei'] ?></textarea>
+                <textarea class="form-control <?= ($validation->hasError('deskripsi')) ? 'is-invalid' : '' ?>" type="text" name="deskripsi" required><?= $survei['deskripsi_survei'] ?></textarea>
                 <div class="invalid-feedback"><?= $validation->getError('deskripsi') ?></div>
             </div>
             <div class="input-style-1 my-1">
                 <label>Tanggal Mulai</label>
-                <input class=" form-control <?= ($validation->hasError('tgl_mulai')) ? 'is-invalid' : '' ?>" type="date" name="tgl_mulai" placeholder="" required value="<?= $survei['tgl_mulai'] ?>" />
+                <input class="form-control <?= ($validation->hasError('tgl_mulai')) ? 'is-invalid' : '' ?>" type="date" name="tgl_mulai" required value="<?= $survei['tgl_mulai'] ?>" />
                 <div class="invalid-feedback"><?= $validation->getError('tgl_mulai') ?></div>
             </div>
             <div class="input-style-1 my-1">
                 <label>Tanggal Selesai</label>
-                <input class=" form-control <?= ($validation->hasError('tgl_selesai')) ? 'is-invalid' : '' ?>" type="date" name="tgl_selesai" placeholder="" required value="<?= $survei['tgl_selesai'] ?>" />
+                <input class="form-control <?= ($validation->hasError('tgl_selesai')) ? 'is-invalid' : '' ?>" type="date" name="tgl_selesai" required value="<?= $survei['tgl_selesai'] ?>" />
                 <div class="invalid-feedback"><?= $validation->getError('tgl_selesai') ?></div>
             </div>
             <div class="input-style-1 my-1">
@@ -69,17 +69,18 @@
                     </select>
                 </div>
             </div>
-            <div class="input-style-1 my-1">
-                <div class="form-group mb-4">
-                    <label class="mr-sm-2" for="inlineFormCustomSelect">Pertanyaan</label>
-                    <select class="form-select mr-sm-2" id="inlineFormCustomSelect" name="pertanyaan" required>
-                        <option selected value="<?= $survei['id_pertanyaan'] ?>"><?= $survei['pertanyaan'] ?></option>
-                        <?php foreach ($pertanyaan as $key) { ?>
-                            <option value="<?= $key['id'] ?>"> <?= $key['pertanyaan'] ?></option>
-                        <?php } ?>
-                    </select>
+            <?php foreach ($pertanyaanGrouped as $kategori => $pertanyaans): ?>
+                <div class="category-group">
+                    <h5 class="fw-bold">Kategori = <?= htmlspecialchars($kategori) ?></h5>
+                    <?php foreach ($pertanyaans as $pertanyaan): ?>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="pertanyaan[]" value="<?= htmlspecialchars($pertanyaan['id']) ?>"
+                                <?= in_array($pertanyaan['id'], $selectedPertanyaan) ? 'checked' : '' ?>>
+                            <label class="form-check-label"><?= htmlspecialchars($pertanyaan['pertanyaan']) ?></label>
+                        </div>
+                    <?php endforeach; ?>
                 </div>
-            </div>
+            <?php endforeach; ?>
 
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>

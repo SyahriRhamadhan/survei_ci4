@@ -17,6 +17,7 @@
     <link href="<?= base_url('assets/extra-libs/jvector/jquery-jvectormap-2.0.2.css') ?>" rel="stylesheet" />
     <!-- Custom CSS -->
     <link href="<?= base_url('dist/css/style.min.css') ?>" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.css" />
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -246,8 +247,11 @@
     <script src="<?= base_url('assets/extra-libs/jvector/jquery-jvectormap-2.0.2.min.js') ?>"></script>
     <script src="<?= base_url('assets/extra-libs/jvector/jquery-jvectormap-world-mill-en.js') ?>"></script>
     <script src="<?= base_url('dist/js/pages/dashboards/dashboard1.min.js') ?>"></script>
-
+    <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
     <script>
+        $(document).ready(function() {
+            $('#datatables').DataTable();
+        });
         $(function() {
             <?php if (session()->has('berhasil')): ?>
                 const Toast = Swal.mixin({

@@ -5,34 +5,35 @@ use CodeIgniter\Router\RouteCollection;
 /**
  * @var RouteCollection $routes
  */
+
 // Landing Page
 $routes->get('/', 'Home::index');
-// Login
-$routes->get('auth/login', 'Auth\Login::index');
-$routes->post('auth/login', 'Auth\Login::login_action');
-$routes->get('auth/logout', 'Auth\Login::logout');
 
-/**
- * Grouping untuk misahin route untuk admin, pimpinan & unit (biar kalo routenya dah banyak nggak ribet & lebih rapi)
- */
-// admin routes
-$routes->group('admin', static function ($routes){
-    // Dashboard
-    $routes->get('dashboard', 'Admin\Dashboard::index');
+// Authentication Routes
+$routes->group('auth', function($routes) {
+    $routes->get('login', 'Login::index');
+    $routes->post('login', 'Login::login_action');
+    $routes->get('logout', 'Login::logout');
+});
+
+
+// Admin Routes
+$routes->group('admin', function($routes) {
+    $routes->get('admin', 'Admin\Dashboard::index');
+
+    $routes->get('pertanyaan', 'Pertanyaan::index');
+    $routes->get('pertanyaan/create', 'Pertanyaan::create');
+    $routes->post('pertanyaan/store', 'Pertanyaan::store');
+    $routes->get('pertanyaan/edit/(:segment)', 'Pertanyaan::edit/$1');
+    $routes->post('pertanyaan/update/(:segment)', 'Pertanyaan::update/$1');
+    $routes->get('pertanyaan/delete/(:segment)', 'Pertanyaan::delete/$1');
+});
+
+$routes->group('pimpinan', function($routes) {
+    $routes->get('pimpinan', 'Pimpinan\Dashboard::index');
 
 });
 
-// pimpinan routes
-$routes->group('pimpinan', static function ($routes){
-    // dashboard
-    $routes->get('dashboard', 'Pimpinan\Dashboard::index');
-
+$routes->group('unit', function($routes) {
+    $routes->get('unit', 'Unit\Dashboard::index');
 });
-
-// unit routes
-$routes->group('unit', static function ($routes){
-    // dashboard
-    $routes->get('dashboard', 'Unit\Dashboard::index');
-
-});
-

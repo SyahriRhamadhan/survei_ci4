@@ -175,7 +175,7 @@
 
                         <li class="sidebar-item"> <a class="sidebar-link has-arrow" href="javascript:void(0)"
                                 aria-expanded="false"><i data-feather="user" class="feather-icon"></i><span
-                                    class="hide-menu"> User Manajemen </span></a>
+                                    class="hide-menu"> Manajemen User </span></a>
                             <ul aria-expanded="false" class="collapse  first-level base-level-line">
 
                                 <li class="sidebar-item"><a href="form-input-grid.html" class="sidebar-link"><span

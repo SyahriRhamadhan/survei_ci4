@@ -1,108 +1,108 @@
 <!DOCTYPE html>
 <html dir="ltr">
-
 <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="<?= base_url('assets/images/favicon.png') ?>">
-    <title>Survei UMRAH</title>
-    <!-- Custom CSS -->
-    <link href="<?= base_url('dist/css/style.min.css') ?>" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="<?= base_url('assets/extra-libs/prism/prism.css') ?>">
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-<![endif]-->
+    <title>Survei UMRAH - Login</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <style>
+        .bg-gradient {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+        }
+    </style>
 </head>
+<body class="bg-gradient min-h-screen">
+    <div class="min-h-screen flex items-center justify-center p-4">
+        <div class="max-w-4xl w-full bg-white rounded-2xl shadow-2xl overflow-hidden flex flex-col md:flex-row">
+            <!-- Left side - Image -->
+            <div class="md:w-1/2 relative hidden md:block">
+                <div class="absolute inset-0 bg-gradient opacity-90"></div>
+                <img src="<?= base_url('assets/images/big/3.jpg') ?>" alt="Login Background" 
+                     class="w-full h-full object-cover">
+                <div class="absolute inset-0 flex items-center justify-center">
+                    <div class="text-white text-center p-8">
+                        <h2 class="text-3xl font-bold mb-4">Selamat Datang!</h2>
 
-<body>
-    <div class="main-wrapper">
-        <!-- ============================================================== -->
-        <!-- Preloader - style you can find in spinners.css -->
-        <!-- ============================================================== -->
-        <div class="preloader">
-            <div class="lds-ripple">
-                <div class="lds-pos"></div>
-                <div class="lds-pos"></div>
-            </div>
-        </div>
-        <!-- ============================================================== -->
-        <!-- Preloader - style you can find in spinners.css -->
-        <!-- ============================================================== -->
-        <!-- ============================================================== -->
-        <!-- Login box.scss -->
-        <!-- ============================================================== -->
-        <div class="auth-wrapper d-flex no-block justify-content-center align-items-center position-relative"
-            >
-            <div class="auth-box row">
-                <div class="col-lg-6 col-md-5 modal-bg-img" style="background-image: url(<?= base_url('assets/images/big/3.jpg') ?>);">
-                </div>
-                <div class="col-lg-6 col-md-7 bg-white">
-                    <div class="p-3">
-                        
-                        <h2 class="mt-3 text-center text-primary">Sign In</h2>
-                        <?php if (!empty(session()->getFlashdata('pesan'))) : ?>
-                            <div class="alert alert-<?= session()->getFlashdata('alert_type') ?> alert-dismissible bg-<?= session()->getFlashdata('alert_type') ?> text-white border-0 fade show" role="alert">
-                                <?= session()->getFlashdata('pesan') ?>
-                            </div>
-                        <?php endif ?>
-
-                        <form class="mt-4" method="POST" action="<?= base_url('/auth/login') ?>">
-                        <?= csrf_field() ?>
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <div class="form-group mb-3">
-                                        <label class="form-label text-primary" for="email">Email</label>
-                                        <input class="form-control" id="email" type="email"  name="email"
-                                            placeholder="Masukan Email Anda">
-                                    </div>
-                                </div>
-                                <div class="col-lg-12">
-                                    <div class="form-group mb-3">
-                                        <label class="form-label text-primary" for="pwd">Password</label>
-                                        <input class="form-control" id="pwd" type="password" name="password"
-                                            placeholder="Masukan Password Anda">
-                                    </div>
-                                </div>
-                                <div class="col-lg-12 text-center mt-3">
-                                    <button type="submit" class="btn w-100 btn-primary">Sign In</button>
-                                </div>
-                                <div class="col-lg-12 text-center mt-5">
-                                    <!-- Don't have an account? <a href="#" class="text-danger">Sign Up</a> -->
-                                </div>
-                            </div>
-                        </form>
                     </div>
                 </div>
             </div>
+            
+            <!-- Right side - Login Form -->
+            <div class="md:w-1/2 p-8 md:p-12 glass-effect">
+                <div class="mb-8 text-center">
+                    <h1 class="text-3xl font-bold text-gray-800">SURVEI UMRAH</h1>
+                    <p class="text-gray-600 mt-2">Masukkan alamat email dan kata sandi Anda</p>
+                </div>
+                
+                <!-- Flash Messages -->
+                <?php if (!empty(session()->getFlashdata('pesan'))) : ?>
+                    <div class="mb-4 p-4 rounded-lg <?= session()->getFlashdata('alert_type') === 'danger' ? 'bg-red-100 text-red-700' : 'bg-green-100 text-green-700' ?>" role="alert">
+                        <?= session()->getFlashdata('pesan') ?>
+                    </div>
+                <?php endif ?>
+
+                <!-- Maintaining the original form action and CSRF token -->
+                <form class="space-y-6" method="POST" action="<?= base_url('/auth/login') ?>">
+                    <?= csrf_field() ?>
+                    
+                    <div>
+                        <label class="block text-gray-700 text-sm font-semibold mb-2" for="email">
+                            Alamat Email
+                        </label>
+                        <input type="email" id="email" name="email" 
+                               class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none transition duration-200"
+                               placeholder="Masukan Email Anda">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-gray-700 text-sm font-semibold mb-2" for="password">
+                            Kata Sandi
+                        </label>
+                        <input type="password" id="password" name="password"
+                               class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none transition duration-200"
+                               placeholder="Masukan Password Anda">
+                    </div>
+                    
+                    <div class="flex items-center justify-between">
+                        <label class="flex items-center space-x-2">
+                            <input type="checkbox" class="form-checkbox text-blue-600">
+                            <span class="text-sm text-gray-600">Ingat saya</span>
+                        </label>
+                        <a href="#" class="text-sm text-blue-600 hover:text-blue-800">Lupa kata sandi?</a>
+                    </div>
+                    
+                    <button type="submit" 
+                            class="w-full bg-blue-600 text-white rounded-lg px-4 py-3 font-semibold hover:bg-blue-700 focus:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition duration-200">
+                        Sign In
+                    </button>
+                </form>
+            </div>
         </div>
-        <!-- ============================================================== -->
-        <!-- Login box.scss -->
-        <!-- ============================================================== -->
     </div>
-    <!-- ============================================================== -->
-    <!-- All Required js -->
-    <!-- ============================================================== -->
-    <script src="<?= base_url('assets/libs/jquery/dist/jquery.min.js') ?>"></script>
-    <!-- Bootstrap tether Core JavaScript -->
-   
-    <script src="<?= base_url('assets/libs/popper.js/dist/umd/popper.min.js') ?>"></script>
-    <script src="<?= base_url('assets/libs/bootstrap/dist/js/bootstrap.min.js') ?>"></script>
-    <script src="<?= base_url('assets/libs/bootstrap/dist/js/bootstrap.min.js') ?>"></script>
-    <script src="<?= base_url('assets/extra-libs/prism/prism.js') ?>"></script>
-    <!-- ============================================================== -->
-    <!-- This page plugin js -->
-    <!-- ============================================================== -->
+
+    <!-- Loading Spinner -->
+    <div class="fixed inset-0 bg-black bg-opacity-50 hidden" id="loader">
+        <div class="flex items-center justify-center h-full">
+            <div class="animate-spin rounded-full h-12 w-12 border-4 border-blue-500 border-t-transparent"></div>
+        </div>
+    </div>
+
     <script>
-        $(".preloader ").fadeOut();
+        // Show/hide loader
+        function toggleLoader(show) {
+            const loader = document.getElementById('loader');
+            loader.classList.toggle('hidden', !show);
+        }
+
+        // Form submission handling
+        document.querySelector('form').addEventListener('submit', function(e) {
+            toggleLoader(true);
+            // Form will submit normally since we removed preventDefault()
+        });
     </script>
 </body>
-
 </html>

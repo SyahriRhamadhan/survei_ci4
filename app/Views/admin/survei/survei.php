@@ -41,7 +41,13 @@
                 <td><?= htmlspecialchars($s['judul']) ?></td>
                 <td><?= htmlspecialchars($s['nama_unit']) ?></td>
                 <td><?= htmlspecialchars($s['jenis_unit']) ?></td>
-                <td><?= htmlspecialchars($s['status']) ?></td>
+                <td>
+                    <?php if ($s['status'] === 'on'): ?>
+                        <span class="badge bg-success">On</span>
+                    <?php else: ?>
+                        <span class="badge bg-danger">Off</span>
+                    <?php endif; ?>
+                </td>
                 <td>
                     <a href="<?= base_url('admin/survei/edit/' . $s['id']) ?>" class="btn btn-primary">Edit</a>
                     <a href="<?= base_url('admin/survei/delete/' . $s['id']) ?>" class="btn btn-danger tombol-hapus">Delete</a>

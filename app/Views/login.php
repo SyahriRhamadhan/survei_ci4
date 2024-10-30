@@ -5,9 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Survei UMRAH - Login</title>
     <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="<?= base_url('assets/images/favicon.png') ?>">
+    <link rel="icon" type="image/png" sizes="16x16" href="<?= base_url('assets/images/logo.png') ?>">
     <!-- Tailwind CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <!-- Jersey M54 Font - Custom font for navbar title -->
+    <link href="https://fonts.cdnfonts.com/css/jersey-m54" rel="stylesheet">
     <style>
         .bg-gradient {
             background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
@@ -18,6 +20,9 @@
         }
         .form-input:focus {
             box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+        }
+        .navbar-title {
+            font-family: 'Jersey M54', sans-serif;
         }
     </style>
 </head>
@@ -40,7 +45,7 @@
             <!-- Right side - Login Form -->
             <div class="md:w-1/2 p-8 md:p-12 glass-effect">
                 <div class="mb-10 text-center">
-                    <a href="<?= base_url('/') ?>" class="text-3xl font-bold text-blue-900">SURVEI UMRAH</a>
+                    <a href="<?= base_url('/') ?>" class="text-3xl font-bold text-blue-900 navbar-title">SURVEI UMRAH</a>
                     <p class="text-gray-600 mt-3">Masukkan alamat email dan kata sandi Anda</p>
                 </div>
                 

@@ -160,7 +160,7 @@
                         <div class="bg-gradient-to-r from-blue-900 to-blue-800 text-white p-8 rounded-xl my-8">
                             <h3 class="text-2xl font-bold mb-4">Tujuan Survei</h3>
                             <p class="text-gray-100">
-                                Buku ini disusun untuk dijadikan sebagai pedoman dalam pelaksanaan survei kepuasan stakeholder di lingkungan Universitas Maritim Raja Ali Haji (UMRAH).
+                                Survei ini dilakukan sebagai bentuk umpan balik terhadap kepuasan terhadap kualitas pelayanan di lingkungan Universitas Maritim Raja Ali Haji (UMRAH).
                             </p>
                         </div>
 

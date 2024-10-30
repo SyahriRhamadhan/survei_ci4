@@ -4,7 +4,7 @@ namespace App\Database\Migrations;
 
 use CodeIgniter\Database\Migration;
 
-class Pertanyaan extends Migration
+class TipePertanyaan extends Migration
 {
     public function up()
     {
@@ -15,14 +15,9 @@ class Pertanyaan extends Migration
                 'unsigned' => true,
                 'auto_increment' => true,
             ],
-            'pertanyaan' => [ 
+            'tipe_pertanyaan' => [ 
                 'type' => 'VARCHAR',
                 'constraint' => '255',
-            ],
-            'tipe_pertanyaan' => [
-                'type' => 'VARCHAR',
-                'constraint' => '255',
-                'null' => true,
             ],
             'created_at' => [
                 'type' => 'DATETIME',
@@ -37,11 +32,11 @@ class Pertanyaan extends Migration
   
         $this->forge->addPrimaryKey('id');
    
-        $this->forge->createTable('pertanyaan');
+        $this->forge->createTable('tipe_pertanyaan');
     }
 
     public function down()
     {
-        $this->forge->dropTable('pertanyaan');
+        $this->forge->createTable('tipe_pertanyaan');
     }
 }

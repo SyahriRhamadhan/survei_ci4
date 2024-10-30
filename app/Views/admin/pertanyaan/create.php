@@ -22,18 +22,14 @@
                 <div class="invalid-feedback"><?= $validation->getError('pertanyaan') ?></div>
             </div>
             <div class="input-style-1 my-2">
-                <label>Tipe/Kategori Pertanyaan</label>
+                <label>Pilih Tipe/Kategori Pertanyaan</label>
                 <select class="form-control <?= ($validation->hasError('tipe_pertanyaan')) ? 'is-invalid' : '' ?>" name="tipe_pertanyaan">
-                    <option value="" disabled selected>Pilih Tipe/Kategori Pertanyaan</option>
-                    <option default value="none">None</option>
-                    <option value="Tata Kelola, Tata Pamong, dan Kerjasama">Tata Kelola, Tata Pamong, dan Kerjasama</option>
-                    <option value="Bidang Kemahasiswaan">Bidang Kemahasiswaan</option>
-                    <option value="Bidang Sarana dan Prasarana">Bidang Sarana dan Prasarana</option>
-                    <option value="Sistem Tata Pamong">Sistem Tata Pamong</option>
-                    <option value="Kepemimpinan dan Kemampuan Manajerial">Kepemimpinan dan Kemampuan Manajerial</option>
-                    <option value="Kerjasama">Kerjasama</option>
-                    <option value="Layanan dan Sumber Daya Manusia">Layanan dan Sumber Daya Manusia</option>
-                    <option value="Layanan Keuangan">Layanan Keuangan</option>
+                    <option value="">Pilih Tipe/Kategori Pertanyaan</option>
+                    <?php foreach ($tipe_pertanyaan as $jab) : ?>
+                        <option value="<?= $jab['tipe_pertanyaan'] ?>">
+                            <?= $jab['tipe_pertanyaan'] ?>
+                        </option>
+                    <?php endforeach; ?>
                 </select>
                 <div class="invalid-feedback"><?= $validation->getError('tipe_pertanyaan') ?></div>
             </div>

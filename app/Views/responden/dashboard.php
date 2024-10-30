@@ -217,7 +217,7 @@ const departemenChart = new Chart(
     {
         type: 'bar',
         data: {
-            labels: ['Departemen Manajemen', 'Departemen Ilmu Ekonomi', 'Departemen Akuntansi'],
+            labels: [],
             datasets: [{
                 data: [35, 7, 6],
                 backgroundColor: '#60A5FA',
@@ -256,9 +256,6 @@ const prodiChart = new Chart(
         type: 'bar',
         data: {
             labels: [
-                'S2 MPKP', 'S1 Manajemen', 'S1 Akuntansi', 'S2 Maksi/PPAk',
-                'S1 Ilmu Ekonomi', 'S2 MM', 'S1 Bisnis Islam', 'S2 PPIM',
-                'S1 Ekstensi Akuntansi', 'S2 MEKK', 'S1 Ilmu Ekonomi Islam'
             ],
             datasets: [{
                 data: [16, 15, 11, 9, 8, 6, 5, 5, 4, 4, 2],
@@ -296,11 +293,7 @@ const leadershipChart = new Chart(
         type: 'bar',
         data: {
             labels: [
-                'Visi-Misi FEB UI sudah tersosialisasikan dengan baik',
-                'Visi-Misi FEB UI selaras dengan kepentingan FEB UI dan masyarakat Indonesia',
-                'Program kerja Dekan FEB UI sudah tersosialisasikan dengan baik',
-                'Program kerja Dekan FEB UI sesuai dengan kebutuhan civitas akademika FEB UI',
-                'Program kerja Dekan FEB UI akan berhasil merealisasikan Visi-Misi FEB UI'
+    
             ],
             datasets: [
                 {

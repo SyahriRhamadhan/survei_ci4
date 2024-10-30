@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="<?= base_url('assets/images/favicon.png') ?>">
+    <link rel="icon" type="image/png" sizes="16x16" href="<?= base_url('assets/images/logo.png') ?>">
     <title>Survei UMRAH</title>
     <!-- Custom CSS -->
     <link href="<?= base_url('assets/extra-libs/c3/c3.min.css') ?>" rel="stylesheet">

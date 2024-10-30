@@ -1,13 +1,23 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
+    <!-- Character encoding for proper text rendering -->
     <meta charset="UTF-8">
+    <!-- Responsive viewport settings for mobile devices -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Dynamic page title with fallback to 'Dashboard' -->
     <title>Survei UMRAH - <?= $title ?? 'Dashboard' ?></title>
+    <!-- Favicon - Website icon shown in browser tab -->
+    <link rel="icon" type="image/png" sizes="16x16" href="<?= base_url('assets/images/logo.png') ?>">
+    <!-- Tailwind CSS - Utility-first CSS framework for styling -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <!-- Font Awesome - Icon library for UI elements -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- Jersey M54 Font - Custom font for navbar title -->
     <link href="https://fonts.cdnfonts.com/css/jersey-m54" rel="stylesheet">
+    <!-- Chart.js - JavaScript library for creating charts and graphs -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+    <!-- Custom styles for navbar title -->
     <style>
         .navbar-title {
             font-family: 'Jersey M54', sans-serif;

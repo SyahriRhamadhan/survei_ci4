@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Survei UMRAH</title>
-    <meta name="description" content="Website Survei UMRAH untuk partisipasi survei dan manajemen admin">
+    <meta name="description" content="Website Survei UMRAH untuk peningkatan kualitas pelayanan perguruan tinggi">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -56,6 +56,12 @@
             font-weight: 700;
         }
 
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
         nav ul {
             list-style: none;
             display: flex;
@@ -78,8 +84,9 @@
 
         .hero-section {
             margin-top: 4rem;
-            background: linear-gradient(rgba(0, 64, 133, 0.8), rgba(0, 86, 179, 0.8)),
-                        url('/api/placeholder/1920/1080') center/cover no-repeat;
+            background-image: url("<?= base_url('assets/images/BG - Home.jpeg') ?>");
+            background-size: cover;
+            background-position: center;
             min-height: 80vh;
             display: flex;
             align-items: center;
@@ -87,9 +94,24 @@
             text-align: center;
             padding: 2rem;
             color: var(--white);
+            position: relative; /* This allows positioning of the overlay */
+        }
+
+/* Add a dark overlay */
+        .hero-section::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5); /* Adjust opacity as needed */
+            z-index: 1; /* Place overlay below text */
         }
 
         .hero-content {
+            position: relative; /* Ensures the content appears above the overlay */
+            z-index: 2;
             max-width: 800px;
         }
 
@@ -207,6 +229,10 @@
                 gap: 1rem;
             }
 
+            nav {
+                flex-direction: column;
+            }
+
             nav ul {
                 flex-direction: column;
                 align-items: center;
@@ -221,8 +247,6 @@
                 grid-template-columns: 1fr;
             }
         }
-        
-        
     </style>
 </head>
 <body>
@@ -232,8 +256,7 @@
         <h1>Survei UMRAH</h1>
         <nav>
             <ul>
-                <li><a href="#user-survey"><i class="fas fa-poll"></i> Survei untuk User</a></li>
-                <li><a href="#admin-dashboard"><i class="fas fa-chart-line"></i> Dashboard Admin</a></li>
+                <li><a href="<?= base_url('/responden/dashboard') ?>"><i class="fas fa-poll"></i> Survei Sekarang!</a></li>
             </ul>
         </nav>
     </div>
@@ -242,24 +265,17 @@
 <section class="hero-section" data-aos="fade-in">
     <div class="hero-content">
         <h2>Selamat Datang di Survei UMRAH</h2>
-        <p>Partisipasi Anda sangat berarti bagi kami! Berikan suara Anda untuk membantu meningkatkan kualitas pendidikan di UMRAH.</p>
-        <a href="#user-survey" class="btn">Mulai Survei Sekarang</a>
+        <p>Partisipasi Anda sangat berarti dalam meningkatkan kualitas pelayanan di Universitas Maritim Raja Ali Haji. Mari bersama membangun UMRAH yang lebih baik!</p>
+        <a href="#survey-section" class="btn">Mulai Survei Sekarang</a>
     </div>
 </section>
 
 <div class="container">
-    <div id="user-survey" class="card" data-aos="fade-up">
+    <div id="survey-section" class="card" data-aos="fade-up">
         <i class="fas fa-clipboard-list"></i>
-        <h3>Survei untuk User</h3>
-        <p>Ikuti survei UMRAH untuk memberikan umpan balik dan membantu meningkatkan kualitas pendidikan di UMRAH. Suara Anda sangat berharga bagi kemajuan institusi.</p>
-        <a href="#" class="btn">Mulai Survei</a>
-    </div>
-    
-    <div id="admin-dashboard" class="card" data-aos="fade-up" data-aos-delay="200">
-        <i class="fas fa-desktop"></i>
-        <h3>Dashboard Admin</h3>
-        <p>Kelola hasil survei, analisis data, dan unduh laporan di dashboard admin UMRAH. Akses semua tools yang Anda butuhkan dalam satu tempat.</p>
-        <a href="#" class="btn">Masuk ke Dashboard</a>
+        <h3>Survei Kepuasan</h3>
+        <p>Berikan masukan Anda untuk membantu meningkatkan kualitas pelayanan di UMRAH. Setiap pendapat sangat berharga bagi kemajuan institusi.</p>
+        <a href="<?= base_url('/responden/dashboard') ?>" class="btn">Mulai Survei</a>
     </div>
 </div>
 
@@ -267,20 +283,20 @@
     <div class="footer-content">
         <div class="footer-section">
             <h4>Tentang Kami</h4>
-            <p>Survei UMRAH adalah platform untuk mengumpulkan dan menganalisis feedback untuk peningkatan kualitas pendidikan.</p>
+            <p>Survei UMRAH adalah platform untuk mengumpulkan dan menganalisis feedback demi peningkatan kualitas pelayanan perguruan tinggi.</p>
         </div>
         <div class="footer-section">
             <h4>Kontak</h4>
-            <p>Email: survey@umrah.ac.id</p>
-            <p>Telepon: (0771) 123-456</p>
+            <p>Email: email@umrah.ac.id</p>
+            <p>Telepon: (0771) 4500089</p>
         </div>
         <div class="footer-section">
             <h4>Ikuti Kami</h4>
             <div class="social-links">
-                <a href="#"><i class="fab fa-facebook"></i></a>
-                <a href="#"><i class="fab fa-twitter"></i></a>
-                <a href="#"><i class="fab fa-instagram"></i></a>
-                <a href="#"><i class="fab fa-linkedin"></i></a>
+                <a href="<?= base_url('https://www.facebook.com/official.umrah.page/') ?>"><i class="fab fa-facebook"></i></a>
+                <a href="<?= base_url('https://www.youtube.com/@umrahtv.official') ?>"><i class="fab fa-youtube"></i></a>
+                <a href="<?= base_url('https://www.instagram.com/umrah.official') ?>"><i class="fab fa-instagram"></i></a>
+                <a href="<?= base_url('https://www.linkedin.com/school/univ-maritim-raja-ali-haji/') ?>"><i class="fab fa-linkedin"></i></a>
             </div>
         </div>
     </div>

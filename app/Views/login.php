@@ -4,6 +4,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Survei UMRAH - Login</title>
+    <!-- Favicon icon -->
+    <link rel="icon" type="image/png" sizes="16x16" href="<?= base_url('assets/images/favicon.png') ?>">
+    <!-- Tailwind CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
     <style>
         .bg-gradient {
@@ -24,7 +27,7 @@
             <!-- Left side - Image -->
             <div class="md:w-1/2 relative hidden md:block">
                 <div class="absolute inset-0 bg-blue-900 bg-opacity-70"></div>
-                <img src="<?= base_url('assets/images/big/3.jpg') ?>" alt="Login Background" 
+                <img src="<?= base_url('assets/images/Survei UMRAH - BG.png') ?>" alt="Login Background" 
                      class="w-full h-full object-cover">
                 <div class="absolute inset-0 flex items-center justify-center">
                     <div class="text-white text-center p-8">
@@ -37,7 +40,7 @@
             <!-- Right side - Login Form -->
             <div class="md:w-1/2 p-8 md:p-12 glass-effect">
                 <div class="mb-10 text-center">
-                    <h1 class="text-3xl font-bold text-blue-900">SURVEI UMRAH</h1>
+                    <a href="<?= base_url('/') ?>" class="text-3xl font-bold text-blue-900">SURVEI UMRAH</a>
                     <p class="text-gray-600 mt-3">Masukkan alamat email dan kata sandi Anda</p>
                 </div>
                 

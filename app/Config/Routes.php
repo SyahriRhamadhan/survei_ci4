@@ -61,3 +61,8 @@ $routes->group('pimpinan', function($routes) {
 $routes->group('unit', function($routes) {
     $routes->get('dashboard', 'Unit\Dashboard::index');
 });
+
+// Respondent Routes
+$routes->group('responden', function($routes) {
+    $routes->get('dashboard', 'Responden\Dashboard::index');
+});

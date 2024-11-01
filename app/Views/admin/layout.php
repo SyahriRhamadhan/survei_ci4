@@ -186,6 +186,10 @@
                                             class="hide-menu h6"> Tambah Akun
                                         </span></a>
                                 </li>
+                                <li class="sidebar-item"><a href="form-input-grid.html" class="sidebar-link"><span
+                                            class="hide-menu h6"> Tambah Fakultas
+                                        </span></a>
+                                </li>
 
 
                             </ul>

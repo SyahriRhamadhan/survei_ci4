@@ -10,6 +10,8 @@ use App\Models\TipePertanyaanModel;
 
 class Pertanyaan extends BaseController
 {
+/*************  ✨ Codeium Command ⭐  *************/
+/******  37c6e1e0-5788-4a65-95f5-954cf1d38ab2  *******/
     public function index()
     {
         $pertanyaanModel = new PertanyaanModel();

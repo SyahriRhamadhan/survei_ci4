@@ -51,6 +51,17 @@ $routes->group('admin', static function($routes) {
         
     });
 
+    // survei crud_tipe_pertanyaan
+    $routes->group('tipe_pertanyaan', function($routes){
+        $routes->get('', 'Admin\TipePertanyaan::index');
+        $routes->get('create', 'Admin\TipePertanyaan::create');
+        $routes->post('store', 'Admin\TipePertanyaan::store');
+        $routes->get('edit/(:segment)', 'Admin\TipePertanyaan::edit/$1');
+        $routes->post('update/(:segment)', 'Admin\TipePertanyaan::update/$1');
+        $routes->get('delete/(:segment)', 'Admin\TipePertanyaan::delete/$1');
+        
+    });
+
 });
 
 $routes->group('pimpinan', function($routes) {

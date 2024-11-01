@@ -161,7 +161,11 @@
                                         </span></a>
                                 </li>
                                 <li class="sidebar-item"><a href="<?= base_url('admin/pertanyaan') ?>" href="form-input-grid.html" class="sidebar-link"><span
-                                            class="hide-menu h6"> Petanyaan
+                                            class="hide-menu h6"> Pertanyaan
+                                        </span></a>
+                                </li>
+                                <li class="sidebar-item"><a href="<?= base_url('admin/tipe_pertanyaan') ?>" href="form-input-grid.html" class="sidebar-link"><span
+                                            class="hide-menu h6"> Tipe/Kategori Pertanyaan
                                         </span></a>
                                 </li>
                                 <li class="sidebar-item"><a href="<?= base_url('admin/placeholder') ?>" href="form-input-grid.html" class="sidebar-link"><span

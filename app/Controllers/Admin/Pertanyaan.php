@@ -6,6 +6,7 @@ use App\Models\PertanyaanModel;
 use App\Controllers\BaseController;
 use App\Database\Seeds\PertanyaanSeeder;
 use CodeIgniter\HTTP\ResponseInterface;
+use App\Models\TipePertanyaanModel;
 
 class Pertanyaan extends BaseController
 {
@@ -21,8 +22,10 @@ class Pertanyaan extends BaseController
     }
     public function create()
     {
+        $tipePertanyaanModel = new TipePertanyaanModel();
         $data = [
             'title' => 'Tambah Pertanyaan',
+            'tipe_pertanyaan' => $tipePertanyaanModel->findAll(),
             'validation' => \Config\Services::validation()
         ];
         return view('admin/pertanyaan/create', $data);
@@ -46,8 +49,10 @@ class Pertanyaan extends BaseController
 
         ];
         if (!$this->validate($rules)) {
+            $tipePertanyaanModel = new TipePertanyaanModel();
             $data = [
                 'title' => 'Tambah Pertanyaan',
+                'tipe_pertanyaan' => $tipePertanyaanModel->findAll(),
                 'validation' => \Config\Services::validation()
             ];
             echo view('admin/pertanyaan/create', $data);
@@ -105,10 +110,11 @@ class Pertanyaan extends BaseController
             return redirect()->to(base_url('/admin/pertanyaan'));
         }
     }
-    function delete($id){
+    function delete($id)
+    {
         $pertanyaanModel = new PertanyaanModel();
         $jabatan = $pertanyaanModel->find($id);
-        if($jabatan){
+        if ($jabatan) {
             $pertanyaanModel->delete($id);
             session()->setFlashdata('berhasil', 'Data berhasil dihapus');
             return redirect()->to(base_url('/admin/pertanyaan'));

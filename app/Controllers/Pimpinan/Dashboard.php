@@ -11,7 +11,7 @@ class Dashboard extends BaseController
     {
         $data = [
             'title' => 'Dashboard',
-            'currentPage' => 'dashboard',
+          
        
 
         ];

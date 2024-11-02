@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controllers\Admin;
+namespace App\Controllers\Responden;
 
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
@@ -11,10 +11,9 @@ class Dashboard extends BaseController
     {
         $data = [
             'title' => 'Dashboard',
-            
+            'currentPage' => 'dashboard',
        
-
         ];
-        return view('admin/dashboard', $data);
+        return view('responden/dashboard', $data);
     }
 }

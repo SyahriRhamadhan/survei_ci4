@@ -1,0 +1,167 @@
+<?php
+
+namespace App\Controllers\Admin;
+use App\Controllers\BaseController;
+use App\Models\PertanyaanModel;
+use App\Models\SurveiModel;
+use App\Models\UnitPlaceholderPertanyaanModel;
+use App\Models\SurveiPertanyaanModel;
+use CodeIgniter\HTTP\ResponseInterface;
+
+class Survei extends BaseController
+{
+    public function index()
+    {
+        $surveiModel = new SurveiModel();
+        $data = [
+            'title' => 'Daftar Survei',
+            'survei' => $surveiModel
+                ->select('survei.*, unit_placeholder_pertanyaan.nama_unit, unit_placeholder_pertanyaan.jenis_unit')
+                ->join('unit_placeholder_pertanyaan', 'unit_placeholder_pertanyaan.id = survei.id_unit_placeholder')
+                ->findAll()
+        ];
+
+        return view('admin/survei/survei', $data);
+    }
+
+
+    public function create()
+    {
+        $unitPlaceholderPertanyaanModel = new UnitPlaceholderPertanyaanModel();
+        $pertanyaanModel = new PertanyaanModel();
+
+        // Mengelompokkan pertanyaan berdasarkan kategori
+        $pertanyaanGrouped = [];
+        foreach ($pertanyaanModel->findAll() as $pertanyaan) {
+            $pertanyaanGrouped[$pertanyaan['tipe_pertanyaan']][] = $pertanyaan;
+        }
+
+        $data = [
+            'title' => 'Tambah survei',
+            'unit_placeholder' => $unitPlaceholderPertanyaanModel->findAll(),
+            'pertanyaanGrouped' => $pertanyaanGrouped,
+            'validation' => \Config\Services::validation()
+        ];
+
+        return view('admin/survei/create', $data);
+    }
+
+
+    public function store()
+    {
+        $surveiModel = new SurveiModel();
+        $surveiPertanyaanModel = new SurveiPertanyaanModel();
+
+        $data = [
+            'judul' => $this->request->getVar('judul'),
+            'dekripsi' => $this->request->getVar('deskripsi'),
+            'tgl_mulai' => $this->request->getVar('tgl_mulai'),
+            'tgl_selesai' => $this->request->getVar('tgl_selesai'),
+            'status' => $this->request->getVar('status'),
+            'id_unit_placeholder' => $this->request->getVar('unit')
+        ];
+
+        $surveiModel->insert($data);
+        $surveiId = $surveiModel->insertID(); // Mendapatkan ID survei yang baru
+
+        $pertanyaanIds = $this->request->getVar('pertanyaan');
+        foreach ($pertanyaanIds as $pertanyaanId) {
+            $surveiPertanyaanModel->insert([
+                'id_survei' => $surveiId,
+                'id_pertanyaan' => $pertanyaanId
+            ]);
+        }
+
+        session()->setFlashdata('berhasil', 'Data berhasil ditambahkan');
+        return redirect()->to(base_url('/admin/survei'));
+    }
+
+
+
+    public function edit($id)
+    {
+        $surveiModel = new SurveiModel();
+        $unitPlaceholderPertanyaanModel = new UnitPlaceholderPertanyaanModel();
+        $pertanyaanModel = new PertanyaanModel();
+        $surveiPertanyaanModel = new SurveiPertanyaanModel();
+
+        // Ambil detail survei dan informasi placeholder
+        $survei = $surveiModel->select('survei.id as id_survei, unit_placeholder_pertanyaan.nama_unit as nama_unit, unit_placeholder_pertanyaan.jenis_unit as jenis_unit, survei.judul as judul_survei, survei.dekripsi as deskripsi_survei, tgl_mulai, tgl_selesai, status, id_unit_placeholder')
+            ->where('survei.id', $id)
+            ->join('unit_placeholder_pertanyaan', 'unit_placeholder_pertanyaan.id = survei.id_unit_placeholder')
+            ->first();
+
+        // Ambil daftar ID pertanyaan terkait dengan survei
+        $pertanyaanTerkait = $surveiPertanyaanModel->where('id_survei', $id)->findColumn('id_pertanyaan');
+
+        // Jika $pertanyaanTerkait kosong, beri nilai array kosong untuk menghindari error
+        $selectedPertanyaan = $pertanyaanTerkait ?? [];
+
+        // Mengelompokkan pertanyaan berdasarkan kategori
+        $pertanyaanGrouped = [];
+        foreach ($pertanyaanModel->findAll() as $pertanyaan) {
+            $pertanyaanGrouped[$pertanyaan['tipe_pertanyaan']][] = $pertanyaan;
+        }
+
+        $data = [
+            'title' => "Edit Survei",
+            'survei' => $survei,
+            'id' => $id,
+            'unit_placeholder' => $unitPlaceholderPertanyaanModel->findAll(),
+            'pertanyaanGrouped' => $pertanyaanGrouped, // Tambahkan variabel ini
+            'selectedPertanyaan' => $selectedPertanyaan, // Tambahkan variabel ini
+            'validation' => \Config\Services::validation(),
+        ];
+
+        return view('admin/survei/edit', $data);
+    }
+
+
+
+
+    public function update($id)
+    {
+        $surveiModel = new SurveiModel();
+        $surveiPertanyaanModel = new SurveiPertanyaanModel();
+
+        // Perbarui data survei di tabel `survei`
+        $data = [
+            'judul' => $this->request->getVar('judul'),
+            'dekripsi' => $this->request->getVar('deskripsi'),
+            'tgl_mulai' => $this->request->getVar('tgl_mulai'),
+            'tgl_selesai' => $this->request->getVar('tgl_selesai'),
+            'status' => $this->request->getVar('status'),
+            'id_unit_placeholder' => $this->request->getVar('unit'),
+        ];
+        $surveiModel->set($data)->where('id', $id)->update();
+
+        // Perbarui hubungan survei dengan pertanyaan di tabel `survei_pertanyaan`
+        $pertanyaanIds = $this->request->getVar('pertanyaan'); // Ambil daftar pertanyaan yang dipilih
+
+        // Hapus semua hubungan lama untuk survei ini
+        $surveiPertanyaanModel->where('id_survei', $id)->delete();
+
+        // Masukkan hubungan baru
+        if (!empty($pertanyaanIds)) {
+            foreach ($pertanyaanIds as $pertanyaanId) {
+                $surveiPertanyaanModel->insert([
+                    'id_survei' => $id,
+                    'id_pertanyaan' => $pertanyaanId,
+                ]);
+            }
+        }
+
+        // Set flash message dan redirect
+        session()->setFlashdata('berhasil', 'Data berhasil diupdate');
+        return redirect()->to(base_url('/admin/survei'));
+    }
+
+
+    public function delete($id)
+    {
+        $survei = new SurveiModel();
+        $survei->where('id', $id)->delete();
+        session()->setFlashdata('berhasil', 'Data berhasil dihapus');
+        return redirect()->to(base_url('/admin/survei'));
+    }
+}

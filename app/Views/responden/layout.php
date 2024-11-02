@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="<?= base_url('assets/images/logo.png') ?>">
+    <link rel="icon" type="image/png" sizes="16x16" href="<?= base_url('assets/images/favicon.png') ?>">
     <title>Survei UMRAH</title>
     <!-- Custom CSS -->
     <link href="<?= base_url('assets/extra-libs/c3/c3.min.css') ?>" rel="stylesheet">
@@ -80,7 +80,10 @@
                     <!-- ============================================================== -->
                     <ul class="navbar-nav float-left me-auto ms-3 ps-1">
                         <!-- Sebelumnya terdapat content notifikasi kemudian di hapus -->
-                      
+                         <h3 class="fw-bolder text-dark">
+
+                             SURVEI UMRAH
+                         </h3>
                     </ul>
              
                     <ul class="navbar-nav float-end">
@@ -89,23 +92,7 @@
                    
                         <!-- User profile and search -->
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="javascript:void(0)" data-bs-toggle="dropdown"
-                                aria-haspopup="true" aria-expanded="false">
-                                <img src="<?= base_url('assets/images/users/profile-pic.jpg') ?>" alt="user" class="rounded-circle"
-                                    width="40">
-                                <span class="ms-2 d-none d-lg-inline-block"><span>Hello,</span> <span
-                                        class="text-dark">Jason Doe</span> <i data-feather="chevron-down"
-                                        class="svg-icon"></i></span>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-end dropdown-menu-right user-dd animated flipInY">
-                                
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="<?= base_url('auth/logout') ?>"><i data-feather="power"
-                                        class="svg-icon me-2 ms-1"></i>
-                                    Logout</a>
-                                <div class="dropdown-divider"></div>
-                                
-                            </div>
+                            
                         </li>
                     </ul>
                 </div>
@@ -123,86 +110,26 @@
                 <!-- Sidebar navigation-->
                 <nav class="sidebar-nav">
                     <ul id="sidebarnav">
-                        <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="/auth/login"
-                                aria-expanded="false"><i data-feather="home" class="feather-icon"></i><span
-                                    class="hide-menu">Dashboard</span></a></li>
-                        <!-- Contoh Sidebar Tidak Bersarang -->
-                        <!-- <li class="list-divider"></li>
-                        <li class="nav-small-cap"><span class="hide-menu">Survei Responden</span></li> -->
+                        
+                       
                       
-
-                        <!-- <li class="sidebar-item"> <a class="sidebar-link" href="ticket-list.html"
-                                aria-expanded="false"><i data-feather="tag" class="feather-icon"></i><span
-                                    class="hide-menu">Ticket List
-                                </span></a>
-                        </li> -->
-                        <!-- ICON  -->
-                        <!-- <i data-feather="file-text" class="feather-icon"></i> -->
-                 
-                      
-                        <!-- Contoh Sidebar Bersarang -->
-                        <li class="list-divider"></li>
-                        <li class="nav-small-cap"><span class="hide-menu">Dashboard Admin </span></li>
-                        <li class="sidebar-item"> <a class="sidebar-link has-arrow" href="javascript:void(0)"
-                                aria-expanded="false"><i data-feather="grid" class="feather-icon"></i><span
-                                    class="hide-menu">  Manajemen Survei </span></a>
-                            <ul aria-expanded="false" class="collapse  first-level base-level-line">
-                                
-                                <!-- <li class="sidebar-item"><a href="form-input-grid.html" class="sidebar-link"><span
-                                            class="hide-menu h6"> Tipe Setahun
-                                        </span></a>
-                                </li>
-                                <li class="sidebar-item"><a href="form-input-grid.html" class="sidebar-link"><span
-                                            class="hide-menu h6"> Tipe Pengunjung
-                                        </span></a>
-                                </li> -->
-                                <li class="sidebar-item"><a href="<?= base_url('admin/survei') ?>" class="sidebar-link"><span
-                                            class="hide-menu h6"> Survei
-                                        </span></a>
-                                </li>
-                                <li class="sidebar-item"><a href="<?= base_url('admin/pertanyaan') ?>" class="sidebar-link"><span
-                                            class="hide-menu h6"> Pertanyaan
-                                        </span></a>
-                                </li>
-                                <li class="sidebar-item"><a href="<?= base_url('admin/tipe_pertanyaan') ?>" class="sidebar-link"><span
-                                            class="hide-menu h6"> Tipe/Kategori Pertanyaan
-                                        </span></a>
-                                </li>
-                                <li class="sidebar-item"><a href="<?= base_url('admin/placeholder') ?>" class="sidebar-link"><span
-                                            class="hide-menu h6"> Placeholder
-                                        </span></a>
-                                </li>
-
-                               
-                            </ul>
-                        </li>
-
-                        <li class="sidebar-item"> <a class="sidebar-link has-arrow" href="javascript:void(0)"
-                                aria-expanded="false"><i data-feather="user" class="feather-icon"></i><span
-                                    class="hide-menu">Manajemen User  </span></a>
-                            <ul aria-expanded="false" class="collapse  first-level base-level-line">
-                            <li class="sidebar-item"><a href="<?= base_url('admin/prodi') ?>" class="sidebar-link"><span
-                                            class="hide-menu h6"> Manajemen Prodi
-                                        </span></a>
-                            </li>
-                            <li class="sidebar-item"><a href="<?= base_url('admin/fakultas') ?>" class="sidebar-link"><span
-                                            class="hide-menu h6"> Manajemen Fakultas
-                                        </span></a>
-                            </li>
-                            <li class="sidebar-item"><a href="<?= base_url('admin/users') ?>" class="sidebar-link"><span
-                                            class="hide-menu h6"> Tambahkan Akun
-                                        </span></a>
-                            </li>
-                               
-                               
-                            </ul>
-                        </li>
                         
                         <li class="list-divider"></li>
-                        <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="<?= base_url('auth/logout') ?>"
-                                aria-expanded="false"><i data-feather="log-out" class="feather-icon"></i><span
-                                    class="hide-menu">Logout</span></a>
-                        </li>
+                        <li class="nav-small-cap"><span class="hide-menu">Menu Utama </span></li>
+                        <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="/responden/dashboard"
+                                aria-expanded="false"><i data-feather="home" class="feather-icon"></i><span
+                                    class="hide-menu ">Dashboard</span></a></li>
+                        <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="/responden/layanan"
+                                aria-expanded="false"><i data-feather="file-text" class="feather-icon"></i><span
+                                    class="hide-menu ">Survei  Layanan</span></a></li>
+                        <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="/responden/upps"
+                                aria-expanded="false"><i data-feather="file-text" class="feather-icon"></i><span
+                                    class="hide-menu ">Survei  UPPS</span></a></li>
+                      
+
+                     
+                        
+                      
                                     
                     </ul>
                 </nav>

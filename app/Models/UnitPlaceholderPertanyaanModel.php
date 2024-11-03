@@ -15,6 +15,7 @@ class UnitPlaceholderPertanyaanModel extends Model
     protected $allowedFields    = [
         'jenis_unit',
         'nama_unit',
+        'jenis_layanan_yang_diterima',
         
     ];
 

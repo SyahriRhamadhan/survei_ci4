@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Controllers\Admin;
+
 use App\Controllers\BaseController;
 use App\Models\PertanyaanModel;
 use App\Models\SurveiModel;
@@ -86,10 +87,12 @@ class Survei extends BaseController
         $surveiPertanyaanModel = new SurveiPertanyaanModel();
 
         // Ambil detail survei dan informasi placeholder
-        $survei = $surveiModel->select('survei.id as id_survei, unit_placeholder_pertanyaan.nama_unit as nama_unit, unit_placeholder_pertanyaan.jenis_unit as jenis_unit, survei.judul as judul_survei, survei.dekripsi as deskripsi_survei, tgl_mulai, tgl_selesai, status, id_unit_placeholder')
+        // Ambil detail survei dan informasi placeholder
+        $survei = $surveiModel->select('survei.id as id_survei, unit_placeholder_pertanyaan.nama_unit as nama_unit, unit_placeholder_pertanyaan.jenis_unit as jenis_unit, unit_placeholder_pertanyaan.jenis_layanan_yang_diterima, survei.judul as judul_survei, survei.dekripsi as deskripsi_survei, tgl_mulai, tgl_selesai, status, id_unit_placeholder')
             ->where('survei.id', $id)
             ->join('unit_placeholder_pertanyaan', 'unit_placeholder_pertanyaan.id = survei.id_unit_placeholder')
             ->first();
+
 
         // Ambil daftar ID pertanyaan terkait dengan survei
         $pertanyaanTerkait = $surveiPertanyaanModel->where('id_survei', $id)->findColumn('id_pertanyaan');

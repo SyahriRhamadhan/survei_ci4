@@ -39,12 +39,12 @@
     </div>
 
     <!-- Main wrapper - style you can find in pages.scss -->
-   
+
     <div id="main-wrapper" data-theme="light" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
         data-sidebar-position="fixed" data-header-position="fixed" data-boxed-layout="full">
 
         <!-- Topbar header - style you can find in pages.scss -->
- 
+
         <header class="topbar" data-navbarbg="skin6">
             <nav class="navbar top-navbar navbar-expand-lg">
                 <div class="navbar-header" data-logobg="skin6">
@@ -80,13 +80,13 @@
                     <!-- ============================================================== -->
                     <ul class="navbar-nav float-left me-auto ms-3 ps-1">
                         <!-- Sebelumnya terdapat content notifikasi kemudian di hapus -->
-                      
+
                     </ul>
-             
+
                     <ul class="navbar-nav float-end">
-                             <!-- Sebelumnya terdapat content search  kemudian di hapus -->
-                      
-                   
+                        <!-- Sebelumnya terdapat content search  kemudian di hapus -->
+
+
                         <!-- User profile and search -->
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="javascript:void(0)" data-bs-toggle="dropdown"
@@ -98,25 +98,25 @@
                                         class="svg-icon"></i></span>
                             </a>
                             <div class="dropdown-menu dropdown-menu-end dropdown-menu-right user-dd animated flipInY">
-                                
+
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="<?= base_url('auth/logout') ?>"><i data-feather="power"
                                         class="svg-icon me-2 ms-1"></i>
                                     Logout</a>
                                 <div class="dropdown-divider"></div>
-                                
+
                             </div>
                         </li>
                     </ul>
                 </div>
             </nav>
         </header>
-  
+
         <!-- End Topbar header -->
-   
-   
+
+
         <!-- Left Sidebar - style you can find in sidebar.scss  -->
-  
+
         <aside class="left-sidebar" data-sidebarbg="skin6">
             <!-- Sidebar scroll-->
             <div class="scroll-sidebar" data-sidebarbg="skin6">
@@ -129,7 +129,7 @@
                         <!-- Contoh Sidebar Tidak Bersarang -->
                         <!-- <li class="list-divider"></li>
                         <li class="nav-small-cap"><span class="hide-menu">Survei Responden</span></li> -->
-                      
+
 
                         <!-- <li class="sidebar-item"> <a class="sidebar-link" href="ticket-list.html"
                                 aria-expanded="false"><i data-feather="tag" class="feather-icon"></i><span
@@ -138,16 +138,16 @@
                         </li> -->
                         <!-- ICON  -->
                         <!-- <i data-feather="file-text" class="feather-icon"></i> -->
-                 
-                      
+
+
                         <!-- Contoh Sidebar Bersarang -->
                         <li class="list-divider"></li>
                         <li class="nav-small-cap"><span class="hide-menu">Dashboard Admin </span></li>
                         <li class="sidebar-item"> <a class="sidebar-link has-arrow" href="javascript:void(0)"
                                 aria-expanded="false"><i data-feather="grid" class="feather-icon"></i><span
-                                    class="hide-menu">  Manajemen Survei </span></a>
+                                    class="hide-menu"> Manajemen Survei </span></a>
                             <ul aria-expanded="false" class="collapse  first-level base-level-line">
-                                
+
                                 <!-- <li class="sidebar-item"><a href="form-input-grid.html" class="sidebar-link"><span
                                             class="hide-menu h6"> Tipe Setahun
                                         </span></a>
@@ -173,63 +173,63 @@
                                         </span></a>
                                 </li>
 
-                               
+
                             </ul>
                         </li>
 
                         <li class="sidebar-item"> <a class="sidebar-link has-arrow" href="javascript:void(0)"
                                 aria-expanded="false"><i data-feather="user" class="feather-icon"></i><span
-                                    class="hide-menu">Manajemen User  </span></a>
+                                    class="hide-menu">Manajemen User </span></a>
                             <ul aria-expanded="false" class="collapse  first-level base-level-line">
-                            <li class="sidebar-item"><a href="<?= base_url('admin/prodi') ?>" class="sidebar-link"><span
+                                <li class="sidebar-item"><a href="<?= base_url('admin/prodi') ?>" class="sidebar-link"><span
                                             class="hide-menu h6"> Manajemen Prodi
                                         </span></a>
-                            </li>
-                            <li class="sidebar-item"><a href="<?= base_url('admin/fakultas') ?>" class="sidebar-link"><span
+                                </li>
+                                <li class="sidebar-item"><a href="<?= base_url('admin/fakultas') ?>" class="sidebar-link"><span
                                             class="hide-menu h6"> Manajemen Fakultas
                                         </span></a>
-                            </li>
-                            <li class="sidebar-item"><a href="<?= base_url('admin/users') ?>" class="sidebar-link"><span
+                                </li>
+                                <li class="sidebar-item"><a href="<?= base_url('admin/users') ?>" class="sidebar-link"><span
                                             class="hide-menu h6"> Tambahkan Akun
                                         </span></a>
-                            </li>
-                               
-                               
+                                </li>
+
+
                             </ul>
                         </li>
-                        
+
                         <li class="list-divider"></li>
                         <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="<?= base_url('auth/logout') ?>"
                                 aria-expanded="false"><i data-feather="log-out" class="feather-icon"></i><span
                                     class="hide-menu">Logout</span></a>
                         </li>
-                                    
+
                     </ul>
                 </nav>
                 <!-- End Sidebar navigation -->
             </div>
             <!-- End Sidebar scroll-->
         </aside>
-      
+
         <!-- End Left Sidebar - style you can find in sidebar.scss  -->
-   
+
         <!-- Page wrapper  / MAIN CONTENT -->
-   
+
         <div class="page-wrapper">
-            
-            
+
+
             <?= $this->renderSection('content') ?>
-           
-            
+
+
             <!-- footer -->
-          
+
             <footer class="footer text-center text-muted">
                 Copyright © SURVEI UMRAH 2024</a>.
             </footer>
-        
+
         </div>
         <!-- End Page wrapper /MAIN CONTENT -->
-     
+
     </div>
 
     <!-- End Wrapper -->
@@ -259,8 +259,8 @@
     <script src="<?= base_url('assets/extra-libs/jvector/jquery-jvectormap-world-mill-en.js') ?>"></script>
     <script src="<?= base_url('dist/js/pages/dashboards/dashboard1.min.js') ?>"></script>
 
-      <!--This page plugins -->
-      <script src="<?= base_url('assets/extra-libs/datatables.net/js/jquery.dataTables.min.js') ?>"></script>
+    <!--This page plugins -->
+    <script src="<?= base_url('assets/extra-libs/datatables.net/js/jquery.dataTables.min.js') ?>"></script>
     <script src="<?= base_url('assets/extra-libs/datatables.net-bs4/js/dataTables.responsive.min.js') ?>"></script>
     <script src="<?= base_url('dist/js/pages/datatable/datatable-basic.init.js') ?>"></script>
     <script>
@@ -303,6 +303,20 @@
                 }
             });
         });
+        //untuk placeholder, jika memilih upps setahun sekali jennnnis unit layanan akan dihilangkan
+        function toggleJenisLayanan() {
+            const jenisUnit = document.getElementById('jenis_unit_select').value;
+            const jenisLayananDiv = document.getElementById('jenis_layanan_div');
+
+            if (jenisUnit === 'UPPS') {
+                jenisLayananDiv.style.display = 'none';
+            } else {
+                jenisLayananDiv.style.display = 'block';
+            }
+        }
+
+        // Inisialisasi tampilan awal
+        window.onload = toggleJenisLayanan;
     </script>
 </body>
 

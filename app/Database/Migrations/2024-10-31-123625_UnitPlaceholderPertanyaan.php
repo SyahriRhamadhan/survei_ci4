@@ -23,6 +23,10 @@ class UnitPlaceholderPertanyaan extends Migration
                 'type' => 'VARCHAR', //contoh input di hal 7-8 pdf
                 'constraint' => '255',
             ],
+            'jenis_layanan_yang_diterima' => [
+                'type' => 'VARCHAR',
+                'constraint' => '255',
+            ],
             'created_at' => [
                 'type' => 'DATETIME',
                 'null' => true,

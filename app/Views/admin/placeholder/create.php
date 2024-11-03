@@ -1,7 +1,13 @@
 <?= $this->extend('admin/layout') ?>
 
 <?= $this->section('content') ?>
+<?php
 
+use App\Models\UnitPlaceholderPertanyaanModel;
+
+$placeholderModel = new UnitPlaceholderPertanyaanModel();
+$placeholders = $placeholderModel->select('nama_unit')->findAll();
+?>
 
 <div class="container-fluid">
     <div class="row">
@@ -38,8 +44,15 @@
 
                 <div class="input-style-1">
                     <label class="text-dark mb-2 fs-6">Nama Unit/Layanan</label>
-                    <input class="fs-6 form-control <?= ($validation->hasError('nama_unit')) ? 'is-invalid' : '' ?>" type="text" name="nama_unit" placeholder="*Contoh = Fakultas Ekonomi dan Bisnis Maritim (FEBM)" />
+                    <input
+                        class="fs-6 form-control <?= ($validation->hasError('nama_unit')) ? 'is-invalid' : '' ?>"
+                        type="text"
+                        name="nama_unit"
+                        id="nama_unit"
+                        placeholder="*Contoh = Fakultas Ekonomi dan Bisnis Maritim (FEBM)"
+                        oninput="showSuggestions(this.value)" />
                     <div class="invalid-feedback"><?= $validation->getError('nama_unit') ?></div>
+                    <div id="suggestions" class="suggestions-box"></div>
                 </div>
 
                 <div class="input-style-1" id="jenis_layanan_div">
@@ -54,5 +67,31 @@
         </div>
     </div>
 </div>
+<script>
+    const placeholders = <?= json_encode(array_column($placeholders, 'nama_unit')) ?>;
 
+    function showSuggestions(query) {
+        let suggestionsBox = document.getElementById("suggestions");
+        suggestionsBox.innerHTML = "";
+
+        if (query.length === 0) {
+            return;
+        }
+
+        const filteredSuggestions = placeholders.filter(item =>
+            item.toLowerCase().includes(query.toLowerCase())
+        );
+
+        filteredSuggestions.forEach(item => {
+            let suggestionItem = document.createElement("div");
+            suggestionItem.classList.add("suggestion-item");
+            suggestionItem.textContent = item;
+            suggestionItem.onclick = () => {
+                document.getElementById("nama_unit").value = item;
+                suggestionsBox.innerHTML = "";
+            };
+            suggestionsBox.appendChild(suggestionItem);
+        });
+    }
+</script>
 <?= $this->endSection() ?>

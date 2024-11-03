@@ -97,10 +97,12 @@
                         <h3>Tujuan Survei</h3>
                         <div class="input-style-1 mt-3">
                             <label class="text-dark mb-2 fs-6">Unit Layanan</label>
-                            <select class="form-control fs-6" id="unit_layanan" name="unit_layanan">
+                            <select class="form-control fs-6" id="unit_layanan" name="unit_layanan" onchange="filterJenisLayanan()">
                                 <option value="">Pilih Unit Layanan</option>
                                 <?php foreach ($unitList as $unit): ?>
-                                    <option value="<?= $unit['id'] ?>"><?= $unit['nama_unit'] ?></option>
+                                    <option value="<?= htmlspecialchars($unit['nama_unit']) ?>" data-jenis="<?= htmlspecialchars($unit['jenis_layanan_yang_diterima']) ?>">
+                                        <?= htmlspecialchars($unit['nama_unit']) ?>
+                                    </option>
                                 <?php endforeach; ?>
                             </select>
                         </div>
@@ -110,10 +112,15 @@
                             <select class="form-control fs-6" id="jenis_layanan_yang_diterima" name="jenis_layanan_yang_diterima">
                                 <option value="">Pilih Jenis Layanan yang Diterima</option>
                                 <?php foreach ($unitList as $unit): ?>
-                                    <option value="<?= $unit['id'] ?>"><?= $unit['jenis_layanan_yang_diterima'] ?></option>
+                                    <?php if (!empty($unit['jenis_layanan_yang_diterima'])): ?>
+                                        <option class="jenis-option" value="<?= htmlspecialchars($unit['id']) ?>" data-unit="<?= htmlspecialchars($unit['nama_unit']) ?>">
+                                            <?= htmlspecialchars($unit['jenis_layanan_yang_diterima']) ?>
+                                        </option>
+                                    <?php endif; ?>
                                 <?php endforeach; ?>
                             </select>
                         </div>
+
                     </div>
                 </div>
 
@@ -132,5 +139,16 @@
         document.getElementById('dosenFields').style.display = category === 'dosen' ? 'block' : 'none';
         document.getElementById('tendikFields').style.display = category === 'tendik' ? 'block' : 'none';
     });
+
+    function filterJenisLayanan() {
+        const unitLayanan = document.getElementById('unit_layanan').value;
+        const jenisLayananSelect = document.getElementById('jenis_layanan_yang_diterima');
+        const jenisOptions = document.querySelectorAll('.jenis-option');
+
+        jenisLayananSelect.value = '';
+        jenisOptions.forEach(option => {
+            option.style.display = option.getAttribute('data-unit') === unitLayanan ? 'block' : 'none';
+        });
+    }
 </script>
 <?= $this->endSection() ?>

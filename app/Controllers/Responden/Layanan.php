@@ -23,7 +23,7 @@ class Layanan extends BaseController
             'fakultasList' => $fakultasModel->findAll(),
             'unitList' => $unitModel->findAll(),
         ];
-        
+
         return view('responden/layanan/layanan', $data);
     }
 
@@ -40,7 +40,7 @@ class Layanan extends BaseController
             'jenis_kelamin' => $this->request->getPost('jenis_kelamin'),
             'umur' => $this->request->getPost('umur'),
             'unit_layanan' => $this->request->getPost('unit_layanan'),
-            'jenis_layanan_diterima' => $this->request->getPost('jenis_layanan_diterima'),
+            'jenis_layanan_yang_diterima' => $this->request->getPost('jenis_layanan_yang_diterima'),
             'tanggal_survei' => date('Y-m-d'),  // Format tanggal saja
             'jam_survei' => $this->request->getPost('jam_survei'),
         ];

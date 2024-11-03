@@ -97,7 +97,7 @@
                         <h3>Tujuan Survei</h3>
                         <div class="input-style-1 mt-3">
                             <label class="text-dark mb-2 fs-6">Unit Layanan</label>
-                            <select class="form-control fs-6" name="unit_layanan">
+                            <select class="form-control fs-6" id="unit_layanan" name="unit_layanan">
                                 <option value="">Pilih Unit Layanan</option>
                                 <?php foreach ($unitList as $unit): ?>
                                     <option value="<?= $unit['id'] ?>"><?= $unit['nama_unit'] ?></option>
@@ -107,7 +107,12 @@
 
                         <div class="input-style-1 mt-3">
                             <label class="text-dark mb-2 fs-6">Jenis Layanan yang Diterima</label>
-                            <input class="fs-6 form-control" type="text" name="jenis_layanan_diterima" placeholder="Contoh: Pendaftaran wisuda" />
+                            <select class="form-control fs-6" id="jenis_layanan_yang_diterima" name="jenis_layanan_yang_diterima">
+                                <option value="">Pilih Jenis Layanan yang Diterima</option>
+                                <?php foreach ($unitList as $unit): ?>
+                                    <option value="<?= $unit['id'] ?>"><?= $unit['jenis_layanan_yang_diterima'] ?></option>
+                                <?php endforeach; ?>
+                            </select>
                         </div>
                     </div>
                 </div>

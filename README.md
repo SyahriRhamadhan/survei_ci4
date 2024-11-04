@@ -41,6 +41,11 @@
 
 ```bash
   php spark db:seed UserSeeder
+  php spark db:seed UnitPlaceholderPertanyaanSeeder
+  php spark db:seed TipePertanyaanSeeder
+  php spark db:seed ProdiSeeder 
+  php spark db:seed PertanyaanSeeder
+  php spark db:seed FakultasSeeder
 ```
 
 #### 7. Menjalankan CodeIgniter4 

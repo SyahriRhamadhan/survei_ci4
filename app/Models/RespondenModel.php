@@ -16,7 +16,7 @@ class RespondenModel extends Model
         'umur', 
         'jenis_kelamin', 
         'kategori_responden', 
-        'id_unit_placeholder',
+        'id_survei',
         'id_prodi',
         'id_fakultas',
         'jenis_layanan_diterima',

@@ -68,7 +68,7 @@ class Responden extends Migration
                 ],
                 'null' => true,
             ],
-            'id_unit_placeholder' => [
+            'id_survei' => [
                 'type' => 'INT',
                 'constraint' => 11,
                 'unsigned' => true,
@@ -105,7 +105,7 @@ class Responden extends Migration
         ]);
 
         $this->forge->addPrimaryKey('id');
-        $this->forge->addForeignKey('id_unit_placeholder', 'unit_placeholder_pertanyaan', 'id', 'CASCADE', 'CASCADE');
+        $this->forge->addForeignKey('id_survei', 'survei', 'id', 'CASCADE', 'CASCADE');
         $this->forge->addForeignKey('id_prodi', 'prodi', 'id', 'CASCADE', 'CASCADE');
         $this->forge->addForeignKey('id_fakultas', 'fakultas', 'id', 'CASCADE', 'CASCADE');
       

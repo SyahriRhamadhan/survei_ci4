@@ -51,4 +51,12 @@ class SurveiModel extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
+    public function getSurveiWithUnit()
+    {
+        return $this->select('survei.*, unit_placeholder_pertanyaan.nama_unit, unit_placeholder_pertanyaan.jenis_layanan_yang_diterima')
+            ->join('unit_placeholder_pertanyaan', 'unit_placeholder_pertanyaan.id = survei.id_unit_placeholder', 'left')
+            ->where('survei.status', 'on')
+            ->findAll();
+    }
 }

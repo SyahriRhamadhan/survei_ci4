@@ -6,7 +6,7 @@ use App\Controllers\BaseController;
 use App\Models\FakultasModel;
 use App\Models\ProdiModel;
 use App\Models\RespondenModel;
-use App\Models\UnitPlaceholderPertanyaanModel;
+use App\Models\SurveiModel;
 
 class Layanan extends BaseController
 {
@@ -14,14 +14,14 @@ class Layanan extends BaseController
     {
         $prodiModel = new ProdiModel();
         $fakultasModel = new FakultasModel();
-        $unitModel = new UnitPlaceholderPertanyaanModel();
+        $unitModel = new SurveiModel();
 
         $data = [
             'title' => 'Layanan',
             'currentPage' => 'layanan',
             'prodiList' => $prodiModel->findAll(),
             'fakultasList' => $fakultasModel->findAll(),
-            'unitList' => $unitModel->findAll(),
+            'unitList' => $unitModel->getSurveiWithUnit(), 
         ];
 
         return view('responden/layanan/layanan', $data);

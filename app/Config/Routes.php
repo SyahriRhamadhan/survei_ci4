@@ -39,6 +39,7 @@ $routes->group('admin', static function ($routes) {
         $routes->get('edit/(:segment)', 'Admin\Survei::edit/$1');
         $routes->post('update/(:segment)', 'Admin\Survei::update/$1');
         $routes->get('delete/(:segment)', 'Admin\Survei::delete/$1');
+        $routes->get('detail/(:segment)', 'Admin\Survei::detail/$1');
     });
 
     // survei crud_unit_placeholder_pertanyaan

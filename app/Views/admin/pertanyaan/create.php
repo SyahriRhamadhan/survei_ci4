@@ -29,7 +29,7 @@
 
                 <div class="input-style-1">
                     <label class="text-dark mb-2 fs-6">Pertanyaan</label>
-                    <input class=" fs-6 form-control <?= ($validation->hasError('pertanyaan')) ? 'is-invalid' : '' ?>" type="text" name="pertanyaan" placeholder="*Contoh Prosedur pelayanan di <unit layanan> mudah, sesuai dengan aturan. ==> <UPPS> atau <unit layanan> sebagai placeholder" />
+                    <input class=" fs-6 form-control <?= ($validation->hasError('pertanyaan')) ? 'is-invalid' : '' ?>" type="text" name="pertanyaan" placeholder="*Contoh Prosedur pelayanan di <tag> mudah, sesuai dengan aturan. ==> <tag> sebagai placeholder" />
                     <div class="invalid-feedback"><?= $validation->getError('pertanyaan') ?></div>
                 </div>
                 <div class="input-style-1 my-2">

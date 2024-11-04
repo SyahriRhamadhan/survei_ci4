@@ -25,6 +25,39 @@ class Survei extends BaseController
         return view('admin/survei/survei', $data);
     }
 
+    public function detail($id)
+    {
+        $surveiModel = new SurveiModel();
+        $surveiPertanyaanModel = new SurveiPertanyaanModel();
+        $pertanyaanModel = new PertanyaanModel();
+
+        $survei = $surveiModel
+            ->select('survei.*, unit_placeholder_pertanyaan.nama_unit, unit_placeholder_pertanyaan.jenis_unit')
+            ->join('unit_placeholder_pertanyaan', 'unit_placeholder_pertanyaan.id = survei.id_unit_placeholder')
+            ->find($id);
+
+        $pertanyaanTerkait = $surveiPertanyaanModel
+            ->where('id_survei', $id)
+            ->findAll();
+
+        $pertanyaanGrouped = [];
+        foreach ($pertanyaanTerkait as $pertanyaan) {
+            $detailPertanyaan = $pertanyaanModel->find($pertanyaan['id_pertanyaan']);
+            $kategori = $detailPertanyaan['tipe_pertanyaan'];
+
+            $detailPertanyaan['pertanyaan'] = str_replace('<tag>', $survei['nama_unit'], $detailPertanyaan['pertanyaan']);
+
+            $pertanyaanGrouped[$kategori][] = $detailPertanyaan;
+        }
+
+        $data = [
+            'title' => 'Detail Survei',
+            'survei' => $survei,
+            'pertanyaanGrouped' => $pertanyaanGrouped,
+        ];
+
+        return view('admin/survei/detail', $data);
+    }
 
     public function create()
     {

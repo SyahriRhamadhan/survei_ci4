@@ -39,12 +39,12 @@
     </div>
 
     <!-- Main wrapper - style you can find in pages.scss -->
-   
+
     <div id="main-wrapper" data-theme="light" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
         data-sidebar-position="fixed" data-header-position="fixed" data-boxed-layout="full">
 
         <!-- Topbar header - style you can find in pages.scss -->
- 
+
         <header class="topbar" data-navbarbg="skin6">
             <nav class="navbar top-navbar navbar-expand-lg">
                 <div class="navbar-header" data-logobg="skin6">
@@ -80,40 +80,40 @@
                     <!-- ============================================================== -->
                     <ul class="navbar-nav float-left me-auto ms-3 ps-1">
                         <!-- Sebelumnya terdapat content notifikasi kemudian di hapus -->
-                         <h3 class="fw-bolder text-dark">
+                        <h3 class="fw-bolder text-dark">
 
-                             SURVEI UMRAH
-                         </h3>
+                            SURVEI UMRAH
+                        </h3>
                     </ul>
-             
+
                     <ul class="navbar-nav float-end">
-                             <!-- Sebelumnya terdapat content search  kemudian di hapus -->
-                      
-                   
+                        <!-- Sebelumnya terdapat content search  kemudian di hapus -->
+
+
                         <!-- User profile and search -->
                         <li class="nav-item dropdown">
-                            
+
                         </li>
                     </ul>
                 </div>
             </nav>
         </header>
-  
+
         <!-- End Topbar header -->
-   
-   
+
+
         <!-- Left Sidebar - style you can find in sidebar.scss  -->
-  
+
         <aside class="left-sidebar" data-sidebarbg="skin6">
             <!-- Sidebar scroll-->
             <div class="scroll-sidebar" data-sidebarbg="skin6">
                 <!-- Sidebar navigation-->
                 <nav class="sidebar-nav">
                     <ul id="sidebarnav">
-                        
-                       
-                      
-                        
+
+
+
+
                         <li class="list-divider"></li>
                         <li class="nav-small-cap"><span class="hide-menu">Menu Utama </span></li>
                         <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="/responden/dashboard"
@@ -121,42 +121,42 @@
                                     class="hide-menu ">Dashboard</span></a></li>
                         <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="/responden/layanan"
                                 aria-expanded="false"><i data-feather="file-text" class="feather-icon"></i><span
-                                    class="hide-menu ">Survei  Layanan</span></a></li>
+                                    class="hide-menu ">Survei Layanan</span></a></li>
                         <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="/responden/upps"
                                 aria-expanded="false"><i data-feather="file-text" class="feather-icon"></i><span
-                                    class="hide-menu ">Survei  UPPS</span></a></li>
-                      
+                                    class="hide-menu ">Survei UPPS</span></a></li>
 
-                     
-                        
-                      
-                                    
+
+
+
+
+
                     </ul>
                 </nav>
                 <!-- End Sidebar navigation -->
             </div>
             <!-- End Sidebar scroll-->
         </aside>
-      
+
         <!-- End Left Sidebar - style you can find in sidebar.scss  -->
-   
+
         <!-- Page wrapper  / MAIN CONTENT -->
-   
+
         <div class="page-wrapper">
-            
-            
+
+
             <?= $this->renderSection('content') ?>
-           
-            
+
+
             <!-- footer -->
-          
+
             <footer class="footer text-center text-muted">
                 Copyright © SURVEI UMRAH 2024</a>.
             </footer>
-        
+
         </div>
         <!-- End Page wrapper /MAIN CONTENT -->
-     
+
     </div>
 
     <!-- End Wrapper -->
@@ -186,11 +186,40 @@
     <script src="<?= base_url('assets/extra-libs/jvector/jquery-jvectormap-world-mill-en.js') ?>"></script>
     <script src="<?= base_url('dist/js/pages/dashboards/dashboard1.min.js') ?>"></script>
 
-      <!--This page plugins -->
-      <script src="<?= base_url('assets/extra-libs/datatables.net/js/jquery.dataTables.min.js') ?>"></script>
+    <!--This page plugins -->
+    <script src="<?= base_url('assets/extra-libs/datatables.net/js/jquery.dataTables.min.js') ?>"></script>
     <script src="<?= base_url('assets/extra-libs/datatables.net-bs4/js/dataTables.responsive.min.js') ?>"></script>
     <script src="<?= base_url('dist/js/pages/datatable/datatable-basic.init.js') ?>"></script>
     <script>
+        document.getElementById('kategori_responden').addEventListener('change', function() {
+            var category = this.value;
+            document.getElementById('mahasiswaFields').style.display = category === 'mahasiswa' ? 'block' : 'none';
+            document.getElementById('dosenFields').style.display = category === 'dosen' ? 'block' : 'none';
+            document.getElementById('tendikFields').style.display = category === 'tendik' ? 'block' : 'none';
+        });
+
+        function filterJenisLayanan() {
+            const unitLayanan = document.getElementById('unit_layanan').value;
+            const jenisLayananSelect = document.getElementById('jenis_layanan_yang_diterima');
+            const jenisOptions = document.querySelectorAll('.jenis-option');
+
+            jenisLayananSelect.value = '';
+            jenisOptions.forEach(option => {
+                option.style.display = option.getAttribute('data-unit') === unitLayanan ? 'block' : 'none';
+            });
+        }
+
+        function goToDetail() {
+            const unitLayanan = document.getElementById('unit_layanan').value;
+            const jenisLayananYangDiterima = document.getElementById('jenis_layanan_yang_diterima').value;
+
+            if (unitLayanan && jenisLayananYangDiterima) {
+                const url = `<?= base_url('responden/survei/detail') ?>/${jenisLayananYangDiterima}`;
+                window.location.href = url;
+            } else {
+                alert("Silakan pilih Unit Layanan dan Jenis Layanan yang Diterima terlebih dahulu.");
+            }
+        }
         $(function() {
             <?php if (session()->has('berhasil')): ?>
                 const Toast = Swal.mixin({

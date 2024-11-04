@@ -99,4 +99,5 @@ $routes->group('unit', static function ($routes) {
 $routes->group('responden', function ($routes) {
     $routes->get('dashboard', 'Responden\Dashboard::index');
     $routes->get('layanan', 'Responden\Layanan::index');
+    $routes->get('survei/detail/(:segment)', 'Responden\Layanan::detail/$1');
 });

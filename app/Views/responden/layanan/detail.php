@@ -4,7 +4,7 @@
 
 <div class="row m-3">
     <h1>Detail Survei</h1>
-    <div class="card col-md-6">
+    <div class="card col-md-12">
         <div class="card-body">
             <table class="table">
                 <tr>
@@ -43,17 +43,22 @@
                     <td>:</td>
                     <td><?= $survei['jenis_unit'] ?></td>
                 </tr>
+                <tr>
+                    <td>Jenis Layanan</td>
+                    <td>:</td>
+                    <td><?= $survei['jenis_layanan_yang_diterima'] ?></td>
+                </tr>
             </table>
         </div>
     </div>
 </div>
 
-<div class="row m-3 bg-warning">
+<div class="row m-3 justify-content-center">
     <form method="post" action="<?= base_url('responden/layanan/store') ?>" class="row mt-2">
         <?= csrf_field() ?>
 
         <!-- Bagian Data Responden (Setengah Layar) -->
-        <div class="col-md-6">
+        <div class="col-md-3">
             <div class="card">
                 <div class="card-body">
                     <h3>Data Responden</h3>
@@ -140,7 +145,7 @@
         </div>
 
         <!-- Bagian Pertanyaan (Setengah Layar) -->
-        <div class="col-md-6">
+        <div class="col-md">
             <div class="card">
                 <div class="card-body">
                     <h3>Pertanyaan</h3>
@@ -155,11 +160,21 @@
                         $pertanyaanIndex = 1;
                         foreach ($pertanyaans as $pertanyaan):
                         ?>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="pertanyaan[]" value="<?= htmlspecialchars($pertanyaan['id']) ?>" disabled>
-                                <label class="form-check-label text-dark">
+                            <div class="mb-3">
+                                <!-- Label Pertanyaan -->
+                                <label class="text-dark">
                                     <?= $pertanyaanIndex ?>. <?= htmlspecialchars($pertanyaan['pertanyaan']) ?>
                                 </label>
+
+                                <!-- Radio button untuk penilaian (1-4) -->
+                                <div class="d-flex">
+                                    <?php for ($i = 1; $i <= 4; $i++): ?>
+                                        <div class="form-check form-check-inline ms-3">
+                                            <input class="form-check-input" type="radio" name="penilaian[<?= $pertanyaan['id'] ?>]" value="<?= $i ?>" required>
+                                            <label class="form-check-label"><?= $i ?></label>
+                                        </div>
+                                    <?php endfor; ?>
+                                </div>
                             </div>
                             <?php $pertanyaanIndex++; ?>
                         <?php endforeach; ?>
@@ -167,9 +182,19 @@
                 </div>
             </div>
         </div>
+        <div class="card">
+            <div class="card-body">
+                <div class="input-style-1 mt-3">
+                    <label class=" mb-2 fs-6">
+                        <h3>Saran & Masukan</h3>
+                    </label>
+                    <textarea class="fs-6 form-control" name="saran_masukan" placeholder="Tulis saran dan masukan Anda di sini..." rows="4"></textarea>
+                </div>
+            </div>
+        </div>
 
         <!-- Tombol Submit -->
-        <div class="col-12 text-center m-3">
+        <div class="col-12 text-center">
             <button type="submit" class="btn btn-primary">Submit</button>
         </div>
     </form>

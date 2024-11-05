@@ -81,6 +81,16 @@ $routes->group('admin', static function ($routes) {
         $routes->post('update/(:segment)', 'Admin\Fakultas::update/$1');
         $routes->get('delete/(:segment)', 'Admin\Fakultas::delete/$1');
     });
+
+    //Unit Kerja
+    $routes->group('unit', function ($routes) {
+        $routes->get('', 'Admin\Unit::index');
+        $routes->get('create', 'Admin\Unit::create');
+        $routes->post('store', 'Admin\Unit::store');
+        $routes->get('edit/(:segment)', 'Admin\Unit::edit/$1');
+        $routes->post('update/(:segment)', 'Admin\Unit::update/$1');
+        $routes->get('delete/(:segment)', 'Admin\Unit::delete/$1');
+    });
 });
 
 // pimpinan routes
@@ -102,4 +112,3 @@ $routes->group('responden', function ($routes) {
     $routes->get('survei/detail/(:segment)', 'Responden\Layanan::detail/$1');
     $routes->post('layanan/store', 'Responden\Layanan::store'); // Tambahkan ini untuk POST request
 });
-

@@ -26,7 +26,7 @@ class Responden extends Migration
             'jenis_kelamin' => [
                 'type' => 'ENUM',
                 'constraint' => [
-                    'Laki-laki', 
+                    'Laki-laki',
                     'Perempuan',
                 ],
                 'null' => true,
@@ -34,7 +34,7 @@ class Responden extends Migration
             'jam_survei' => [
                 'type' => 'ENUM',
                 'constraint' => [
-                    '08.00 - 12.00', 
+                    '08.00 - 12.00',
                     '13.00 - 17.00',
                 ],
                 'null' => true,
@@ -43,7 +43,7 @@ class Responden extends Migration
                 'type' => 'DATE',
                 'null' => true,
             ],
-            'jawaban' => [ 
+            'jawaban' => [
                 'type' => 'ENUM',
                 'constraint' => [
                     '1',
@@ -60,7 +60,7 @@ class Responden extends Migration
             'kategori_responden' => [
                 'type' => 'ENUM',
                 'constraint' => [
-                    'mahasiswa', 
+                    'mahasiswa',
                     'dosen',
                     'tendik',
                     'mitra',
@@ -81,6 +81,12 @@ class Responden extends Migration
                 'null' => true,
             ],
             'id_fakultas' => [
+                'type' => 'INT',
+                'constraint' => 11,
+                'unsigned' => true,
+                'null' => true,
+            ],
+            'id_unit' => [
                 'type' => 'INT',
                 'constraint' => 11,
                 'unsigned' => true,
@@ -108,8 +114,9 @@ class Responden extends Migration
         $this->forge->addForeignKey('id_survei', 'survei', 'id', 'CASCADE', 'CASCADE');
         $this->forge->addForeignKey('id_prodi', 'prodi', 'id', 'CASCADE', 'CASCADE');
         $this->forge->addForeignKey('id_fakultas', 'fakultas', 'id', 'CASCADE', 'CASCADE');
-      
-        
+        $this->forge->addForeignKey('id_unit', 'unit_kerja', 'id', 'CASCADE', 'CASCADE');
+
+
         $this->forge->createTable('responden');
     }
 

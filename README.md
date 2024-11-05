@@ -46,6 +46,7 @@
   php spark db:seed ProdiSeeder 
   php spark db:seed PertanyaanSeeder
   php spark db:seed FakultasSeeder
+  php spark db:seed UnitKerjaSeeder 
 ```
 
 #### 7. Menjalankan CodeIgniter4 

@@ -4,31 +4,15 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class RespondenModel extends Model
+class UnitKerjaModel extends Model
 {
-    protected $table            = 'responden';
+    protected $table            = 'unit_kerja';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = [
-        'umur', 
-        'jenis_kelamin', 
-        'kategori_responden', 
-        'id_survei',
-        'id_prodi',
-        'id_fakultas',
-        'id_unit',
-        'jenis_layanan_diterima',
-        'unit_layanan',
-        'angkatan',
-        'jam_survei',
-        'tanggal_survei',
-        'jawaban',
-        'saran_masukan'
-
-    ];
+    protected $allowedFields    = ['nama_unit', 'jenis_unit'];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;
@@ -37,7 +21,7 @@ class RespondenModel extends Model
     protected array $castHandlers = [];
 
     // Dates
-    protected $useTimestamps = true;
+    protected $useTimestamps = false;
     protected $dateFormat    = 'datetime';
     protected $createdField  = 'created_at';
     protected $updatedField  = 'updated_at';

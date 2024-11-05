@@ -8,38 +8,46 @@ class FakultasSeeder extends Seeder
 {
     public function run()
     {
-        // Data yang akan dimasukkan ke tabel fakultas
+        // Data fakultas sesuai dengan struktur yang diberikan
         $data = [
             [
-                'nama' => 'Fakultas Ilmu Komputer',
+                'nama' => 'Fakultas Teknik dan Teknologi Kemaritiman (FTTK)',
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s'),
             ],
             [
-                'nama' => 'Fakultas Ekonomi',
+                'nama' => 'Fakultas Ekonomi dan Bisnis Maritim (FEBM)',
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s'),
             ],
             [
-                'nama' => 'Fakultas Hukum',
+                'nama' => 'Fakultas Ilmu Kelautan dan Perikanan (FIKP)',
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s'),
             ],
             [
-                'nama' => 'Fakultas Kedokteran',
+                'nama' => 'Fakultas Keguruan dan Ilmu Pendidikan (FKIP)',
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s'),
             ],
             [
-                'nama' => 'Fakultas Teknik',
+                'nama' => 'Fakultas Ilmu Sosial dan Ilmu Politik (FISIP)',
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+            ],
+            [
+                'nama' => 'Program Pascasarjana',
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+            ],
+            [
+                'nama' => 'Fakultas Kedokteran (FK)',
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s'),
             ],
         ];
 
         // Menyimpan data ke tabel fakultas
-        foreach ($data as $fakultas) {
-            $this->db->table('fakultas')->insert($fakultas);
-        }
+        $this->db->table('fakultas')->insertBatch($data);
     }
 }

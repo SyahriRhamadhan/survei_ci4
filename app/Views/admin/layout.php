@@ -189,6 +189,10 @@
                                             class="hide-menu h6"> Manajemen Fakultas
                                         </span></a>
                                 </li>
+                                <li class="sidebar-item"><a href="<?= base_url('admin/unit') ?>" class="sidebar-link"><span
+                                            class="hide-menu h6"> Manajemen Unit Kerja
+                                        </span></a>
+                                </li>
                                 <li class="sidebar-item"><a href="<?= base_url('admin/users') ?>" class="sidebar-link"><span
                                             class="hide-menu h6"> Tambahkan Akun
                                         </span></a>

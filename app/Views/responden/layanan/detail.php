@@ -79,7 +79,7 @@
                     <div id="mahasiswaFields" style="display: none;">
                         <div class="input-style-1">
                             <label class="text-dark mb-2 fs-6">Asal Prodi</label>
-                            <select class="form-control fs-6" name="asal_prodi">
+                            <select class="form-control fs-6" name="id_prodi">
                                 <option value="">Pilih Prodi</option>
                                 <?php foreach ($prodiList as $prodi): ?>
                                     <option value="<?= $prodi['id'] ?>"><?= $prodi['nama'] ?></option>
@@ -95,7 +95,7 @@
                     <div id="dosenFields" style="display: none;">
                         <div class="input-style-1">
                             <label class="text-dark mb-2 fs-6">Asal Fakultas</label>
-                            <select class="form-control fs-6" name="asal_fakultas">
+                            <select class="form-control fs-6" name="id_fakultas">
                                 <option value="">Pilih Fakultas</option>
                                 <?php foreach ($fakultasList as $fakultas): ?>
                                     <option value="<?= $fakultas['id'] ?>"><?= $fakultas['nama'] ?></option>
@@ -107,9 +107,9 @@
                     <div id="tendikFields" style="display: none;">
                         <div class="input-style-1">
                             <label class="text-dark mb-2 fs-6">Asal Unit Kerja</label>
-                            <select class="form-control fs-6" name="asal_unit_kerja">
+                            <select class="form-control fs-6" name="id_unit">
                                 <option value="">Pilih Unit Kerja</option>
-                                <?php foreach ($unitList as $unit): ?>
+                                <?php foreach ($unitKerja as $unit): ?>
                                     <option value="<?= $unit['id'] ?>"><?= $unit['nama_unit'] ?></option>
                                 <?php endforeach; ?>
                             </select>
@@ -140,6 +140,7 @@
                         <label class="text-dark mb-2 fs-6">Umur</label>
                         <input class="fs-6 form-control" type="number" name="umur" placeholder="Umur" required />
                     </div>
+                    <input type="hidden" name="id_survei" value="<?= $survei['id'] ?>">
                 </div>
             </div>
         </div>

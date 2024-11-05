@@ -11,6 +11,7 @@ use App\Models\SurveiModel;
 use App\Models\PertanyaanModel;
 use App\Models\JawabanSurveiModel;
 use App\Models\SurveiPertanyaanModel;
+use App\Models\UnitKerjaModel;
 
 class Layanan extends BaseController
 {
@@ -20,12 +21,14 @@ class Layanan extends BaseController
         $fakultasModel = new FakultasModel();
         $unitModel = new SurveiModel();
         $surveiModel = new SurveiModel();
+        $unitKerja = new UnitKerjaModel();
         $data = [
             'title' => 'Layanan',
             'currentPage' => 'layanan',
             'prodiList' => $prodiModel->findAll(),
             'fakultasList' => $fakultasModel->findAll(),
             'unitList' => $unitModel->getSurveiWithUnit(),
+            'unitKerja' => $unitKerja->findAll(),
             'survei' => $surveiModel
                 ->select('survei.*, unit_placeholder_pertanyaan.nama_unit, unit_placeholder_pertanyaan.jenis_unit')
                 ->join('unit_placeholder_pertanyaan', 'unit_placeholder_pertanyaan.id = survei.id_unit_placeholder')
@@ -43,6 +46,7 @@ class Layanan extends BaseController
         $unitModel = new SurveiModel();
         $surveiPertanyaanModel = new SurveiPertanyaanModel();
         $pertanyaanModel = new PertanyaanModel();
+        $unitKerja = new UnitKerjaModel();
 
         $survei = $surveiModel
             ->select('survei.*, unit_placeholder_pertanyaan.nama_unit, unit_placeholder_pertanyaan.jenis_unit, unit_placeholder_pertanyaan.jenis_layanan_yang_diterima')
@@ -72,8 +76,9 @@ class Layanan extends BaseController
             'survei' => $survei,
             'pertanyaanGrouped' => $pertanyaanGrouped,
             'unitList' => $unitModel->getSurveiWithUnit(),
-            'prodiList' => $prodiModel->findAll(),          
+            'prodiList' => $prodiModel->findAll(),
             'fakultasList' => $fakultasModel->findAll(),
+            'unitKerja' => $unitKerja->findAll()
         ];
         return view('responden/layanan/detail', $data);
     }
@@ -99,6 +104,9 @@ class Layanan extends BaseController
             'jam_survei' => $this->request->getPost('jam_survei'),
             'saran_masukan' => $this->request->getPost('saran_masukan'),
             'id_survei' => $this->request->getPost('id_survei'),
+            'id_fakultas' => $this->request->getPost('id_fakultas') ?: null,
+            'id_prodi' => $this->request->getPost('id_prodi') ?: null,
+            'id_unit' => $this->request->getPost('id_unit') ?: null,
         ];
 
         // Insert data responden dan dapatkan ID-nya

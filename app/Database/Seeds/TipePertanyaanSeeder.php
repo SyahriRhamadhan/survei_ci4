@@ -63,6 +63,13 @@ class TipePertanyaanSeeder extends Seeder
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s'),
             ],
+            [
+                'id' => 10,
+                'tipe_pertanyaan' => 'Layanan Sarana dan Prasarana',
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+            ],
+            
         ];
         $this->db->table('tipe_pertanyaan')->insertBatch($data);
     }

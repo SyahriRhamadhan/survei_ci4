@@ -40,7 +40,7 @@ class Responden extends Migration
                 'null' => true,
             ],
             'tanggal_survei' => [
-                'type' => 'DATETIME',
+                'type' => 'DATE',
                 'null' => true,
             ],
             'jawaban' => [ 

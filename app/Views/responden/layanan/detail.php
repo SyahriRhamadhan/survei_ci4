@@ -65,7 +65,7 @@
 
                     <div class="input-style-1">
                         <label class="text-dark mb-2 fs-6">Kategori Pengguna Layanan</label>
-                        <select class="form-control" name="kategori_responden" id="kategori_responden">
+                        <select class="form-control" name="kategori_responden" id="kategori_responden" required>
                             <option value="">Pilih Kategori</option>
                             <option value="mahasiswa">Mahasiswa</option>
                             <option value="dosen">Dosen</option>
@@ -138,7 +138,7 @@
 
                     <div class="input-style-1 mt-3">
                         <label class="text-dark mb-2 fs-6">Umur</label>
-                        <input class="fs-6 form-control" type="number" name="umur" placeholder="Umur" />
+                        <input class="fs-6 form-control" type="number" name="umur" placeholder="Umur" required />
                     </div>
                 </div>
             </div>
@@ -149,18 +149,19 @@
             <div class="card">
                 <div class="card-body">
                     <h3>Pertanyaan</h3>
+                    <p class="text-dark">4 = Sangat Setuju, 3 = Setuju, 2 = Kurang Setuju, 1 = Sangat Tidak Setuju</p>
                     <?php
                     $kategoriIndex = 0;
                     foreach ($pertanyaanGrouped as $kategori => $pertanyaans):
                         $kategoriLetter = chr(97 + $kategoriIndex);
                         $kategoriIndex++;
                     ?>
-                        <h5 class="fw-bold text-dark"><?= htmlspecialchars($kategoriLetter) ?>: <?= htmlspecialchars($kategori) ?></h5>
+                        <h5 class="fw-bold">Kategori <?= htmlspecialchars($kategoriLetter) ?> = <?= htmlspecialchars($kategori) ?></h5>
                         <?php
                         $pertanyaanIndex = 1;
                         foreach ($pertanyaans as $pertanyaan):
                         ?>
-                            <div class="mb-3">
+                            <div class="mb-3 ms-3">
                                 <!-- Label Pertanyaan -->
                                 <label class="text-dark">
                                     <?= $pertanyaanIndex ?>. <?= htmlspecialchars($pertanyaan['pertanyaan']) ?>
@@ -182,6 +183,7 @@
                 </div>
             </div>
         </div>
+
         <div class="card">
             <div class="card-body">
                 <div class="input-style-1 mt-3">
@@ -194,7 +196,7 @@
         </div>
 
         <!-- Tombol Submit -->
-        <div class="col-12 text-center">
+        <div class="col-12 text-center mt-3">
             <button type="submit" class="btn btn-primary">Submit</button>
         </div>
     </form>

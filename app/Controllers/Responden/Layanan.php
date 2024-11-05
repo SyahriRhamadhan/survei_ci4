@@ -9,7 +9,7 @@ use App\Models\RespondenModel;
 use App\Models\SurveiModel;
 
 use App\Models\PertanyaanModel;
-use App\Models\UnitPlaceholderPertanyaanModel;
+use App\Models\JawabanSurveiModel;
 use App\Models\SurveiPertanyaanModel;
 
 class Layanan extends BaseController
@@ -72,8 +72,8 @@ class Layanan extends BaseController
             'survei' => $survei,
             'pertanyaanGrouped' => $pertanyaanGrouped,
             'unitList' => $unitModel->getSurveiWithUnit(),
-            'prodiList' => $prodiModel->findAll(),          // Tambahkan ini
-            'fakultasList' => $fakultasModel->findAll(),     // Tambahkan ini
+            'prodiList' => $prodiModel->findAll(),          
+            'fakultasList' => $fakultasModel->findAll(),
         ];
         return view('responden/layanan/detail', $data);
     }
@@ -81,9 +81,11 @@ class Layanan extends BaseController
 
     public function store()
     {
-        $model = new RespondenModel();
+        $respondenModel = new RespondenModel();
+        $jawabanSurveiModel = new JawabanSurveiModel();
 
-        $data = [
+        // Menyimpan data responden
+        $dataResponden = [
             'kategori_responden' => $this->request->getPost('kategori_responden'),
             'asal_prodi' => $this->request->getPost('asal_prodi'),
             'angkatan' => $this->request->getPost('angkatan'),
@@ -92,13 +94,27 @@ class Layanan extends BaseController
             'jenis_kelamin' => $this->request->getPost('jenis_kelamin'),
             'umur' => $this->request->getPost('umur'),
             'unit_layanan' => $this->request->getPost('unit_layanan'),
-            'jenis_layanan_yang_diterima' => $this->request->getPost('jenis_layanan_yang_diterima'),
-            'tanggal_survei' => date('Y-m-d'),  // Format tanggal saja
+            'jenis_layanan_diterima' => $this->request->getPost('jenis_layanan_yang_diterima'),
+            'tanggal_survei' => date('Y-m-d'),
             'jam_survei' => $this->request->getPost('jam_survei'),
+            'saran_masukan' => $this->request->getPost('saran_masukan'),
+            'id_survei' => $this->request->getPost('id_survei'),
         ];
 
-        $model->insert($data);
+        // Insert data responden dan dapatkan ID-nya
+        $respondenId = $respondenModel->insert($dataResponden);
 
+        // Menyimpan jawaban survei
+        $jawabanSurvei = $this->request->getPost('penilaian');
+        foreach ($jawabanSurvei as $pertanyaanId => $jawaban) {
+            $jawabanSurveiModel->insert([
+                'id_responden' => $respondenId,
+                'id_pertanyaan' => $pertanyaanId,
+                'jawaban' => $jawaban
+            ]);
+        }
+
+        // Redirect setelah sukses
         return redirect()->to(base_url('responden/layanan'))->with('success', 'Survei berhasil disimpan.');
     }
 }

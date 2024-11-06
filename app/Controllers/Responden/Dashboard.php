@@ -5,6 +5,9 @@ namespace App\Controllers\Responden;
 use App\Controllers\BaseController;
 use App\Models\RespondenModel;
 use App\Models\SurveiModel;
+use App\Models\UnitKerjaModel;
+use App\Models\ProdiModel;
+use App\Models\FakultasModel;
 
 class Dashboard extends BaseController
 {
@@ -83,6 +86,55 @@ class Dashboard extends BaseController
         // Menambahkan data untuk jenis kelamin ke $data yang dikirim ke view
         $data['chartLabelsGender'] = $chartLabelsGender;
         $data['chartValuesGender'] = $chartValuesGender;
+        // Inisialisasi model baru untuk join
+        $respondenModel = new RespondenModel();
+        $unitModel = new UnitKerjaModel();
+        $prodiModel = new ProdiModel();
+        $fakultasModel = new FakultasModel();
+
+        // Contoh query dengan join untuk mendapatkan nama fakultas dosen
+        $fakultasDosenCounts = $respondenModel
+            ->select('fakultas.nama AS fakultas_nama, COUNT(responden.id) as total')
+            ->join('fakultas', 'responden.id_fakultas = fakultas.id')
+            ->where('kategori_responden', 'dosen')
+            ->groupBy('fakultas_nama')
+            ->findAll();
+
+        $fakultasDosenLabels = [];
+        $fakultasDosenData = [];
+        foreach ($fakultasDosenCounts as $fakultas) {
+            $fakultasDosenLabels[] = $fakultas['fakultas_nama'];
+            $fakultasDosenData[] = $fakultas['total'];
+        }
+
+        // Sama halnya untuk Prodi Mahasiswa dan Unit Tendik
+        $prodiMahasiswaCounts = $respondenModel
+            ->select('prodi.nama AS prodi_nama, COUNT(responden.id) as total')
+            ->join('prodi', 'responden.id_prodi = prodi.id')
+            ->where('kategori_responden', 'mahasiswa')
+            ->groupBy('prodi_nama')
+            ->findAll();
+
+        $prodiMahasiswaLabels = [];
+        $prodiMahasiswaData = [];
+        foreach ($prodiMahasiswaCounts as $prodi) {
+            $prodiMahasiswaLabels[] = $prodi['prodi_nama'];
+            $prodiMahasiswaData[] = $prodi['total'];
+        }
+
+        $unitTendikCounts = $respondenModel
+            ->select('unit_kerja.nama_unit AS unit_nama, COUNT(responden.id) as total')
+            ->join('unit_kerja', 'responden.id_unit = unit_kerja.id')
+            ->where('kategori_responden', 'tendik')
+            ->groupBy('unit_nama')
+            ->findAll();
+
+        $unitTendikLabels = [];
+        $unitTendikData = [];
+        foreach ($unitTendikCounts as $unit) {
+            $unitTendikLabels[] = $unit['unit_nama'];
+            $unitTendikData[] = $unit['total'];
+        }
 
         // Kirim data ke view
         $data = [
@@ -98,7 +150,13 @@ class Dashboard extends BaseController
             'chartValues' => $chartValues,
             'respondenByKategori' => $respondenByKategori,
             'chartLabelsGender' => $chartLabelsGender,
-            'chartValuesGender' => $chartValuesGender
+            'chartValuesGender' => $chartValuesGender,
+            'fakultasDosenLabels' => json_encode($fakultasDosenLabels),
+            'fakultasDosenData' => json_encode($fakultasDosenData),
+            'prodiMahasiswaLabels' => json_encode($prodiMahasiswaLabels),
+            'prodiMahasiswaData' => json_encode($prodiMahasiswaData),
+            'unitTendikLabels' => json_encode($unitTendikLabels),
+            'unitTendikData' => json_encode($unitTendikData)
         ];
 
         return view('responden/dashboard', $data);

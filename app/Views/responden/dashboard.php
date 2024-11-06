@@ -101,120 +101,80 @@
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title">Jumlah Responden Berdasarkan Jenis Kelamin</h4>
-                    <canvas id="barChartGender" width="400" height="400"></canvas>
+                    <canvas id="barChartGender" width="40" height="40"></canvas>
                 </div>
             </div>
         </div>
-        <div class="col-lg-4 col-md-12">
+        <div class="col-lg col-md-12">
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title">Keseluruhan Pengguna Layanan Survei</h4>
-                    <canvas id="doughnutChart" width="400" height="400"></canvas>
-                    <ul class="list-style-none mb-0">
-                        <li>
-                            <i class="fas fa-circle" style="color: #FF5733;"></i>
-                            <span class="text-muted">Mahasiswa</span>
-                            <span class="text-dark float-end font-weight-medium"><?= $respondenByKategori['mahasiswa'] ?? 0; ?></span>
-                        </li>
-                        <li class="mt-3">
-                            <i class="fas fa-circle" style="color: #33FF57;"></i>
-                            <span class="text-muted">Dosen</span>
-                            <span class="text-dark float-end font-weight-medium"><?= $respondenByKategori['dosen'] ?? 0; ?></span>
-                        </li>
-                        <li class="mt-3">
-                            <i class="fas fa-circle" style="color: #3357FF;"></i>
-                            <span class="text-muted">Tendik</span>
-                            <span class="text-dark float-end font-weight-medium"><?= $respondenByKategori['tendik'] ?? 0; ?></span>
-                        </li>
-                        <li class="mt-3">
-                            <i class="fas fa-circle" style="color: #F1C40F;"></i>
-                            <span class="text-muted">Mitra</span>
-                            <span class="text-dark float-end font-weight-medium"><?= $respondenByKategori['mitra'] ?? 0; ?></span>
-                        </li>
-                        <li class="mt-3">
-                            <i class="fas fa-circle" style="color: #9B59B6;"></i>
-                            <span class="text-muted">Umum</span>
-                            <span class="text-dark float-end font-weight-medium"><?= $respondenByKategori['umum'] ?? 0; ?></span>
-                        </li>
-                    </ul>
+                    <div class="d-flex align-items-center">
+                        <!-- Canvas untuk Chart -->
+                        <div style="flex: 1;">
+                            <canvas id="doughnutChart" width="150" height="150"></canvas>
+                        </div>
+                        <!-- List keterangan disamping chart -->
+                        <div style="flex: 1;">
+                            <ul class="list-style-none mb-0 ms-3">
+                                <li>
+                                    <i class="fas fa-circle" style="color: #FF5733;"></i>
+                                    <span class="text-muted">Mahasiswa</span>
+                                    <span class="text-dark float-end font-weight-medium"><?= $respondenByKategori['mahasiswa'] ?? 0; ?></span>
+                                </li>
+                                <li class="mt-3">
+                                    <i class="fas fa-circle" style="color: #33FF57;"></i>
+                                    <span class="text-muted">Dosen</span>
+                                    <span class="text-dark float-end font-weight-medium"><?= $respondenByKategori['dosen'] ?? 0; ?></span>
+                                </li>
+                                <li class="mt-3">
+                                    <i class="fas fa-circle" style="color: #3357FF;"></i>
+                                    <span class="text-muted">Tendik</span>
+                                    <span class="text-dark float-end font-weight-medium"><?= $respondenByKategori['tendik'] ?? 0; ?></span>
+                                </li>
+                                <li class="mt-3">
+                                    <i class="fas fa-circle" style="color: #F1C40F;"></i>
+                                    <span class="text-muted">Mitra</span>
+                                    <span class="text-dark float-end font-weight-medium"><?= $respondenByKategori['mitra'] ?? 0; ?></span>
+                                </li>
+                                <li class="mt-3">
+                                    <i class="fas fa-circle" style="color: #9B59B6;"></i>
+                                    <span class="text-muted">Umum</span>
+                                    <span class="text-dark float-end font-weight-medium"><?= $respondenByKategori['umum'] ?? 0; ?></span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
+        <!-- Grafik Fakultas Dosen -->
+        <div class="col-lg-12 col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Asal Fakultas Responden Dosen</h4>
+                    <canvas id="barChartFakultasDosen" width="850" height="150"></canvas>
                 </div>
             </div>
         </div>
-        <div class="col-lg-4 col-md-12">
+
+        <!-- Grafik Program Studi Mahasiswa -->
+        <div class="col-lg-12 col-md-12">
             <div class="card">
                 <div class="card-body">
-                    <!-- <h4 class="card-title">Net Income</h4> -->
-                    <div class="net-income mt-4 position-relative" style="height:294px;"></div>
-                    <ul class="list-inline text-center mt-5 mb-2">
-                        <!-- <li class="list-inline-item text-muted fst-italic">Sales for this month</li> -->
-                    </ul>
+                    <h4 class="card-title">Asal Program Studi Responden Mahasiswa</h4>
+                    <canvas id="barChartProdiMahasiswa" width="1800" height="900"></canvas>
                 </div>
             </div>
         </div>
-        <div class="col-lg-4 col-md-12">
+
+        <!-- Grafik Unit Kerja Tendik -->
+        <div class="col-lg-12 col-md-12">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title mb-4">Earning by Location</h4>
-                    <div class="" style="height:180px">
-                        <div id="visitbylocate" style="height:100%"></div>
-                    </div>
-                    <div class="row mb-3 align-items-center mt-1 mt-5">
-                        <div class="col-4 text-end">
-                            <span class="text-muted font-14">India</span>
-                        </div>
-                        <div class="col-5">
-                            <div class="progress" style="height: 5px;">
-                                <div class="progress-bar bg-primary" role="progressbar" style="width: 100%"
-                                    aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                        </div>
-                        <div class="col-3 text-end">
-                            <span class="mb-0 font-14 text-dark font-weight-medium">28%</span>
-                        </div>
-                    </div>
-                    <div class="row mb-3 align-items-center">
-                        <div class="col-4 text-end">
-                            <span class="text-muted font-14">UK</span>
-                        </div>
-                        <div class="col-5">
-                            <div class="progress" style="height: 5px;">
-                                <div class="progress-bar bg-danger" role="progressbar" style="width: 74%"
-                                    aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                        </div>
-                        <div class="col-3 text-end">
-                            <span class="mb-0 font-14 text-dark font-weight-medium">21%</span>
-                        </div>
-                    </div>
-                    <div class="row mb-3 align-items-center">
-                        <div class="col-4 text-end">
-                            <span class="text-muted font-14">USA</span>
-                        </div>
-                        <div class="col-5">
-                            <div class="progress" style="height: 5px;">
-                                <div class="progress-bar bg-cyan" role="progressbar" style="width: 60%"
-                                    aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                        </div>
-                        <div class="col-3 text-end">
-                            <span class="mb-0 font-14 text-dark font-weight-medium">18%</span>
-                        </div>
-                    </div>
-                    <div class="row align-items-center">
-                        <div class="col-4 text-end">
-                            <span class="text-muted font-14">China</span>
-                        </div>
-                        <div class="col-5">
-                            <div class="progress" style="height: 5px;">
-                                <div class="progress-bar bg-success" role="progressbar" style="width: 50%"
-                                    aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                        </div>
-                        <div class="col-3 text-end">
-                            <span class="mb-0 font-14 text-dark font-weight-medium">12%</span>
-                        </div>
-                    </div>
+                    <h4 class="card-title">Asal Unit Kerja Responden Tendik</h4>
+                    <canvas id="barChartUnitTendik" width="4900" height="1600"></canvas>
                 </div>
             </div>
         </div>
@@ -283,6 +243,74 @@
                             return tooltipItem.label + ': ' + tooltipItem.raw + ' responden';
                         }
                     }
+                }
+            }
+        }
+    });
+    // Grafik Fakultas Dosen
+    var ctxFakultasDosen = document.getElementById('barChartFakultasDosen').getContext('2d');
+    new Chart(ctxFakultasDosen, {
+        type: 'bar',
+        data: {
+            labels: <?= $fakultasDosenLabels ?>,
+            datasets: [{
+                label: 'Jumlah Responden',
+                data: <?= $fakultasDosenData ?>,
+                backgroundColor: '#3498db'
+            }]
+        },
+        options: {
+            indexAxis: 'y', // Membuat grafik horizontal
+            responsive: true,
+            scales: {
+                x: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+    // Grafik Program Studi Mahasiswa
+    var ctxProdiMahasiswa = document.getElementById('barChartProdiMahasiswa').getContext('2d');
+    new Chart(ctxProdiMahasiswa, {
+        type: 'bar',
+        data: {
+            labels: <?= $prodiMahasiswaLabels ?>,
+            datasets: [{
+                label: 'Jumlah Responden',
+                data: <?= $prodiMahasiswaData ?>,
+                backgroundColor: '#2ecc71'
+            }]
+        },
+        options: {
+            indexAxis: 'y',
+            responsive: true,
+            scales: {
+                x: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+    // Grafik Unit Kerja Tendik
+    var ctxUnitTendik = document.getElementById('barChartUnitTendik').getContext('2d');
+    new Chart(ctxUnitTendik, {
+        type: 'bar',
+        data: {
+            labels: <?= $unitTendikLabels ?>,
+            datasets: [{
+                label: 'Jumlah Responden',
+                data: <?= $unitTendikData ?>,
+                backgroundColor: '#e74c3c'
+            }]
+        },
+        options: {
+            indexAxis: 'y',
+            responsive: true,
+            scales: {
+                x: {
+                    beginAtZero: true
                 }
             }
         }

@@ -18,10 +18,12 @@ class Responden extends Migration
             'umur' => [
                 'type' => 'INT',
                 'constraint' => 3,
+                'null' => true,
             ],
             'angkatan' => [
                 'type' => 'VARCHAR',
                 'constraint' => '255',
+                'null' => true,
             ],
             'jenis_kelamin' => [
                 'type' => 'ENUM',
@@ -41,16 +43,6 @@ class Responden extends Migration
             ],
             'tanggal_survei' => [
                 'type' => 'DATE',
-                'null' => true,
-            ],
-            'jawaban' => [
-                'type' => 'ENUM',
-                'constraint' => [
-                    '1',
-                    '2',
-                    '3',
-                    '4',
-                ],
                 'null' => true,
             ],
             'saran_masukan' => [
@@ -90,14 +82,6 @@ class Responden extends Migration
                 'type' => 'INT',
                 'constraint' => 11,
                 'unsigned' => true,
-                'null' => true,
-            ],
-            'jenis_layanan_diterima' => [
-                'type' => 'TEXT',
-                'null' => true,
-            ],
-            'unit_layanan' => [
-                'type' => 'TEXT',
                 'null' => true,
             ],
             'created_at' => [

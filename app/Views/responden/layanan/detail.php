@@ -57,12 +57,10 @@
     <form method="post" action="<?= base_url('responden/layanan/store') ?>" class="row mt-2">
         <?= csrf_field() ?>
 
-        <!-- Bagian Data Responden (Setengah Layar) -->
         <div class="col-md-3">
             <div class="card">
                 <div class="card-body">
                     <h3>Data Responden</h3>
-
                     <div class="input-style-1">
                         <label class="text-dark mb-2 fs-6">Kategori Pengguna Layanan</label>
                         <select class="form-control" name="kategori_responden" id="kategori_responden" required>
@@ -75,7 +73,6 @@
                         </select>
                     </div>
 
-                    <!-- Field untuk kategori tertentu -->
                     <div id="mahasiswaFields" style="display: none;">
                         <div class="input-style-1">
                             <label class="text-dark mb-2 fs-6">Asal Prodi</label>
@@ -88,7 +85,15 @@
                         </div>
                         <div class="input-style-1">
                             <label class="text-dark mb-2 fs-6">Angkatan</label>
-                            <input class="fs-6 form-control" type="text" name="angkatan" placeholder="Contoh: 2020" />
+                            <select class="fs-6 form-control" name="angkatan">
+                                <option value="" disabled selected>Pilih Tahun</option>
+                                <?php
+                                $currentYear = date("Y");
+                                for ($year = $currentYear; $year >= 2016; $year--) {
+                                    echo "<option value=\"$year\">$year</option>";
+                                }
+                                ?>
+                            </select>
                         </div>
                     </div>
 
@@ -116,7 +121,6 @@
                         </div>
                     </div>
 
-                    <!-- Field Jam Survei -->
                     <div class="input-style-1 mt-3">
                         <label class="text-dark mb-2 fs-6">Jam Survei</label>
                         <select class="form-control fs-6" name="jam_survei" required>
@@ -126,7 +130,6 @@
                         </select>
                     </div>
 
-                    <!-- Field Lainnya -->
                     <div class="input-style-1 mt-3">
                         <label class="text-dark mb-2 fs-6">Jenis Kelamin</label>
                         <select class="form-control" name="jenis_kelamin">
@@ -145,7 +148,6 @@
             </div>
         </div>
 
-        <!-- Bagian Pertanyaan (Setengah Layar) -->
         <div class="col-md">
             <div class="card">
                 <div class="card-body">
@@ -163,14 +165,12 @@
                         foreach ($pertanyaans as $pertanyaan):
                         ?>
                             <div class="mb-3 ms-3">
-                                <!-- Label Pertanyaan -->
                                 <label class="text-dark">
                                     <?= $pertanyaanIndex ?>. <?= htmlspecialchars($pertanyaan['pertanyaan']) ?>
                                 </label>
 
-                                <!-- Radio button untuk penilaian (1-4) -->
                                 <div class="d-flex">
-                                    <?php for ($i = 1; $i <= 4; $i++): ?>
+                                    <?php for ($i = 4; $i >= 1; $i--): ?>
                                         <div class="form-check form-check-inline ms-3">
                                             <input class="form-check-input" type="radio" name="penilaian[<?= $pertanyaan['id'] ?>]" value="<?= $i ?>" required>
                                             <label class="form-check-label"><?= $i ?></label>

@@ -110,5 +110,5 @@ $routes->group('responden', function ($routes) {
     $routes->get('dashboard', 'Responden\Dashboard::index');
     $routes->get('layanan', 'Responden\Layanan::index');
     $routes->get('survei/detail/(:segment)', 'Responden\Layanan::detail/$1');
-    $routes->post('layanan/store', 'Responden\Layanan::store'); // Tambahkan ini untuk POST request
+    $routes->post('layanan/store', 'Responden\Layanan::store'); 
 });

@@ -6,25 +6,33 @@
             <h3 class="page-title text-truncate text-dark font-weight-medium mb-3">Survei Kepuasan Layanan</h3>
         </div>
     </div>
-    <div class="card col-md-12">
+    <div class="card col-md-6">
         <div class="card-body">
             <form>
                 <?= csrf_field() ?>
 
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md">
                         <h3>Tujuan Survei</h3>
                         <div class="input-style-1 mt-3">
                             <label class="text-dark mb-2 fs-6">Unit Layanan</label>
                             <select class="form-control fs-6" id="unit_layanan" name="unit_layanan" onchange="filterJenisLayanan()">
                                 <option value="">Pilih Unit Layanan</option>
-                                <?php foreach ($unitList as $unit): ?>
+                                <?php
+                                $unitSeen = []; 
+                                foreach ($unitList as $unit):
+                                    if (in_array($unit['nama_unit'], $unitSeen)) {
+                                        continue; 
+                                    }
+                                    $unitSeen[] = $unit['nama_unit']; 
+                                ?>
                                     <option value="<?= htmlspecialchars($unit['nama_unit']) ?>" data-jenis="<?= htmlspecialchars($unit['jenis_layanan_yang_diterima']) ?>">
                                         <?= htmlspecialchars($unit['nama_unit']) ?>
                                     </option>
                                 <?php endforeach; ?>
                             </select>
                         </div>
+
 
                         <div class="input-style-1 mt-3">
                             <label class="text-dark mb-2 fs-6">Jenis Layanan yang Diterima</label>

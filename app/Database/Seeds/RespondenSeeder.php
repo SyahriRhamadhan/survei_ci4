@@ -8,26 +8,50 @@ class RespondenSeeder extends Seeder
 {
     public function run()
     {
-        $categories = ['mahasiswa', 'dosen dan staff pengajar', 'alumni', 'mitra atau masyarakat'];
-        $genders = ['Laki-laki', 'Perempuan'];
-        $data = [];
-        $idCounter = 1; // Mulai id dari 1
+        $kategoriRespondenOptions = ['mahasiswa', 'dosen', 'tendik', 'mitra', 'umum'];
+        $jenisKelaminOptions = ['Laki-laki', 'Perempuan'];
+        $jamSurveiOptions = ['08.00 - 12.00', '13.00 - 17.00'];
+        
+        // Insert data responden dan jawaban survei
+        for ($i = 1; $i <= 5000; $i++) {
+            $umur = rand(18, 60);
+            $angkatan = "20" . rand(10, 23);
+            $tanggalSurvei = date('Y-m-d', strtotime("-" . rand(1, 365) . " days"));
+            // $tanggalSurvei = "2024-11-07";
+            $saranMasukan = "Saran dan masukan dummy untuk responden " . $i;
+            $kategoriResponden = $kategoriRespondenOptions[array_rand($kategoriRespondenOptions)];
 
-        foreach ($categories as $category) {
-            for ($i = 0; $i < 20; $i++) {
-                $data[] = [
-                    'id' => $idCounter++, // Increment id setiap kali iterasi
-                    'umur' => rand(7, 60), // random umur antara 7 dan 60 tahun
-                    'jenis_kelamin' => $genders[array_rand($genders)], // random gender
-                    'kategori_responden' => $category,
-                    'id_unit_placeholder' => rand(1, 20), // random id between 1 and 20
-                    'created_at' => date('Y-m-d H:i:s'),
-                    'updated_at' => date('Y-m-d H:i:s'),
-                ];
+            $dataResponden = [
+                'umur' => $umur,
+                'jenis_kelamin' => $jenisKelaminOptions[array_rand($jenisKelaminOptions)],
+                'jam_survei' => $jamSurveiOptions[array_rand($jamSurveiOptions)],
+                'tanggal_survei' => $tanggalSurvei,
+                'saran_masukan' => $saranMasukan,
+                'kategori_responden' => $kategoriResponden,
+                'id_survei' => rand(1, 88),
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s')
+            ];
+
+            if ($kategoriResponden === 'mahasiswa') {
+                $dataResponden['angkatan'] = $angkatan;
+                $dataResponden['id_prodi'] = rand(1, 31);
+            } elseif ($kategoriResponden === 'dosen') {
+                $dataResponden['id_fakultas'] = rand(1, 7);
+            } elseif ($kategoriResponden === 'tendik') {
+                $dataResponden['id_unit'] = rand(1, 16);
+            }
+
+            $respondenId = $this->db->table('responden')->insert($dataResponden);
+
+            // Insert jawaban survei untuk pertanyaan id 1-14
+            for ($pertanyaanId = 1; $pertanyaanId <= 14; $pertanyaanId++) {
+                $this->db->table('jawaban_survei')->insert([
+                    'id_responden' => $respondenId,
+                    'id_pertanyaan' => $pertanyaanId,
+                    'jawaban' => rand(1, 4)
+                ]);
             }
         }
-
-        // Insert data ke tabel `responden`
-        $this->db->table('responden')->insertBatch($data);
     }
 }

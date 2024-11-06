@@ -78,7 +78,9 @@ $placeholders = $placeholderModel->select('nama_unit')->findAll();
             return;
         }
 
-        const filteredSuggestions = placeholders.filter(item =>
+        const uniquePlaceholders = [...new Set(placeholders)];
+
+        const filteredSuggestions = uniquePlaceholders.filter(item =>
             item.toLowerCase().includes(query.toLowerCase())
         );
 

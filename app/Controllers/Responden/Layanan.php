@@ -92,14 +92,9 @@ class Layanan extends BaseController
         // Menyimpan data responden
         $dataResponden = [
             'kategori_responden' => $this->request->getPost('kategori_responden'),
-            'asal_prodi' => $this->request->getPost('asal_prodi'),
             'angkatan' => $this->request->getPost('angkatan'),
-            'asal_fakultas' => $this->request->getPost('asal_fakultas'),
-            'asal_unit_kerja' => $this->request->getPost('asal_unit_kerja'),
             'jenis_kelamin' => $this->request->getPost('jenis_kelamin'),
             'umur' => $this->request->getPost('umur'),
-            'unit_layanan' => $this->request->getPost('unit_layanan'),
-            'jenis_layanan_diterima' => $this->request->getPost('jenis_layanan_yang_diterima'),
             'tanggal_survei' => date('Y-m-d'),
             'jam_survei' => $this->request->getPost('jam_survei'),
             'saran_masukan' => $this->request->getPost('saran_masukan'),

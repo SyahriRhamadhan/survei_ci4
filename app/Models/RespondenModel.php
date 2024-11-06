@@ -13,19 +13,16 @@ class RespondenModel extends Model
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = [
-        'umur', 
-        'jenis_kelamin', 
-        'kategori_responden', 
+        'umur',
+        'jenis_kelamin',
+        'kategori_responden',
         'id_survei',
         'id_prodi',
         'id_fakultas',
         'id_unit',
-        'jenis_layanan_diterima',
-        'unit_layanan',
         'angkatan',
         'jam_survei',
         'tanggal_survei',
-        'jawaban',
         'saran_masukan'
 
     ];

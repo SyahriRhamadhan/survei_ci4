@@ -88,6 +88,7 @@ class Layanan extends BaseController
     {
         $respondenModel = new RespondenModel();
         $jawabanSurveiModel = new JawabanSurveiModel();
+        $surveiModel = new SurveiModel();
 
         // Menyimpan data responden
         $dataResponden = [
@@ -113,9 +114,50 @@ class Layanan extends BaseController
             $jawabanSurveiModel->insert([
                 'id_responden' => $respondenId,
                 'id_pertanyaan' => $pertanyaanId,
-                'jawaban' => $jawaban
+                'jawaban' => $jawaban,
+                'id_survei' => $this->request->getPost('id_survei')
             ]);
         }
+
+        $jawabanPerKategori = $jawabanSurveiModel->select('pertanyaan.tipe_pertanyaan, jawaban')
+            ->join('pertanyaan', 'pertanyaan.id = jawaban_survei.id_pertanyaan')
+            ->where('jawaban_survei.id_survei', $this->request->getPost('id_survei'))
+            ->findAll();
+
+        $kategoriJawaban = [];
+        foreach ($jawabanPerKategori as $jawaban) {
+            $kategoriJawaban[$jawaban['tipe_pertanyaan']][] = $jawaban['jawaban'];
+        }
+
+        $rataRataTertimbang = [];
+        foreach ($kategoriJawaban as $kategori => $jawabans) {
+            $bobotJawaban = [4 => 4, 3 => 3, 2 => 2, 1 => 1]; 
+            $totalBobot = 0;
+            $totalJawaban = 0;
+            foreach ($jawabans as $jawaban) {
+                $totalBobot += $bobotJawaban[$jawaban]; 
+                $totalJawaban++;
+            }
+            $rataRataTertimbang[$kategori] = $totalJawaban > 0 ? $totalBobot / $totalJawaban : 0;
+        }
+
+        
+        $totalNilai = 0;
+        $totalKategori = count($rataRataTertimbang);
+
+        foreach ($rataRataTertimbang as $kategori => $nilai) {
+            $totalNilai += $nilai;
+        }
+
+        
+        $ikm = $totalKategori > 0 ? ($totalNilai / $totalKategori) * 25 : 0;
+
+
+        $surveiModel->update($this->request->getPost('id_survei'), [
+            'rata_rata_tertimbang' => json_encode($rataRataTertimbang), 
+            'ikm' => $ikm 
+        ]);
+
 
         // Redirect setelah sukses
         return redirect()->to(base_url('responden/layanan'))->with('success', 'Survei berhasil disimpan.');

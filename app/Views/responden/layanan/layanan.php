@@ -13,18 +13,18 @@
 
                 <div class="row">
                     <div class="col-md">
-                        <h3>Tujuan Survei</h3>
+                        <h3>Instrumen survei kepuasan Unit Layanan di lingkungan UMRAH</h3>
                         <div class="input-style-1 mt-3">
                             <label class="text-dark mb-2 fs-6">Unit Layanan</label>
                             <select class="form-control fs-6" id="unit_layanan" name="unit_layanan" onchange="filterJenisLayanan()">
                                 <option value="">Pilih Unit Layanan</option>
                                 <?php
-                                $unitSeen = []; 
+                                $unitSeen = [];
                                 foreach ($unitList as $unit):
                                     if (in_array($unit['nama_unit'], $unitSeen)) {
-                                        continue; 
+                                        continue;
                                     }
-                                    $unitSeen[] = $unit['nama_unit']; 
+                                    $unitSeen[] = $unit['nama_unit'];
                                 ?>
                                     <option value="<?= htmlspecialchars($unit['nama_unit']) ?>" data-jenis="<?= htmlspecialchars($unit['jenis_layanan_yang_diterima']) ?>">
                                         <?= htmlspecialchars($unit['nama_unit']) ?>
@@ -53,7 +53,7 @@
                 </div>
 
                 <div class="text-center mt-5">
-                    <button type="button" class="btn btn-primary" onclick="goToDetail()">Detail</button>
+                    <button type="button" class="btn btn-primary" onclick="goToDetail()">Isi Survei</button>
                 </div>
 
             </form>

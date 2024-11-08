@@ -12,7 +12,7 @@ class JawabanSurveiModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields = ['id_responden', 'id_pertanyaan', 'jawaban'];
+    protected $allowedFields = ['id_responden', 'id_pertanyaan', 'jawaban', 'id_survei'];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;

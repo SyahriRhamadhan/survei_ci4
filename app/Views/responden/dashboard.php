@@ -44,13 +44,18 @@
                 <div class="card-body">
                     <div class="d-flex align-items-center">
                         <div>
-                            <!-- <h2 class="text-dark mb-1 w-100 text-truncate font-weight-medium"><sup
-                                    class="set-doller"></sup>80%</h2>
-                            <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Rata Rata Kepuasan
-                            </h6> -->
+                            <h2 class="text-dark mb-1 w-100 text-truncate font-weight-medium">
+                                <sup class="set-doller"></sup><?= $averageIKM; ?>%
+                            </h2>
+                            <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Rata Rata Kepuasan Unit UMRAH</h6>
                         </div>
+
                         <div class="ms-auto mt-md-3 mt-lg-0">
-                            <span class="opacity-7 text-muted"><i data-feather="dollar-sign"></i></span>
+                            <span class="opacity-7 text-muted"><i>
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" class="main-grid-item-icon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+                                    </svg>
+                                </i></span>
                         </div>
                     </div>
                 </div>
@@ -68,7 +73,10 @@
                             </h6>
                         </div>
                         <div class="ms-auto mt-md-3 mt-lg-0">
-                            <span class="opacity-7 text-muted"><i data-feather="file-plus"></i></span>
+                            <span class="opacity-7 text-muted"><i><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" class="main-grid-item-icon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                        <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" />
+                                        <rect height="4" rx="1" ry="1" width="8" x="8" y="2" />
+                                    </svg></i></span>
                         </div>
                     </div>
                 </div>
@@ -116,7 +124,7 @@
                         </div>
                         <!-- List keterangan disamping chart -->
                         <div style="flex: 1;">
-                            <ul class="list-style-none mb-0 ms-3">
+                            <ul class=" mb-0 ms-3">
                                 <li>
                                     <i class="fas fa-circle" style="color: #FF5733;"></i>
                                     <span class="text-muted">Mahasiswa</span>
@@ -179,9 +187,120 @@
             </div>
         </div>
     </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Indeks Kepuasan Mayarakat (IKM) Berdasarkan Nama Unit Kerja</h4>
+                    <canvas id="ikmChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Indeks Kepuasan Mayarakat (IKM) Berdasarkan Pelayanan Yang diberikan</h4>
+
+                    <div id="chart"></div>
+
+                </div>
+            </div>
+        </div>
+    </div>
 
 
 </div>
+<style>
+    #chart,
+    #ikmChart {
+        overflow-x: scroll;
+        white-space: nowrap;
+    }
+</style>
+
+
+
+<script>
+    // Data dari Controller
+    const labels = <?= $ikmUnitLabels; ?>;
+    const data = <?= $ikmUnitData; ?>;
+
+    // Setting ukuran chart
+    const margin = {
+            top: 40,
+            right: 10,
+            bottom: 470,
+            left: 50
+        },
+        width = 1800 - margin.left - margin.right,
+        height = 900 - margin.top - margin.bottom;
+
+    // Membuat SVG
+    const svg = d3.select("#chart")
+        .append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+        .append("g")
+        .attr("transform", `translate(${margin.left}, ${margin.top})`);
+
+
+    // Skala X dan Y
+    const x = d3.scaleBand()
+        .domain(labels)
+        .range([0, width])
+        .padding(0.1);
+
+    const y = d3.scaleLinear()
+        .domain([0, d3.max(data)])
+        .nice()
+        .range([height, 0]);
+
+    svg.append("g")
+        .attr("class", "x-axis")
+        .attr("transform", `translate(0, ${height})`) // Menambahkan translate untuk sumbu X
+        .call(d3.axisBottom(x))
+        .selectAll("text") // Mengatur rotasi teks di sumbu X
+        .attr("transform", "rotate(-85)") // Rotasi teks
+        .style("text-anchor", "end")
+        .attr("dx", "-5") // Menambah jarak horizontal di akhir label
+        .attr("dy", "-8")
+        .style("font-size", "11px");
+
+    svg.append("g")
+        .attr("class", "y-axis")
+        .call(d3.axisLeft(y));
+
+    // Membuat barchart
+    svg.selectAll(".bar")
+        .data(data)
+        .enter()
+        .append("rect")
+        .attr("class", "bar")
+        .attr("x", (d, i) => x(labels[i]))
+        .attr("y", d => y(d))
+        .attr("width", x.bandwidth())
+        .attr("height", d => height - y(d))
+        .attr("fill", "steelblue");
+
+    // Label nilai pada bar
+    svg.selectAll(".text")
+        .data(data)
+        .enter()
+        .append("text")
+        .attr("class", "label")
+        .attr("x", (d, i) => x(labels[i]) + x.bandwidth() / 5 + 15) // Menambah 5 untuk menggeser ke kanan
+        .attr("y", d => y(d) - 0) // Menempatkan label sedikit lebih tinggi
+        .attr("text-anchor", "middle")
+        .text(d => d.toFixed(2))
+        .style("font-size", "11px")
+        .attr("transform", function(d, i) {
+            const xPos = x(labels[i]) + x.bandwidth() / 2 - 5; // Geser ke kanan
+            const yPos = y(d) - 10;
+            return `rotate(-90, ${xPos}, ${yPos})`; // Rotasi 90 derajat pada titik baru
+        });
+</script>
 <script>
     var ctx = document.getElementById('doughnutChart').getContext('2d');
     var doughnutChart = new Chart(ctx, {
@@ -198,6 +317,7 @@
         },
         options: {
             responsive: true,
+            cutout: '80%', // Menentukan lebar bagian tengah (misalnya 70%)
             plugins: {
                 legend: {
                     position: 'top',
@@ -247,6 +367,7 @@
             }
         }
     });
+
     // Grafik Fakultas Dosen
     var ctxFakultasDosen = document.getElementById('barChartFakultasDosen').getContext('2d');
     new Chart(ctxFakultasDosen, {
@@ -254,7 +375,7 @@
         data: {
             labels: <?= $fakultasDosenLabels ?>,
             datasets: [{
-                label: 'Jumlah Responden',
+                label: 'Jumlah Responden <?= $respondenByKategori['dosen'] ?? 0; ?>',
                 data: <?= $fakultasDosenData ?>,
                 backgroundColor: '#3498db'
             }]
@@ -277,7 +398,7 @@
         data: {
             labels: <?= $prodiMahasiswaLabels ?>,
             datasets: [{
-                label: 'Jumlah Responden',
+                label: 'Jumlah Responden <?= $respondenByKategori['mahasiswa'] ?? 0; ?>',
                 data: <?= $prodiMahasiswaData ?>,
                 backgroundColor: '#2ecc71'
             }]
@@ -300,7 +421,7 @@
         data: {
             labels: <?= $unitTendikLabels ?>,
             datasets: [{
-                label: 'Jumlah Responden',
+                label: 'Jumlah Responden <?= $respondenByKategori['tendik'] ?? 0; ?>',
                 data: <?= $unitTendikData ?>,
                 backgroundColor: '#e74c3c'
             }]
@@ -311,6 +432,37 @@
             scales: {
                 x: {
                     beginAtZero: true
+                }
+            }
+        }
+    });
+
+    const ikmLabels = <?php echo $ikmLabels; ?>;
+    const ikmValues = <?php echo $ikmValues; ?>;
+
+    // Inisialisasi chart IKM
+    const ctxIkm = document.getElementById('ikmChart').getContext('2d');
+    new Chart(ctxIkm, {
+        type: 'bar',
+        data: {
+            labels: ikmLabels,
+            datasets: [{
+                label: 'Nilai IKM',
+                data: ikmValues,
+                backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'IKM'
+                    }
                 }
             }
         }

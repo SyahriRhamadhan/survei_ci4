@@ -84,7 +84,7 @@ class UnitPlaceholderPertanyaanSeeder extends Seeder
                 'Layanan Kelompok Kepakaran (KERJASAMA, PENELITIAN DAN PKM)',
                 'Layanan Pendidikan Khusus Profesi Advokat (PKPA)'
             ],
-            'Program Pascasarjana' => [
+            'Program Pascasarjana (Magister)' => [
                 'Layanan administrasi akademik dan kemahasiswaan',
                 'Layanan pengelolaan keuangan dan sumber daya manusia',
                 'Layanan Umum dan kerjasama'
@@ -157,7 +157,7 @@ class UnitPlaceholderPertanyaanSeeder extends Seeder
                 'Layanan MKWK',
                 'Akreditas',
             ],
-            'Unit Penunjang Akademik Laboratorium Terpadu' => [
+            'Unit Penunjang Akademik Laboratorium Terpadu (UPA Lab Terpadu)' => [
                 'Electron Microscopy & Microanalysis',
                 'Analytical Spectroscopy & Diffraction',
                 'Advanced Separation & Analytical',

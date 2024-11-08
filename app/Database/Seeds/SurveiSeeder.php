@@ -28,7 +28,7 @@ class SurveiSeeder extends Seeder
 
             $surveiId = $this->db->insertID();
 
-            $idPertanyaanRange = range(1, 14);
+            $idPertanyaanRange = range(1, 25);
 
 
             foreach ($idPertanyaanRange as $idPertanyaan) {

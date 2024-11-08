@@ -44,7 +44,7 @@
                     <td><?= $survei['jenis_unit'] ?></td>
                 </tr>
                 <tr>
-                    <td>Jenis Layanan</td>
+                    <td>Jenis Layanan/Prodi</td>
                     <td>:</td>
                     <td><?= $survei['jenis_layanan_yang_diterima'] ?></td>
                 </tr>

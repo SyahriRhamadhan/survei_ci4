@@ -310,7 +310,7 @@
         //untuk placeholder, jika memilih upps setahun sekali jennnnis unit layanan akan dihilangkan
         function toggleJenisLayanan() {
             const jenisUnit = document.getElementById('jenis_unit_select').value;
-            const jenisLayananDiv = document.getElementById('jenis_layanan_div');
+            // const jenisLayananDiv = document.getElementById('jenis_layanan_div');
 
             if (jenisUnit === 'UPPS') {
                 jenisLayananDiv.style.display = 'none';

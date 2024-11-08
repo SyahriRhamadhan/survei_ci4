@@ -13,11 +13,11 @@ class UnitKerjaSeeder extends Seeder
             ['jenis_unit' => 'Unit Layanan', 'nama_unit' => 'Biro Keuangan dan Umum (BKU)'],
             ['jenis_unit' => 'Unit Layanan', 'nama_unit' => 'Lembaga Penelitian dan Pengabdian Masyarakat (LPPM)'],
             ['jenis_unit' => 'Unit Layanan', 'nama_unit' => 'Lembaga Penjaminan Mutu dan Pengembangan Pembelajaran (LPMPP)'],
-            ['jenis_unit' => 'Unit Layanan', 'nama_unit' => 'Unit Penunjang Akademik Teknologi Informasi dan Komunikasi'],
-            ['jenis_unit' => 'Unit Layanan', 'nama_unit' => 'Unit Penunjang Akademik Bahasa'],
-            ['jenis_unit' => 'Unit Layanan', 'nama_unit' => 'Unit Penunjang Akademik Perpustakaan'],
-            ['jenis_unit' => 'Unit Layanan', 'nama_unit' => 'Unit Penunjang Akademik Pengembangan Karir dan Kewirausahaan'],
-            ['jenis_unit' => 'Unit Layanan', 'nama_unit' => 'Unit Penunjang Akademik Laboratorium Terpadu'],
+            ['jenis_unit' => 'Unit Layanan', 'nama_unit' => 'Unit Penunjang Akademik Teknologi Informasi dan Komunikasi(UPA TIK)'],
+            ['jenis_unit' => 'Unit Layanan', 'nama_unit' => 'Unit Penunjang Akademik Bahasa (UPA Bahasa)'],
+            ['jenis_unit' => 'Unit Layanan', 'nama_unit' => 'Unit Penunjang Akademik Perpustakaan (UPA Perpus)'],
+            ['jenis_unit' => 'Unit Layanan', 'nama_unit' => 'Unit Penunjang Akademik Pengembangan Karir dan Kewirausahaan (UPA PKK)'],
+            ['jenis_unit' => 'Unit Layanan', 'nama_unit' => 'Unit Penunjang Akademik Laboratorium Terpadu (UPA Lab Terpadu)'],
         ];
 
         $upps = [
@@ -26,7 +26,7 @@ class UnitKerjaSeeder extends Seeder
             ['jenis_unit' => 'UPPS', 'nama_unit' => 'Fakultas Ilmu Kelautan dan Perikanan (FIKP)'],
             ['jenis_unit' => 'UPPS', 'nama_unit' => 'Fakultas Keguruan dan Ilmu Pendidikan (FKIP)'],
             ['jenis_unit' => 'UPPS', 'nama_unit' => 'Fakultas Ilmu Sosial dan Ilmu Politik (FISIP)'],
-            ['jenis_unit' => 'UPPS', 'nama_unit' => 'Program Pascasarjana'],
+            ['jenis_unit' => 'UPPS', 'nama_unit' => 'Program Pascasarjana (Magister)'],
             ['jenis_unit' => 'UPPS', 'nama_unit' => 'Fakultas Kedokteran (FK)'],
         ];
 

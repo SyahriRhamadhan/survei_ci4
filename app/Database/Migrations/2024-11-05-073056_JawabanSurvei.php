@@ -27,6 +27,12 @@ class JawabanSurvei extends Migration
                 'unsigned' => true,
                 'null' => true,
             ],
+            'id_survei' => [
+                'type' => 'INT',
+                'constraint' => 11,
+                'unsigned' => true,
+                'null' => true,
+            ],
             'jawaban' => [
                 'type' => 'TINYINT',  // atau gunakan INT jika rentang jawaban lebih besar
                 'constraint' => 4,    // Nilai 1 sampai 4
@@ -45,6 +51,7 @@ class JawabanSurvei extends Migration
         $this->forge->addPrimaryKey('id');
         $this->forge->addForeignKey('id_pertanyaan', 'pertanyaan', 'id', 'CASCADE', 'CASCADE');
         $this->forge->addForeignKey('id_responden', 'responden', 'id', 'CASCADE', 'CASCADE');
+        $this->forge->addForeignKey('id_survei', 'survei', 'id', 'CASCADE', 'CASCADE');
         $this->forge->createTable('jawaban_survei');
     }
 

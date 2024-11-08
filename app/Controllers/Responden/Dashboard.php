@@ -8,6 +8,8 @@ use App\Models\SurveiModel;
 use App\Models\UnitKerjaModel;
 use App\Models\ProdiModel;
 use App\Models\FakultasModel;
+use App\Models\JawabanSurveiModel;
+use App\Models\UnitPlaceholderPertanyaanModel;
 
 class Dashboard extends BaseController
 {
@@ -136,6 +138,68 @@ class Dashboard extends BaseController
             $unitTendikData[] = $unit['total'];
         }
 
+        $averageIKM = $surveiModel->selectAvg('ikm')->first()['ikm'];
+
+        // Ambil data IKM berdasarkan unit placeholder
+        $unitIKMData = $surveiModel
+            ->select('unit_placeholder_pertanyaan.nama_unit, AVG(survei.ikm) as ikm_avg')
+            ->join('unit_placeholder_pertanyaan', 'unit_placeholder_pertanyaan.id = survei.id_unit_placeholder')
+            ->groupBy('unit_placeholder_pertanyaan.nama_unit')
+            ->findAll();
+
+        $ikmLabels = [];
+        $ikmValues = [];
+
+        foreach ($unitIKMData as $ikmRow) {
+            // Ambil nama unit
+            $namaUnit = $ikmRow['nama_unit'];
+
+            // Cek apakah ada singkatan dalam tanda kurung
+            if (preg_match('/\(([^)]+)\)/', $namaUnit, $matches)) {
+                // Jika ada, gunakan singkatan di dalam tanda kurung
+                $ikmLabels[] = $matches[1];
+            } else {
+                // Jika tidak ada singkatan, gunakan nama unit secara penuh
+                $ikmLabels[] = $namaUnit;
+            }
+
+            // Tambahkan nilai IKM
+            $ikmValues[] = round($ikmRow['ikm_avg'], 2);
+        }
+
+
+        // Data IKM berdasarkan unit dan layanan
+        $ikmDataByUnit = $surveiModel
+            ->select('unit_placeholder_pertanyaan.nama_unit, unit_placeholder_pertanyaan.jenis_layanan_yang_diterima, AVG(survei.ikm) as ikm_avg')
+            ->join('unit_placeholder_pertanyaan', 'unit_placeholder_pertanyaan.id = survei.id_unit_placeholder')
+            ->groupBy(['unit_placeholder_pertanyaan.nama_unit', 'unit_placeholder_pertanyaan.jenis_layanan_yang_diterima'])
+            ->findAll();
+
+        // Strukturkan data untuk chart
+        $ikmUnitLabels = [];
+        $ikmUnitData = [];
+
+        foreach ($ikmDataByUnit as $ikmRow) {
+            // Ambil nama unit
+            $namaUnit = $ikmRow['nama_unit'];
+
+            // Cek apakah ada singkatan dalam tanda kurung
+            if (preg_match('/\(([^)]+)\)/', $namaUnit, $matches)) {
+                // Jika ada, gunakan singkatan di dalam tanda kurung
+                $singkatanNamaUnit = $matches[1];
+            } else {
+                // Jika tidak ada singkatan, gunakan nama unit secara penuh
+                $singkatanNamaUnit = $namaUnit;
+            }
+
+            // Gabungkan singkatan nama unit dengan jenis layanan yang diterima
+            $ikmUnitLabels[] = "{$singkatanNamaUnit} - {$ikmRow['jenis_layanan_yang_diterima']}";
+            $ikmUnitData[] = round($ikmRow['ikm_avg'], 2);
+        }
+
+        // Mengambil nama unit unik setelah disingkat jika perlu
+        $unitNames = array_unique(array_column($ikmDataByUnit, 'nama_unit'));
+
         // Kirim data ke view
         $data = [
             'title' => 'Dashboard',
@@ -156,7 +220,13 @@ class Dashboard extends BaseController
             'prodiMahasiswaLabels' => json_encode($prodiMahasiswaLabels),
             'prodiMahasiswaData' => json_encode($prodiMahasiswaData),
             'unitTendikLabels' => json_encode($unitTendikLabels),
-            'unitTendikData' => json_encode($unitTendikData)
+            'unitTendikData' => json_encode($unitTendikData),
+            'averageIKM' => round($averageIKM, 2),
+            'ikmLabels' => json_encode($ikmLabels),
+            'ikmValues' => json_encode($ikmValues),
+            'ikmUnitLabels' => json_encode($ikmUnitLabels),
+            'ikmUnitData' => json_encode($ikmUnitData),
+            'unitNames' => $unitNames,
         ];
 
         return view('responden/dashboard', $data);

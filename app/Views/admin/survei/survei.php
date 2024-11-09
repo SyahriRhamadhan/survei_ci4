@@ -41,10 +41,12 @@
                             <thead>
                                 <tr>
                                     <th>No</th>
+                                    <th>Tahun Ajaran</th>
                                     <th>Survei</th>
                                     <th>Nama Unit</th>
                                     <th>Jenis Unit</th>
                                     <th>Status</th>
+                                    <th>Jenis Layanan/Prodi</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -53,6 +55,7 @@
                                 foreach ($survei as $s) : ?>
                                     <tr>
                                         <td><?= $no++ ?>.</td>
+                                        <td><?= htmlspecialchars($s['tahun_ajaran']) ?> - <?= htmlspecialchars($s['semester']) ?></td>
                                         <td><?= htmlspecialchars($s['judul']) ?></td>
                                         <td><?= htmlspecialchars($s['nama_unit']) ?></td>
                                         <td><?= htmlspecialchars($s['jenis_unit']) ?></td>
@@ -63,6 +66,7 @@
                                                 <span class="badge bg-danger">Off</span>
                                             <?php endif; ?>
                                         </td>
+                                        <td><?= htmlspecialchars($s['jenis_layanan_yang_diterima']) ?></td>
                                         <td>
                                             <a href="<?= base_url('admin/survei/edit/' . $s['id']) ?>" class="btn btn-primary">Edit</a>
                                             <a href="<?= base_url('admin/survei/delete/' . $s['id']) ?>" class="btn btn-danger tombol-hapus">Delete</a>
@@ -75,10 +79,12 @@
                             <tfoot>
                                 <tr>
                                     <th>No</th>
+                                    <th>Tahun Ajaran</th>
                                     <th>Survei</th>
                                     <th>Nama Unit</th>
                                     <th>Jenis Unit</th>
                                     <th>Status</th>
+                                    <th>Jenis Layanan/Prodi</th>
                                     <th>Aksi</th>
                                 </tr>
                             </tfoot>

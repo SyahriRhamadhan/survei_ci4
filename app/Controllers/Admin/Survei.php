@@ -17,7 +17,7 @@ class Survei extends BaseController
         $data = [
             'title' => 'Daftar Survei',
             'survei' => $surveiModel
-                ->select('survei.*, unit_placeholder_pertanyaan.nama_unit, unit_placeholder_pertanyaan.jenis_unit')
+                ->select('survei.*, unit_placeholder_pertanyaan.nama_unit, unit_placeholder_pertanyaan.jenis_unit, unit_placeholder_pertanyaan.jenis_layanan_yang_diterima')
                 ->join('unit_placeholder_pertanyaan', 'unit_placeholder_pertanyaan.id = survei.id_unit_placeholder')
                 ->findAll()
         ];
@@ -92,7 +92,9 @@ class Survei extends BaseController
             'tgl_mulai' => $this->request->getVar('tgl_mulai'),
             'tgl_selesai' => $this->request->getVar('tgl_selesai'),
             'status' => $this->request->getVar('status'),
-            'id_unit_placeholder' => $this->request->getVar('unit')
+            'id_unit_placeholder' => $this->request->getVar('unit'),
+            'tahun_ajaran' => $this->request->getVar('tahun_ajaran'),
+            'semester' => $this->request->getVar('semester')
         ];
 
         $surveiModel->insert($data);
@@ -121,7 +123,7 @@ class Survei extends BaseController
 
         // Ambil detail survei dan informasi placeholder
         // Ambil detail survei dan informasi placeholder
-        $survei = $surveiModel->select('survei.id as id_survei, unit_placeholder_pertanyaan.nama_unit as nama_unit, unit_placeholder_pertanyaan.jenis_unit as jenis_unit, unit_placeholder_pertanyaan.jenis_layanan_yang_diterima, survei.judul as judul_survei, survei.dekripsi as deskripsi_survei, tgl_mulai, tgl_selesai, status, id_unit_placeholder')
+        $survei = $surveiModel->select('survei.id as id_survei, unit_placeholder_pertanyaan.nama_unit as nama_unit, unit_placeholder_pertanyaan.jenis_unit as jenis_unit, unit_placeholder_pertanyaan.jenis_layanan_yang_diterima, survei.judul as judul_survei, survei.dekripsi as deskripsi_survei, tgl_mulai, tgl_selesai, status, id_unit_placeholder, semester, tahun_ajaran')
             ->where('survei.id', $id)
             ->join('unit_placeholder_pertanyaan', 'unit_placeholder_pertanyaan.id = survei.id_unit_placeholder')
             ->first();
@@ -154,13 +156,11 @@ class Survei extends BaseController
 
 
 
-
     public function update($id)
     {
         $surveiModel = new SurveiModel();
         $surveiPertanyaanModel = new SurveiPertanyaanModel();
 
-        // Perbarui data survei di tabel `survei`
         $data = [
             'judul' => $this->request->getVar('judul'),
             'dekripsi' => $this->request->getVar('deskripsi'),
@@ -168,6 +168,8 @@ class Survei extends BaseController
             'tgl_selesai' => $this->request->getVar('tgl_selesai'),
             'status' => $this->request->getVar('status'),
             'id_unit_placeholder' => $this->request->getVar('unit'),
+            'tahun_ajaran' => $this->request->getVar('tahun_ajaran'),
+            'semester' => $this->request->getVar('semester')
         ];
         $surveiModel->set($data)->where('id', $id)->update();
 
@@ -177,7 +179,6 @@ class Survei extends BaseController
         // Hapus semua hubungan lama untuk survei ini
         $surveiPertanyaanModel->where('id_survei', $id)->delete();
 
-        // Masukkan hubungan baru
         if (!empty($pertanyaanIds)) {
             foreach ($pertanyaanIds as $pertanyaanId) {
                 $surveiPertanyaanModel->insert([
@@ -187,7 +188,6 @@ class Survei extends BaseController
             }
         }
 
-        // Set flash message dan redirect
         session()->setFlashdata('berhasil', 'Data berhasil diupdate');
         return redirect()->to(base_url('/admin/survei'));
     }

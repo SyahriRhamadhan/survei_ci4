@@ -78,6 +78,22 @@
                         </div>
                     </div>
                 </div>
+                <!-- New Fields: Tahun Ajaran -->
+                <div class="input-style-1 my-1">
+                    <label class="text-dark mb-2 fs-6">Tahun Ajaran</label>
+                    <input class="fs-6 form-control" id="tahun_ajaran" type="text" name="tahun_ajaran" placeholder="Contoh: 2024/2025" required value="<?= $survei['tahun_ajaran'] ?>" />
+                    <div id="error_message" style="color: red; display: none;">Format tahun ajaran tidak valid. Gunakan format: YYYY/YYYY</div>
+                </div>
+
+                <!-- New Fields: Semester -->
+                <div class="input-style-1 my-1">
+                    <label class="text-dark mb-2 fs-6">Semester</label>
+                    <select class="form-select fs-6 mr-sm-2" id="inlineFormCustomSelect" name="semester" required>
+                        <option value="">Pilih Semester</option>
+                        <option value="Ganjil" <?= ($survei['semester'] == 'Ganjil') ? 'selected' : '' ?>>Ganjil</option>
+                        <option value="Genap" <?= ($survei['semester'] == 'Genap') ? 'selected' : '' ?>>Genap</option>
+                    </select>
+                </div>
                 <?php foreach ($pertanyaanGrouped as $kategori => $pertanyaans): ?>
                     <div class="category-group mt-5">
                         <h5 class="fw-bold text-dark">Kategori = <?= htmlspecialchars($kategori) ?></h5>

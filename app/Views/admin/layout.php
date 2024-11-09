@@ -268,6 +268,29 @@
     <script src="<?= base_url('assets/extra-libs/datatables.net-bs4/js/dataTables.responsive.min.js') ?>"></script>
     <script src="<?= base_url('dist/js/pages/datatable/datatable-basic.init.js') ?>"></script>
     <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const tahunAjaranInput = document.getElementById('tahun_ajaran');
+            const errorMessage = document.getElementById('error_message');
+
+            // Fungsi untuk memvalidasi format tahun ajaran
+            function validateTahunAjaran(input) {
+                const regex = /^\d{4}\/\d{4}$/; // Pola untuk format YYYY/YYYY
+                return regex.test(input);
+            }
+
+            tahunAjaranInput.addEventListener('input', function() {
+                const value = tahunAjaranInput.value;
+
+                if (validateTahunAjaran(value)) {
+                    errorMessage.style.display = 'none'; // Sembunyikan pesan error jika valid
+                    tahunAjaranInput.setCustomValidity(''); // Reset custom validity
+                } else {
+                    errorMessage.style.display = 'block'; // Tampilkan pesan error jika tidak valid
+                    tahunAjaranInput.setCustomValidity('Format tahun ajaran tidak valid. Gunakan format: YYYY/YYYY'); // Set custom validity message
+                }
+            });
+        });
+
         $(function() {
             <?php if (session()->has('berhasil')): ?>
                 const Toast = Swal.mixin({

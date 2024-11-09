@@ -1,3 +1,6 @@
+# Bug
+1. Filter Survei berdasarkan tahun ajaran
+Filter chart berdasarkan tahun ajaran
 # Panduan Clone Project
 ## Installation
 

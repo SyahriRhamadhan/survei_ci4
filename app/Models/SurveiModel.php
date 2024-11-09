@@ -21,7 +21,9 @@ class SurveiModel extends Model
         'id_unit_placeholder',
         'id_pertanyaan',
         'rata_rata_tertimbang',
-        'ikm'
+        'ikm',
+        'tahun_ajaran',
+        'semester'
     ];
 
     protected bool $allowEmptyInserts = false;
@@ -63,6 +65,14 @@ class SurveiModel extends Model
             ->where('survei.judul', 'Instrumen survei kepuasan Unit Layanan di lingkungan UMRAH')
             ->findAll();
     }
+    public function getSurveiWithUnitFilter()
+    {
+        return $this->select('survei.*, unit_placeholder_pertanyaan.nama_unit,unit_placeholder_pertanyaan.jenis_unit, unit_placeholder_pertanyaan.jenis_layanan_yang_diterima')
+            ->join('unit_placeholder_pertanyaan', 'unit_placeholder_pertanyaan.id = survei.id_unit_placeholder', 'left')
+            // ->where('survei.status', 'on')
+            ->findAll();
+    }
+
     public function getSurveiWithUnitMahasiswa()
     {
         return $this->select('survei.*, unit_placeholder_pertanyaan.nama_unit, unit_placeholder_pertanyaan.jenis_layanan_yang_diterima')

@@ -41,7 +41,9 @@ class RespondenSeeder extends Seeder
                 $dataResponden['id_unit'] = rand(1, 16);
             }
 
-            $respondenId = $this->db->table('responden')->insert($dataResponden);
+            $this->db->table('responden')->insert($dataResponden);
+            $respondenId = $this->db->insertID(); // Ambil ID yang baru saja disimpan
+
 
             // Insert jawaban survei untuk pertanyaan id 1-14
             $jawabanSurvei = [];
@@ -50,7 +52,8 @@ class RespondenSeeder extends Seeder
                 $jawabanSurvei[] = [
                     'id_responden' => $respondenId,
                     'id_pertanyaan' => $pertanyaanId,
-                    'jawaban' => $jawaban
+                    'jawaban' => $jawaban,
+                    'id_survei' => $dataResponden['id_survei']
                 ];
             }
             $this->db->table('jawaban_survei')->insertBatch($jawabanSurvei);

@@ -20,7 +20,7 @@
                 <?= csrf_field() ?>
                 <div class="input-style-1 my-2">
                     <label class="text-dark mb-2 fs-6">Tipe/Kategori Unit</label>
-                    <select id="jenis_unit_select" class="fs-6 form-control <?= ($validation->hasError('jenis_unit')) ? 'is-invalid' : '' ?>" name="jenis_unit">
+                    <select id="" class="fs-6 form-control <?= ($validation->hasError('jenis_unit')) ? 'is-invalid' : '' ?>" name="jenis_unit">
                         <option value="" disabled>Pilih Tipe/Kategori Unit</option>
                         <option value="UPPS" <?= ($placeholder['jenis_unit'] == 'UPPS') ? 'selected' : '' ?>>UPPS (Setahun Sekali)</option>
                         <option value="Unit Layanan" <?= ($placeholder['jenis_unit'] == 'Unit Layanan') ? 'selected' : '' ?>>Unit Layanan</option>

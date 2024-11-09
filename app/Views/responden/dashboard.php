@@ -15,6 +15,127 @@
         </div>
 
     </div>
+    <form>
+        <?= csrf_field() ?>
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md">
+                        <h3 class="text-dark font-weight-medium">Cek Hasil Berdasarkan Filter</h3>
+                        <div class="row">
+                            <!-- Tambahkan Select Jenis Layanan -->
+                            <div class="col-md-3">
+                                <div class="input-style-1 mt-3">
+                                    <label class="text-dark mb-2 fs-6">Jenis Layanan</label>
+                                    <select class="form-control fs-6" id="jenis_unit" name="jenis_unit" onchange="filterJenisLayanan2()">
+                                        <option value="">Pilih Jenis Layanan</option>
+                                        <option value="UPPS">UPPS</option>
+                                        <option value="Unit Layanan">Unit Layanan</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="input-style-1 mt-3">
+                                    <label class="text-dark mb-2 fs-6">Unit Layanan</label>
+                                    <svg data-toggle="tooltip" title="Jika Kosong/Tak Tampil Berarti Survei Tidak Tersedia" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-info-circle">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                        <path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0" />
+                                        <path d="M12 9h.01" />
+                                        <path d="M11 12h1v4h1" />
+                                    </svg>
+                                    <select class="form-control fs-6" id="unit_layanan2" name="unit_layanan" onchange="filterJenisLayanan2()">
+                                        <option value="">Pilih Unit Layanan</option>
+                                        <?php
+                                        $unitSeen = [];
+                                        foreach ($unitList as $unit):
+                                            if (in_array($unit['nama_unit'], $unitSeen)) {
+                                                continue;
+                                            }
+                                            $unitSeen[] = $unit['nama_unit'];
+                                        ?>
+                                            <option value="<?= htmlspecialchars($unit['nama_unit']) ?>" data-jenis="<?= htmlspecialchars($unit['jenis_layanan_yang_diterima']) ?>">
+                                                <?= htmlspecialchars($unit['nama_unit']) ?>
+                                            </option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="input-style-1 mt-3">
+                                    <!-- Tambahkan tooltip pada label -->
+                                    <label class="text-dark mb-2 fs-6">
+                                        Jenis Layanan yang Diterima
+                                    </label>
+                                    <svg data-toggle="tooltip" title="Jika Kosong/Tak Tampil Berarti Survei Tidak Tersedia" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-info-circle">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                        <path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0" />
+                                        <path d="M12 9h.01" />
+                                        <path d="M11 12h1v4h1" />
+                                    </svg>
+
+                                    <select class="form-control fs-6" id="jenis_layanan_yang_diterima2" name="jenis_layanan_yang_diterima">
+                                        <option value="">Pilih Jenis Layanan yang Diterima</option>
+                                        <?php foreach ($unitList as $unit): ?>
+                                            <?php if (!empty($unit['jenis_layanan_yang_diterima'])): ?>
+                                                <option class="jenis-option2" value="<?= htmlspecialchars($unit['id']) ?>" data-unit2="<?= htmlspecialchars($unit['nama_unit']) ?>" data-jenis="<?= htmlspecialchars($unit['jenis_unit']) ?>">
+                                                    <?= htmlspecialchars($unit['jenis_layanan_yang_diterima']) ?>
+                                                </option>
+                                            <?php endif; ?>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md">
+                                <div class="text-center mt-5">
+                                    <button type="button" class="btn btn-success" onclick="goToDetail2()">Cek Survei</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <script>
+        function filterJenisLayanan2() {
+            const jenisLayanan = document.getElementById('jenis_unit').value;
+            const unitLayanan = document.getElementById('unit_layanan2').value;
+            const jenisLayananSelect = document.getElementById('jenis_layanan_yang_diterima2');
+            const jenisOptions = document.querySelectorAll('.jenis-option2');
+
+            jenisLayananSelect.value = '';
+            jenisOptions.forEach(option => {
+                // Filter berdasarkan jenis layanan dan unit layanan
+                const optionJenis = option.getAttribute('data-jenis');
+                const optionUnit = option.getAttribute('data-unit2');
+                option.style.display = (optionJenis === jenisLayanan && optionUnit === unitLayanan) ? 'block' : 'none';
+            });
+        }
+
+        function goToDetail2() {
+            const unitLayanan = document.getElementById('unit_layanan2').value;
+            const jenisLayananYangDiterima = document.getElementById('jenis_layanan_yang_diterima2').value;
+
+            if (unitLayanan && jenisLayananYangDiterima) {
+                const url = `<?= base_url('responden/chartfilter') ?>/${jenisLayananYangDiterima}`;
+                window.location.href = url;
+            } else {
+                alert("Silakan pilih Jenis Layanan, Unit Layanan, dan Jenis Layanan yang Diterima terlebih dahulu.");
+            }
+        }
+        document.addEventListener("DOMContentLoaded", function() {
+            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-toggle="tooltip"]'));
+            var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl);
+            });
+        });
+    </script>
+
+
     <!-- *************************************************************** -->
     <!-- Start First Cards -->
     <!-- *************************************************************** -->
@@ -47,7 +168,7 @@
                             <h2 class="text-dark mb-1 w-100 text-truncate font-weight-medium">
                                 <sup class="set-doller"></sup><?= $averageIKM; ?>%
                             </h2>
-                            <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Rata Rata Kepuasan Unit UMRAH</h6>
+                            <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Rata-Rata IKM UMRAH</h6>
                         </div>
 
                         <div class="ms-auto mt-md-3 mt-lg-0">

@@ -10,6 +10,8 @@ use App\Models\ProdiModel;
 use App\Models\FakultasModel;
 use App\Models\JawabanSurveiModel;
 use App\Models\UnitPlaceholderPertanyaanModel;
+use App\Models\SurveiPertanyaanModel;
+use App\Models\PertanyaanModel;
 
 class Dashboard extends BaseController
 {
@@ -198,12 +200,14 @@ class Dashboard extends BaseController
         }
 
         // Mengambil nama unit unik setelah disingkat jika perlu
-        $unitNames = array_unique(array_column($ikmDataByUnit, 'nama_unit'));
-
+        $unitNames = array_unique(array_column($ikmDataByUnit, 'nama_unit'));;
+        $unitModel = new SurveiModel();
+        // $surveiModel = new SurveiModel();
         // Kirim data ke view
         $data = [
             'title' => 'Dashboard',
             'currentPage' => 'dashboard',
+            'unitList' => $unitModel->getSurveiWithUnitFilter(),
             'totalResponden' => $totalResponden,
             'responseHariIni' => $responseHariIni,
             'percentageChange' => $percentageChange,
@@ -230,5 +234,50 @@ class Dashboard extends BaseController
         ];
 
         return view('responden/dashboard', $data);
+    }
+
+    public function filter($id)
+    {
+        $prodiModel = new ProdiModel();
+        $fakultasModel = new FakultasModel();
+        $surveiModel = new SurveiModel();
+        $unitModel = new SurveiModel();
+        $surveiPertanyaanModel = new SurveiPertanyaanModel();
+        $pertanyaanModel = new PertanyaanModel();
+        $unitKerja = new UnitKerjaModel();
+
+        $survei = $surveiModel
+            ->select('survei.*, unit_placeholder_pertanyaan.nama_unit, unit_placeholder_pertanyaan.jenis_unit, unit_placeholder_pertanyaan.jenis_layanan_yang_diterima')
+            ->join('unit_placeholder_pertanyaan', 'unit_placeholder_pertanyaan.id = survei.id_unit_placeholder')
+            ->find($id);
+
+        if (!$survei) {
+            throw new \CodeIgniter\Exceptions\PageNotFoundException("Survei dengan ID $id tidak ditemukan.");
+        }
+
+        $pertanyaanTerkait = $surveiPertanyaanModel
+            ->where('id_survei', $id)
+            ->findAll();
+
+        $pertanyaanGrouped = [];
+        foreach ($pertanyaanTerkait as $pertanyaan) {
+            $detailPertanyaan = $pertanyaanModel->find($pertanyaan['id_pertanyaan']);
+            $kategori = $detailPertanyaan['tipe_pertanyaan'];
+
+            $detailPertanyaan['pertanyaan'] = str_replace('<tag>', $survei['nama_unit'], $detailPertanyaan['pertanyaan']);
+
+            $pertanyaanGrouped[$kategori][] = $detailPertanyaan;
+        }
+
+        $data = [
+            'title' => 'Haisi Survei',
+            'survei' => $survei,
+            'pertanyaanGrouped' => $pertanyaanGrouped,
+            'unitList' => $unitModel->getSurveiWithUnit(),
+            'prodiList' => $prodiModel->findAll(),
+            'fakultasList' => $fakultasModel->findAll(),
+            'unitKerja' => $unitKerja->findAll()
+        ];
+        return view('responden/chartfilter', $data);
     }
 }

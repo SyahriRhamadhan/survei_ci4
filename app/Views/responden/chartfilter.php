@@ -1,9 +1,7 @@
-<?= $this->extend('admin/layout') ?>
-
+<?= $this->extend('responden/layout') ?>
 <?= $this->section('content') ?>
-
 <div class="row m-3">
-    <h1>Detail Survei</h1>
+    <h3>Hasil Survei <?= $survei['nama_unit'] ?> - <?= $survei['jenis_layanan_yang_diterima'] ?> </h3>
     <div class="card col-md-12">
         <div class="card-body">
             <table class="table">
@@ -11,6 +9,11 @@
                     <td>Judul</td>
                     <td>:</td>
                     <td><?= $survei['judul'] ?></td>
+                </tr>
+                <tr>
+                    <td>Ideks Kepuasan Masyarakat</td>
+                    <td>:</td>
+                    <td><?= $survei['ikm'] ?></td>
                 </tr>
                 <tr>
                     <td>Deskripsi</td>
@@ -34,11 +37,6 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>Tahun ajaran</td>
-                    <td>:</td>
-                    <td><?= $survei['tahun_ajaran'] ?> - <?= $survei['semester'] ?></td>
-                </tr>
-                <tr>
                     <td>Nama Unit</td>
                     <td>:</td>
                     <td><?= $survei['nama_unit'] ?></td>
@@ -49,43 +47,12 @@
                     <td><?= $survei['jenis_unit'] ?></td>
                 </tr>
                 <tr>
-                    <td>Jenis Layanan/Prodi</td>
+                    <td>Jenis Layanan</td>
                     <td>:</td>
                     <td><?= $survei['jenis_layanan_yang_diterima'] ?></td>
                 </tr>
             </table>
         </div>
     </div>
-</div>
-<div class="row m-3">
-    <h1>Pertanyaan</h1>
-
-    <?php
-    $kategoriIndex = 0;
-    foreach ($pertanyaanGrouped as $kategori => $pertanyaans):
-        $kategoriLetter = chr(97 + $kategoriIndex);
-        $kategoriIndex++;
-    ?>
-        <div class="col-md-6 mb-3">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="fw-bold text-dark"><?= htmlspecialchars($kategoriLetter) ?>: <?= htmlspecialchars($kategori) ?></h5>
-
-                    <?php
-                    $pertanyaanIndex = 1;
-                    foreach ($pertanyaans as $pertanyaan):
-                    ?>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="pertanyaan[]" value="<?= htmlspecialchars($pertanyaan['id']) ?>" disabled>
-                            <label class="form-check-label text-dark">
-                                <?= $pertanyaanIndex ?>. <?= htmlspecialchars($pertanyaan['pertanyaan']) ?>
-                            </label>
-                        </div>
-                        <?php $pertanyaanIndex++; ?>
-                    <?php endforeach; ?>
-                </div>
-            </div>
-        </div>
-    <?php endforeach; ?>
 </div>
 <?= $this->endSection() ?>

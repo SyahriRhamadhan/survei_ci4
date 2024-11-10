@@ -27,8 +27,8 @@
                 <?= csrf_field() ?>
 
                 <div class="input-style-1">
-                    <label class="text-dark mb-2 fs-6">Nama Unit</label>
-                    <input class="fs-6 form-control <?= ($validation->hasError('nama_unit')) ? 'is-invalid' : '' ?>" type="text" name="nama_unit" placeholder="*FTTK" />
+                    <label class="text-dark mb-2 fs-6">Nama Unit <span class="text-success">*Tambahkan juga singkatannya cth: FTTK</span></label>
+                    <input class="fs-6 form-control <?= ($validation->hasError('nama_unit')) ? 'is-invalid' : '' ?>" type="text" name="nama_unit" placeholder="Fakultas Teknik dan Teknologi Kemaritman (FTTK)" />
                     <div class="invalid-feedback"><?= $validation->getError('nama_unit') ?></div>
                 </div>
 

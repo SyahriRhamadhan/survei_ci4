@@ -27,7 +27,7 @@
                 <?= csrf_field() ?>
 
                 <div class="input-style-1">
-                    <label class="text-dark mb-2 fs-6">Pertanyaan</label>
+                    <label class="text-dark mb-2 fs-6">Pertanyaan                     <label class="text-dark mb-2 fs-6">Pertanyaan <span class="text-success">*Tambahkan pada pertanyaan jika ingin untuk semua unit &lt;tag&gt; </span></label></label>
                     <input value="<?= $pertanyaan['pertanyaan'] ?>" class="fs-6  form-control <?= ($validation->hasError('pertanyaan')) ? 'is-invalid' : '' ?>" type="text" name="pertanyaan" placeholder="*Contoh Prosedur pelayanan di <unit layanan> mudah, sesuai dengan aturan. ==> <UPPS> atau <unit layanan> sebagai placeholder" />
                     <div class="invalid-feedback"><?= $validation->getError('pertanyaan') ?></div>
                 </div>

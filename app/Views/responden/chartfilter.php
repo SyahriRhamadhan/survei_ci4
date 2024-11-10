@@ -13,9 +13,10 @@
                     <td><?= $survei['judul'] ?></td>
                 </tr>
                 <tr>
-                    <td>Ideks Kepuasan Masyarakat</td>
+                    <td>Indeks Kepuasan Masyarakat</td>
                     <td>:</td>
-                    <td><?= $survei['ikm'] ?></td>
+                    <td id="ikmValue"><?= $survei['ikm'] ?> (<span id="ikmCategory"></span>)
+                    </td>
                 </tr>
                 <tr>
                     <td>Deskripsi</td>
@@ -57,11 +58,101 @@
         </div>
     </div>
 </div>
-<div class="row card">
-    <div class="card-body">
-        <canvas id="surveyChart"></canvas>
+<div class="row m-1">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <canvas id="kategoriRespondenChart"></canvas>
+            </div>
+        </div>
     </div>
 </div>
+<div class="row m-1">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <canvas id="surveyChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    const ikmValueElement = document.getElementById('ikmValue');
+    const ikmCategoryElement = document.getElementById('ikmCategory');
+
+    const ikmValue = parseFloat(ikmValueElement.textContent);
+
+    let ikmCategory = '';
+    if (ikmValue >= 1 && ikmValue <= 64.99) {
+        ikmCategory = 'Tidak Baik';
+    } else if (ikmValue >= 65 && ikmValue <= 76.60) {
+        ikmCategory = 'Kurang Baik';
+    } else if (ikmValue >= 76.61 && ikmValue <= 88.30) {
+        ikmCategory = 'Baik';
+    } else if (ikmValue >= 88.31 && ikmValue <= 100) {
+        ikmCategory = 'Sangat Baik';
+    } else {
+        ikmCategory = 'Nilai IKM tidak valid';
+    }
+
+    ikmCategoryElement.textContent = ikmCategory;
+</script>
+<script>
+    const ctx = document.getElementById('kategoriRespondenChart').getContext('2d');
+    const kategoriRespondenChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: <?= json_encode($kategoriLabels) ?>,
+            datasets: [{
+                label: 'Asal Responden',
+                data: <?= json_encode($kategoriCounts) ?>,
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255, 159, 64, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                title: {
+                    display: true,
+                    text: 'Asal Responden\nTotal: <?= $totalResponden ?>',
+                    font: {
+                        size: 20,
+                    },
+                    padding: {
+                        top: 10,
+                        bottom: 30
+                    }
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return context.label + ': ' + context.raw;
+                        }
+                    }
+                }
+            }
+        }
+    });
+</script>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         const ctx = document.getElementById('surveyChart').getContext('2d');
@@ -152,14 +243,12 @@
                         ticks: {
                             callback: function(value) {
                                 let label = this.getLabelForValue(value);
-
-                                // Pisahkan label berdasarkan spasi agar setiap kata tetap utuh
                                 let words = label.split(" ");
                                 let lines = [];
                                 let currentLine = "";
 
                                 words.forEach((word) => {
-                                    if ((currentLine + word).length <= 50) {
+                                    if ((currentLine + word).length <= 70) {
                                         currentLine += word + " ";
                                     } else {
                                         lines.push(currentLine.trim());
@@ -167,28 +256,12 @@
                                     }
                                 });
 
-                                // Tambahkan baris terakhir
                                 lines.push(currentLine.trim());
-
-                                // Batasi output hanya pada 2 baris pertama jika terlalu banyak
                                 return lines.slice(0, 2);
                             },
-                            maxRotation: -90, // Atur rotasi ke vertikal
-                            minRotation: 45, // Atur rotasi awal
-                            autoSkip: false, // Agar semua label tampil
-                        },
-                        grid: {
-                            display: true,
-                            drawOnChartArea: true, // Garis batas akan muncul pada area chart
-                            color: '#e0e0e0', // Warna garis batas antar label
-                            lineWidth: 1, // Lebar garis
-                        },
-                        title: {
-                            display: true,
-                            text: 'Pertanyaan',
-                            font: {
-                                size: 16,
-                            }
+                            maxRotation: -90,
+                            minRotation: 45,
+                            autoSkip: false,
                         }
                     },
                     y: {
@@ -196,7 +269,7 @@
                         beginAtZero: true,
                         title: {
                             display: true,
-                            text: 'Jumlah Responden',
+                            text: 'Jumlah Responden <?= $totalResponden ?>',
                             font: {
                                 size: 16,
                             },
@@ -212,9 +285,9 @@
                         }
                     }
                 }
-
             }
         });
+
     });
 </script>
 

@@ -28,7 +28,7 @@
                                 <div class="input-style-1 mt-3">
                                     <label class="text-dark mb-2 fs-6">Jenis Layanan</label>
                                     <select class="form-control fs-6" id="jenis_unit" name="jenis_unit" onchange="filterJenisLayanan2()">
-                                        <option value="">Pilih Jenis Layanan</option>
+                                        <option value=""></option>
                                         <option value="UPPS">UPPS</option>
                                         <option value="Unit Layanan">Unit Layanan</option>
                                     </select>
@@ -45,7 +45,7 @@
                                         <path d="M11 12h1v4h1" />
                                     </svg>
                                     <select class="form-control fs-6" id="unit_layanan2" name="unit_layanan" onchange="filterJenisLayanan2()">
-                                        <option value="">Pilih Unit Layanan</option>
+                                        <option value=""></option>
                                         <?php
                                         $unitSeen = [];
                                         foreach ($unitList as $unit):
@@ -76,7 +76,7 @@
                                     </svg>
 
                                     <select class="form-control fs-6" id="jenis_layanan_yang_diterima2" name="jenis_layanan_yang_diterima">
-                                        <option value="">Pilih Jenis Layanan yang Diterima</option>
+                                        <option value=""></option>
                                         <?php foreach ($unitList as $unit): ?>
                                             <?php if (!empty($unit['jenis_layanan_yang_diterima'])): ?>
                                                 <option class="jenis-option2" value="<?= htmlspecialchars($unit['id']) ?>" data-unit2="<?= htmlspecialchars($unit['nama_unit']) ?>" data-jenis="<?= htmlspecialchars($unit['jenis_unit']) ?>">

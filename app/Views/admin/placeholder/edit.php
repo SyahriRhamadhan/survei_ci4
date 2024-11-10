@@ -28,7 +28,7 @@
                     <div class="invalid-feedback"><?= esc($validation->getError('jenis_unit')) ?></div>
                 </div>
                 <div class="input-style-1">
-                    <label class="text-dark mb-2 fs-6">Nama Unit/Layanan</label>
+                    <label class="text-dark mb-2 fs-6">Nama Unit/Layanan <span class="text-success">*Tambahkan juga singkatannya cth: FTTK</span></label>
                     <input value="<?= esc($placeholder['nama_unit']) ?>" class="fs-6 form-control <?= ($validation->hasError('nama_unit')) ? 'is-invalid' : '' ?>" type="text" name="nama_unit" placeholder="" />
                     <div class="invalid-feedback"><?= esc($validation->getError('nama_unit')) ?></div>
                 </div>
@@ -50,7 +50,7 @@
 
 <!-- JavaScript to toggle the visibility of Jenis Layanan field -->
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function() {
         const jenisUnitSelect = document.getElementById('jenis_unit_select');
         const jenisLayananDiv = document.getElementById('jenis_layanan_div');
 

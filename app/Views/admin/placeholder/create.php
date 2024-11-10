@@ -43,7 +43,7 @@ $placeholders = $placeholderModel->select('nama_unit')->findAll();
                 </div>
 
                 <div class="input-style-1">
-                    <label class="text-dark mb-2 fs-6">Nama Unit/Layanan</label>
+                    <label class="text-dark mb-2 fs-6">Nama Unit/Layanan <span class="text-success">*Tambahkan juga singkatannya cth: FTTK</span></label>
                     <input
                         class="fs-6 form-control <?= ($validation->hasError('nama_unit')) ? 'is-invalid' : '' ?>"
                         type="text"

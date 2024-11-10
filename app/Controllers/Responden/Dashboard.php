@@ -242,6 +242,10 @@ class Dashboard extends BaseController
         $jawabanSurveiModel = new JawabanSurveiModel();
         $respondenModel = new RespondenModel();
         $pertanyaanModel = new PertanyaanModel();
+        $unitModel = new UnitKerjaModel();
+        $prodiModel = new ProdiModel();
+        $fakultasModel = new FakultasModel();
+        $placeholder = new UnitPlaceholderPertanyaanModel();
 
         // Fetch the survey data
         $survei = $surveiModel
@@ -259,9 +263,20 @@ class Dashboard extends BaseController
             ->groupBy('id_pertanyaan')
             ->findColumn('id_pertanyaan');
 
+        $namaUnit = $survei['nama_unit'];
+        $singkatan = '';
+        if (preg_match('/\((.*?)\)/', $namaUnit, $matches)) {
+            $singkatan = $matches[1]; 
+        } else {
+            $singkatan = $namaUnit;
+        }
+
         if (!empty($questionIds)) {
             $questions = $pertanyaanModel->whereIn('id', $questionIds)->findAll();
 
+            foreach ($questions as &$question) {
+                $question['pertanyaan'] = str_replace('<tag>', $singkatan, $question['pertanyaan']);
+            }
             $responseCounts = $jawabanSurveiModel
                 ->select('id_pertanyaan, jawaban, COUNT(*) as count')
                 ->where('id_survei', $id)
@@ -273,11 +288,40 @@ class Dashboard extends BaseController
             $responseCounts = [];
         }
 
+        // Untuk chart kategori responden
+        $kategoriRespondenCounts = $respondenModel
+            ->select('kategori_responden, COUNT(DISTINCT responden.id) as count')
+            ->join('jawaban_survei', 'jawaban_survei.id_responden = responden.id')
+            ->where('jawaban_survei.id_survei', $id)
+            ->groupBy('kategori_responden')
+            ->findAll();
+
+
+        $kategoriLabels = [];
+        $kategoriCounts = [];
+        foreach ($kategoriRespondenCounts as $kategori) {
+            $kategoriLabels[] = $kategori['kategori_responden'];
+            $kategoriCounts[] = $kategori['count'];
+        }
+
+        // Menghitung total responden 
+        $totalResponden = $respondenModel
+            ->select('COUNT(DISTINCT responden.id) as total_responden')
+            ->join('jawaban_survei', 'jawaban_survei.id_responden = responden.id')
+            ->where('jawaban_survei.id_survei', $id)
+            ->first();
+
+        $totalResponden = $totalResponden ? $totalResponden['total_responden'] : 0;
+
+
         $data = [
             'title' => 'Hasil Survei',
             'survei' => $survei,
             'questions' => $questions,
             'responseCounts' => $responseCounts,
+            'kategoriLabels' => $kategoriLabels,
+            'kategoriCounts' => $kategoriCounts,
+            'totalResponden' => $totalResponden,
         ];
         return view('responden/chartfilter', $data);
     }

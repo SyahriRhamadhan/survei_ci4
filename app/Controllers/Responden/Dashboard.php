@@ -238,14 +238,12 @@ class Dashboard extends BaseController
 
     public function filter($id)
     {
-        $prodiModel = new ProdiModel();
-        $fakultasModel = new FakultasModel();
         $surveiModel = new SurveiModel();
-        $unitModel = new SurveiModel();
-        $surveiPertanyaanModel = new SurveiPertanyaanModel();
+        $jawabanSurveiModel = new JawabanSurveiModel();
+        $respondenModel = new RespondenModel();
         $pertanyaanModel = new PertanyaanModel();
-        $unitKerja = new UnitKerjaModel();
 
+        // Fetch the survey data
         $survei = $surveiModel
             ->select('survei.*, unit_placeholder_pertanyaan.nama_unit, unit_placeholder_pertanyaan.jenis_unit, unit_placeholder_pertanyaan.jenis_layanan_yang_diterima')
             ->join('unit_placeholder_pertanyaan', 'unit_placeholder_pertanyaan.id = survei.id_unit_placeholder')
@@ -255,28 +253,31 @@ class Dashboard extends BaseController
             throw new \CodeIgniter\Exceptions\PageNotFoundException("Survei dengan ID $id tidak ditemukan.");
         }
 
-        $pertanyaanTerkait = $surveiPertanyaanModel
+        $questionIds = $jawabanSurveiModel
+            ->select('id_pertanyaan')
             ->where('id_survei', $id)
-            ->findAll();
+            ->groupBy('id_pertanyaan')
+            ->findColumn('id_pertanyaan');
 
-        $pertanyaanGrouped = [];
-        foreach ($pertanyaanTerkait as $pertanyaan) {
-            $detailPertanyaan = $pertanyaanModel->find($pertanyaan['id_pertanyaan']);
-            $kategori = $detailPertanyaan['tipe_pertanyaan'];
+        if (!empty($questionIds)) {
+            $questions = $pertanyaanModel->whereIn('id', $questionIds)->findAll();
 
-            $detailPertanyaan['pertanyaan'] = str_replace('<tag>', $survei['nama_unit'], $detailPertanyaan['pertanyaan']);
-
-            $pertanyaanGrouped[$kategori][] = $detailPertanyaan;
+            $responseCounts = $jawabanSurveiModel
+                ->select('id_pertanyaan, jawaban, COUNT(*) as count')
+                ->where('id_survei', $id)
+                ->whereIn('id_pertanyaan', $questionIds)
+                ->groupBy('id_pertanyaan, jawaban')
+                ->findAll();
+        } else {
+            $questions = [];
+            $responseCounts = [];
         }
 
         $data = [
-            'title' => 'Haisi Survei',
+            'title' => 'Hasil Survei',
             'survei' => $survei,
-            'pertanyaanGrouped' => $pertanyaanGrouped,
-            'unitList' => $unitModel->getSurveiWithUnit(),
-            'prodiList' => $prodiModel->findAll(),
-            'fakultasList' => $fakultasModel->findAll(),
-            'unitKerja' => $unitKerja->findAll()
+            'questions' => $questions,
+            'responseCounts' => $responseCounts,
         ];
         return view('responden/chartfilter', $data);
     }

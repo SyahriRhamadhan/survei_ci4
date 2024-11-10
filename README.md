@@ -1,6 +1,7 @@
 # Bug
 1. Filter Survei berdasarkan tahun ajaran
 Filter chart berdasarkan tahun ajaran
+2. ikm bug pada controller/responden/layanan/stroe
 # Panduan Clone Project
 ## Installation
 

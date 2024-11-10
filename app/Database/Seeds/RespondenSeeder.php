@@ -13,7 +13,7 @@ class RespondenSeeder extends Seeder
         $jamSurveiOptions = ['08.00 - 12.00', '13.00 - 17.00'];
 
         // Insert data responden dan jawaban survei
-        for ($i = 1; $i <= 5000; $i++) {
+        for ($i = 1; $i <= 15000; $i++) {
             $umur = rand(18, 60);
             $angkatan = "20" . rand(10, 23);
             $tanggalSurvei = date('Y-m-d', strtotime("-" . rand(1, 365) . " days"));

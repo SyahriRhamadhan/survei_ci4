@@ -89,7 +89,47 @@
             </div>
         </div>
     </div>
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="card-label">
+                    Indeks Kepuasan Masyarakat (IKM): <strong><?= $IKM ?> (<?= $ikmCategory ?>)</strong>
+                </div>
+                <canvas id="weightedAverageChart"></canvas>
+            </div>
+        </div>
+    </div>
 </div>
+<script>
+    const ctx3 = document.getElementById('weightedAverageChart').getContext('2d');
+    const weightedAverageChart = new Chart(ctx3, {
+        type: 'bar',
+        data: {
+            labels: <?= json_encode($typeLabels) ?>,
+            datasets: [{
+                label: 'Rata-Rata Tertimbang',
+                data: <?= json_encode($weightedAverageValues) ?>,
+                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 2
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            },
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Rata-Rata Tertimbang Aspek Unsur Yang Diukur'
+                }
+            }
+        }
+    });
+</script>
+
 <script>
     const genderCtx = document.getElementById('genderChart').getContext('2d');
     const genderChart = new Chart(genderCtx, {
@@ -326,7 +366,7 @@
             return responseCountsArray;
         });
 
-        const originalTitle = 'Penilaian Terkait Pertanyaan <?= $survei['nama_unit'] ?>-<?= $survei['jenis_layanan_yang_diterima'] ?>(Skala 1-4)';
+        const originalTitle = 'Penilaian Terkait Pertanyaan <?= $survei['nama_unit'] ?>-<?= $survei['jenis_layanan_yang_diterima'] ?>(Skala 4-1)';
         const wrappedTitle = wrapText(originalTitle, 7);
 
         const chartData = {

@@ -346,6 +346,51 @@ class Dashboard extends BaseController
             $genderData[] = $gender['count'];
         }
 
+        $totalUnsur = $pertanyaanModel->select('DISTINCT tipe_pertanyaan')->countAllResults();
+        $bobot = 1 / $totalUnsur; // Bobot tertimbang untuk setiap unsur
+
+        // Ambil semua jawaban berdasarkan tipe_pertanyaan
+        $jawabanPerKategori = $jawabanSurveiModel->select('pertanyaan.tipe_pertanyaan, jawaban')
+            ->join('pertanyaan', 'pertanyaan.id = jawaban_survei.id_pertanyaan')
+            ->where('jawaban_survei.id_survei', $id)
+            ->findAll();
+
+        $kategoriJawaban = [];
+        foreach ($jawabanPerKategori as $jawaban) {
+            $kategoriJawaban[$jawaban['tipe_pertanyaan']][] = $jawaban['jawaban'];
+        }
+
+        // Menghitung rata-rata tertimbang berdasarkan jawaban
+        $rataRataTertimbang = [];
+        $bobotJawaban = [4 => 4, 3 => 3, 2 => 2, 1 => 1]; // Bobot untuk setiap nilai jawaban (1-4)
+        foreach ($kategoriJawaban as $kategori => $jawabans) {
+            $totalBobot = 0;
+            $totalJawaban = 0;
+            foreach ($jawabans as $jawaban) {
+                $totalBobot += $bobotJawaban[$jawaban]; // Kalikan jawaban dengan bobotnya
+                $totalJawaban++;
+            }
+            $rataRataTertimbang[$kategori] = $totalJawaban > 0 ? $totalBobot / $totalJawaban : 0;
+        }
+
+        // Menghitung total nilai rata-rata tertimbang
+        $totalNilai = array_sum($rataRataTertimbang);
+        $totalKategori = count($rataRataTertimbang);
+        $IKM = $totalKategori > 0 ? ($totalNilai / $totalKategori) * 25 : 0; // Konversi ke skala 25-100
+
+        // Menentukan kategori IKM berdasarkan nilai
+        if ($IKM >= 1 && $IKM <= 64.99) {
+            $ikmCategory = 'Tidak Baik';
+        } elseif ($IKM >= 65 && $IKM <= 76.60) {
+            $ikmCategory = 'Kurang Baik';
+        } elseif ($IKM >= 76.61 && $IKM <= 88.30) {
+            $ikmCategory = 'Baik';
+        } elseif ($IKM >= 88.31 && $IKM <= 100) {
+            $ikmCategory = 'Sangat Baik';
+        } else {
+            $ikmCategory = 'Nilai IKM tidak valid';
+        }
+
         $data = [
             'title' => 'Hasil Survei',
             'survei' => $survei,
@@ -358,6 +403,10 @@ class Dashboard extends BaseController
             'angkatanData' => $angkatanData,
             'genderLabels' => $genderLabels,
             'genderData' => $genderData,
+            'typeLabels' => array_keys($rataRataTertimbang),
+            'weightedAverageValues' => array_values($rataRataTertimbang),
+            'IKM' => round($IKM, 2), // Bulatkan nilai IKM
+            'ikmCategory' => $ikmCategory, // Kategori IKM
         ];
         return view('responden/chartfilter', $data);
     }

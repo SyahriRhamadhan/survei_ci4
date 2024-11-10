@@ -8,7 +8,7 @@
             <div class="card border-end">
                 <div class="card-body">
                     <div class="d-flex justify-content-center">
-                        <h3 class="page-title text-truncate  text-center text-dark font-weight-medium mb-1">Selamat Datang di Survei Universitas Maritim Raja Ali Haji</h3>
+                        <h3 class="page-title  text-center text-dark font-weight-medium mb-1">Selamat Datang di Survei Universitas Maritim Raja Ali Haji</h3>
                     </div>
                 </div>
             </div>
@@ -21,16 +21,53 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-md">
-                        <h3 class="text-dark font-weight-medium">Cek Hasil Berdasarkan Filter</h3>
+                        <h3 class="text-dark font-weight-medium">Cek Hasil Berdasarkan Filter <svg data-toggle="tooltip" title="Harap Urut Ketika mengisi filter" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-info-circle">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                <path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0" />
+                                <path d="M12 9h.01" />
+                                <path d="M11 12h1v4h1" />
+                            </svg></h3>
                         <div class="row">
-                            <!-- Tambahkan Select Jenis Layanan -->
+                            <div class="col-md-3">
+                                <div class="input-style-1 mt-3">
+                                    <label class="text-dark mb-2 fs-6">Judul</label>
+                                    <select class="form-control fs-6" id="judul" name="judul" onchange="filterOptions()">
+                                        <option value=""></option>
+                                        <?php
+                                        $displayedTitles = [];
+                                        foreach ($unitList as $key) {
+                                            if (!in_array($key['judul'], $displayedTitles)) {
+                                                $displayedTitles[] = $key['judul'];
+                                        ?>
+                                                <option value="<?= htmlspecialchars($key['judul']) ?>">
+                                                    <?= htmlspecialchars($key['judul']) ?>
+                                                </option>
+                                        <?php
+                                            }
+                                        }
+                                        ?>
+                                    </select>
+                                </div>
+                            </div>
+
                             <div class="col-md-3">
                                 <div class="input-style-1 mt-3">
                                     <label class="text-dark mb-2 fs-6">Jenis Layanan</label>
-                                    <select class="form-control fs-6" id="jenis_unit" name="jenis_unit" onchange="filterJenisLayanan2()">
+                                    <select class="form-control fs-6" id="jenis_unit" name="jenis_unit" onchange="filterOptions()">
                                         <option value=""></option>
-                                        <option value="UPPS">UPPS</option>
-                                        <option value="Unit Layanan">Unit Layanan</option>
+                                        <?php
+                                        $displayedServices = [];
+                                        foreach ($unitList as $key) {
+                                            if (!in_array($key['jenis_unit'], $displayedServices)) {
+                                                $displayedServices[] = $key['jenis_unit'];
+                                        ?>
+                                                <option value="<?= htmlspecialchars($key['jenis_unit']) ?>" data-judul="<?= htmlspecialchars($key['judul']) ?>">
+                                                    <?= htmlspecialchars($key['jenis_unit']) ?>
+                                                </option>
+                                        <?php
+                                            }
+                                        }
+                                        ?>
                                     </select>
                                 </div>
                             </div>
@@ -44,42 +81,39 @@
                                         <path d="M12 9h.01" />
                                         <path d="M11 12h1v4h1" />
                                     </svg>
-                                    <select class="form-control fs-6" id="unit_layanan2" name="unit_layanan" onchange="filterJenisLayanan2()">
+                                    <select class="form-control fs-6" id="unit_layanan2" name="unit_layanan" onchange="filterOptions()">
                                         <option value=""></option>
                                         <?php
                                         $unitSeen = [];
-                                        foreach ($unitList as $unit):
-                                            if (in_array($unit['nama_unit'], $unitSeen)) {
-                                                continue;
-                                            }
-                                            $unitSeen[] = $unit['nama_unit'];
+                                        foreach ($unitList as $unit) {
+                                            if (!in_array($unit['nama_unit'], $unitSeen)) {
+                                                $unitSeen[] = $unit['nama_unit'];
                                         ?>
-                                            <option value="<?= htmlspecialchars($unit['nama_unit']) ?>" data-jenis="<?= htmlspecialchars($unit['jenis_layanan_yang_diterima']) ?>">
-                                                <?= htmlspecialchars($unit['nama_unit']) ?>
-                                            </option>
-                                        <?php endforeach; ?>
+                                                <option value="<?= htmlspecialchars($unit['nama_unit']) ?>" data-jenis="<?= htmlspecialchars($unit['jenis_unit']) ?>">
+                                                    <?= htmlspecialchars($unit['nama_unit']) ?>
+                                                </option>
+                                        <?php
+                                            }
+                                        }
+                                        ?>
                                     </select>
                                 </div>
                             </div>
 
                             <div class="col-md-3">
                                 <div class="input-style-1 mt-3">
-                                    <!-- Tambahkan tooltip pada label -->
-                                    <label class="text-dark mb-2 fs-6">
-                                        Jenis Layanan yang Diterima
-                                    </label>
+                                    <label class="text-dark mb-2 fs-6">Jenis Layanan yang Diterima</label>
                                     <svg data-toggle="tooltip" title="Jika Kosong/Tak Tampil Berarti Survei Tidak Tersedia" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-info-circle">
                                         <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                                         <path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0" />
                                         <path d="M12 9h.01" />
                                         <path d="M11 12h1v4h1" />
                                     </svg>
-
                                     <select class="form-control fs-6" id="jenis_layanan_yang_diterima2" name="jenis_layanan_yang_diterima">
                                         <option value=""></option>
                                         <?php foreach ($unitList as $unit): ?>
                                             <?php if (!empty($unit['jenis_layanan_yang_diterima'])): ?>
-                                                <option class="jenis-option2" value="<?= htmlspecialchars($unit['id']) ?>" data-unit2="<?= htmlspecialchars($unit['nama_unit']) ?>" data-jenis="<?= htmlspecialchars($unit['jenis_unit']) ?>">
+                                                <option value="<?= htmlspecialchars($unit['id']) ?>" data-unit="<?= htmlspecialchars($unit['nama_unit']) ?>" data-jenis="<?= htmlspecialchars($unit['jenis_unit']) ?>">
                                                     <?= htmlspecialchars($unit['jenis_layanan_yang_diterima']) ?>
                                                 </option>
                                             <?php endif; ?>
@@ -91,6 +125,7 @@
                             <div class="col-md">
                                 <div class="text-center mt-5">
                                     <button type="button" class="btn btn-success" onclick="goToDetail2()">Cek Survei</button>
+                                    <a type="button" href="<?= base_url('responden/dashboard') ?>" class="btn btn-secondary">Reset</a>
                                 </div>
                             </div>
                         </div>
@@ -101,20 +136,58 @@
     </form>
 
     <script>
-        function filterJenisLayanan2() {
+        function filterOptions() {
+            const judul = document.getElementById('judul').value;
             const jenisLayanan = document.getElementById('jenis_unit').value;
             const unitLayanan = document.getElementById('unit_layanan2').value;
-            const jenisLayananSelect = document.getElementById('jenis_layanan_yang_diterima2');
-            const jenisOptions = document.querySelectorAll('.jenis-option2');
+            const jenisLayananYangDiterima = document.getElementById('jenis_layanan_yang_diterima2').value;
 
-            jenisLayananSelect.value = '';
-            jenisOptions.forEach(option => {
-                // Filter berdasarkan jenis layanan dan unit layanan
-                const optionJenis = option.getAttribute('data-jenis');
-                const optionUnit = option.getAttribute('data-unit2');
-                option.style.display = (optionJenis === jenisLayanan && optionUnit === unitLayanan) ? 'block' : 'none';
+            document.getElementById('jenis_unit').disabled = (judul === '');
+            document.getElementById('unit_layanan2').disabled = (jenisLayanan === '');
+            document.getElementById('jenis_layanan_yang_diterima2').disabled = (unitLayanan === '');
+
+            const jenisLayananOptions = document.querySelectorAll('#jenis_unit option');
+            jenisLayananOptions.forEach(option => {
+                option.style.display = option.getAttribute('data-judul') === judul || judul === '' ? 'block' : 'none';
             });
+
+            const unitLayananOptions = document.querySelectorAll('#unit_layanan2 option');
+            unitLayananOptions.forEach(option => {
+                option.style.display = option.getAttribute('data-jenis') === jenisLayanan || jenisLayanan === '' ? 'block' : 'none';
+            });
+
+            const jenisLayananDiterimaOptions = document.querySelectorAll('#jenis_layanan_yang_diterima2 option');
+            jenisLayananDiterimaOptions.forEach(option => {
+                option.style.display = option.getAttribute('data-unit') === unitLayanan || unitLayanan === '' ? 'block' : 'none';
+            });
+
+            document.getElementById('cekSurveiButton').disabled = !(judul && jenisLayanan && unitLayanan && jenisLayananYangDiterima);
         }
+
+
+        // function filterOptions() {
+        //     const judul = document.getElementById('judul').value;
+        //     const jenisLayanan = document.getElementById('jenis_unit').value;
+        //     const unitLayanan = document.getElementById('unit_layanan2').value;
+
+        //     // Filter 'Jenis Layanan' berdasarkan 'Judul'
+        //     const jenisLayananOptions = document.querySelectorAll('#jenis_unit option');
+        //     jenisLayananOptions.forEach(option => {
+        //         option.style.display = option.getAttribute('data-judul') === judul || judul === '' ? 'block' : 'none';
+        //     });
+
+        //     // Filter 'Unit Layanan' berdasarkan 'Jenis Layanan'
+        //     const unitLayananOptions = document.querySelectorAll('#unit_layanan2 option');
+        //     unitLayananOptions.forEach(option => {
+        //         option.style.display = option.getAttribute('data-jenis') === jenisLayanan || jenisLayanan === '' ? 'block' : 'none';
+        //     });
+
+        //     // Filter 'Jenis Layanan yang Diterima' berdasarkan 'Unit Layanan'
+        //     const jenisLayananDiterimaOptions = document.querySelectorAll('#jenis_layanan_yang_diterima2 option');
+        //     jenisLayananDiterimaOptions.forEach(option => {
+        //         option.style.display = option.getAttribute('data-unit') === unitLayanan || unitLayanan === '' ? 'block' : 'none';
+        //     });
+        // }
 
         function goToDetail2() {
             const unitLayanan = document.getElementById('unit_layanan2').value;
@@ -127,6 +200,7 @@
                 alert("Silakan pilih Jenis Layanan, Unit Layanan, dan Jenis Layanan yang Diterima terlebih dahulu.");
             }
         }
+
         document.addEventListener("DOMContentLoaded", function() {
             var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-toggle="tooltip"]'));
             var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
@@ -134,6 +208,7 @@
             });
         });
     </script>
+
 
 
     <!-- *************************************************************** -->

@@ -95,7 +95,7 @@
                 <div class="card-label">
                     Indeks Kepuasan Masyarakat (IKM): <strong><?= $IKM ?> (<?= $ikmCategory ?>)</strong>
                 </div>
-                <canvas id="weightedAverageChart"></canvas>
+                <canvas id="weightedAverageChart" width="410" height="100"></canvas>
             </div>
         </div>
     </div>

@@ -266,7 +266,7 @@ class Dashboard extends BaseController
         $namaUnit = $survei['nama_unit'];
         $singkatan = '';
         if (preg_match('/\((.*?)\)/', $namaUnit, $matches)) {
-            $singkatan = $matches[1]; 
+            $singkatan = $matches[1];
         } else {
             $singkatan = $namaUnit;
         }
@@ -313,6 +313,38 @@ class Dashboard extends BaseController
 
         $totalResponden = $totalResponden ? $totalResponden['total_responden'] : 0;
 
+        // Angkatan mahasiswa
+        $angkatanCounts = $respondenModel
+            ->select('angkatan, COUNT(DISTINCT responden.id) as count')
+            ->join('jawaban_survei', 'jawaban_survei.id_responden = responden.id')
+            ->where('jawaban_survei.id_survei', $id)
+            ->where('kategori_responden', 'mahasiswa')
+            ->groupBy('angkatan')
+            ->orderBy('angkatan', 'ASC')
+            ->findAll();
+
+        $angkatanLabels = [];
+        $angkatanData = [];
+        foreach ($angkatanCounts as $angkatan) {
+            $angkatanLabels[] = $angkatan['angkatan'];
+            $angkatanData[] = $angkatan['count'];
+        }
+
+
+        // Untuk chart jenis kelamin
+        $genderCounts = $respondenModel
+            ->select('jenis_kelamin, COUNT(DISTINCT responden.id) as count')
+            ->join('jawaban_survei', 'jawaban_survei.id_responden = responden.id')
+            ->where('jawaban_survei.id_survei', $id)
+            ->groupBy('jenis_kelamin')
+            ->findAll();
+
+        $genderLabels = [];
+        $genderData = [];
+        foreach ($genderCounts as $gender) {
+            $genderLabels[] = $gender['jenis_kelamin'];
+            $genderData[] = $gender['count'];
+        }
 
         $data = [
             'title' => 'Hasil Survei',
@@ -322,6 +354,10 @@ class Dashboard extends BaseController
             'kategoriLabels' => $kategoriLabels,
             'kategoriCounts' => $kategoriCounts,
             'totalResponden' => $totalResponden,
+            'angkatanLabels' => $angkatanLabels,
+            'angkatanData' => $angkatanData,
+            'genderLabels' => $genderLabels,
+            'genderData' => $genderData,
         ];
         return view('responden/chartfilter', $data);
     }

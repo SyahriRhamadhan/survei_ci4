@@ -62,7 +62,21 @@
     <div class="col-md-4">
         <div class="card">
             <div class="card-body">
-                <canvas id="kategoriRespondenChart"></canvas>
+                <canvas id="genderChart" width="400" height="400"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <canvas id="kategoriRespondenChart" width="400" height="400"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <canvas id="angkatanChart" width="400" height="400"></canvas>
             </div>
         </div>
     </div>
@@ -76,6 +90,119 @@
         </div>
     </div>
 </div>
+<script>
+    const genderCtx = document.getElementById('genderChart').getContext('2d');
+    const genderChart = new Chart(genderCtx, {
+        type: 'pie', // atau 'doughnut' untuk tipe chart yang berbeda
+        data: {
+            labels: <?= json_encode($genderLabels) ?>,
+            datasets: [{
+                label: 'Distribusi Jenis Kelamin',
+                data: <?= json_encode($genderData) ?>,
+                backgroundColor: ['rgba(54, 162, 235, 0.5)', 'rgba(255, 99, 132, 0.5)'],
+                borderColor: ['rgba(54, 162, 235, 1)', 'rgba(255, 99, 132, 1)'],
+                borderWidth: 1 // Ketebalan border
+            }]
+
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                title: {
+                    display: true,
+                    text: 'Kelamin Responden',
+                    font: {
+                        size: 20,
+                    },
+                    padding: {
+                        top: 10,
+                        bottom: 5
+                    }
+                },
+                subtitle: {
+                    display: true,
+                    text: 'Dari Total Responden: <?= $totalResponden ?>',
+                    padding: {
+                        top: 10,
+                        bottom: 5
+                    }
+                },
+                tooltip: {
+                    enabled: true,
+                },
+            }
+        }
+    });
+</script>
+<script>
+    const ctx1 = document.getElementById('angkatanChart').getContext('2d');
+    const angkatanChart = new Chart(ctx1, {
+        type: 'bar',
+        data: {
+            labels: <?= json_encode($angkatanLabels) ?>,
+            datasets: [{
+                label: 'Jumlah Responden',
+                font: {
+                    size: 20,
+                },
+                data: <?= json_encode($angkatanData) ?>,
+                backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 2
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                title: {
+                    display: true,
+                    text: 'Angkatan Responden Mahasiswa',
+                    font: {
+                        size: 20,
+                    },
+                    padding: {
+                        top: 10,
+                        bottom: 30
+                    }
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return context.label + ': ' + context.raw;
+                        }
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Jumlah Responden',
+                        font: {
+                            size: 16,
+                        }
+                    }
+                },
+                x: {
+                    title: {
+                        display: false,
+                        text: 'Angkatan',
+                        font: {
+                            size: 16,
+                        }
+                    }
+                }
+            }
+        }
+    });
+</script>
 <script>
     const ikmValueElement = document.getElementById('ikmValue');
     const ikmCategoryElement = document.getElementById('ikmCategory');
@@ -107,12 +234,12 @@
                 label: 'Asal Responden',
                 data: <?= json_encode($kategoriCounts) ?>,
                 backgroundColor: [
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(255, 206, 86, 0.2)',
-                    'rgba(75, 192, 192, 0.2)',
-                    'rgba(153, 102, 255, 0.2)',
-                    'rgba(255, 159, 64, 0.2)'
+                    'rgba(255, 99, 132, 0.5)',
+                    'rgba(54, 162, 235, 0.5)',
+                    'rgba(255, 206, 86, 0.5)',
+                    'rgba(75, 192, 192, 0.5)',
+                    'rgba(153, 102, 255, 0.5)',
+                    'rgba(255, 159, 64, 0.5)'
                 ],
                 borderColor: [
                     'rgba(255, 99, 132, 1)',
@@ -133,13 +260,21 @@
                 },
                 title: {
                     display: true,
-                    text: 'Asal Responden\nTotal: <?= $totalResponden ?>',
+                    text: 'Asal Responden',
                     font: {
                         size: 20,
                     },
                     padding: {
                         top: 10,
-                        bottom: 30
+                        bottom: 5
+                    }
+                },
+                subtitle: {
+                    display: true,
+                    text: 'Dari Total Responden: <?= $totalResponden ?>',
+                    padding: {
+                        top: 10,
+                        bottom: 5
                     }
                 },
                 tooltip: {
@@ -195,28 +330,38 @@
         const wrappedTitle = wrapText(originalTitle, 7);
 
         const chartData = {
-            labels: Object.values(questions), // Labels menggunakan teks pertanyaan
+            labels: Object.values(questions),
             datasets: [{
                     label: 'Sangat Tidak Setuju',
-                    backgroundColor: '#FF0000', // Warna merah
-                    data: dataForQuestions.map(data => data[0]) // Skala 1
+                    backgroundColor: 'rgba(255, 0, 0, 0.5)',
+                    borderColor: 'rgba(255, 0, 0, 1)',
+                    borderWidth: 2,
+                    data: dataForQuestions.map(data => data[0])
                 },
                 {
                     label: 'Kurang Setuju',
-                    backgroundColor: '#FFA500', // Warna oranye
-                    data: dataForQuestions.map(data => data[1]) // Skala 2
+                    backgroundColor: 'rgba(255, 165, 0, 0.5)',
+                    borderColor: 'rgba(255, 165, 0, 1)',
+                    borderWidth: 2,
+                    data: dataForQuestions.map(data => data[1])
                 },
                 {
                     label: 'Setuju',
-                    backgroundColor: '#00FF00', // Warna hijau
-                    data: dataForQuestions.map(data => data[2]) // Skala 3
+                    backgroundColor: 'rgba(0, 255, 0, 0.5)',
+                    borderColor: 'rgba(0, 255, 0, 1)',
+                    borderWidth: 2,
+                    data: dataForQuestions.map(data => data[2])
                 },
                 {
                     label: 'Sangat Setuju',
-                    backgroundColor: '#0000FF', // Warna biru
-                    data: dataForQuestions.map(data => data[3]) // Skala 4
+                    backgroundColor: 'rgba(0, 0, 255, 0.5)',
+                    borderColor: 'rgba(0, 0, 255, 1)',
+                    borderWidth: 2,
+                    data: dataForQuestions.map(data => data[3])
                 }
             ]
+
+
         };
 
         // Konfigurasi Chart.js

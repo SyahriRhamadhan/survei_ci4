@@ -11,12 +11,19 @@ class RespondenSeeder extends Seeder
         $kategoriRespondenOptions = ['mahasiswa', 'dosen', 'tendik', 'mitra', 'umum'];
         $jenisKelaminOptions = ['Laki-laki', 'Perempuan'];
         $jamSurveiOptions = ['08.00 - 12.00', '13.00 - 17.00'];
+        $startTimestamp = strtotime('2024-01-01');
+        $endTimestamp = strtotime('2025-12-31');
 
-        // Insert data responden dan jawaban survei
         for ($i = 1; $i <= 15000; $i++) {
+            $randomTimestamp = rand($startTimestamp, $endTimestamp);
+            $createdAt = date('Y-m-d H:i:s', $randomTimestamp);
+            $updatedAt = date('Y-m-d H:i:s', $randomTimestamp);
+
+            $tanggalSurveiTimestamp = rand($startTimestamp, $endTimestamp);
+            $tanggalSurvei = date('Y-m-d', $tanggalSurveiTimestamp);
+
             $umur = rand(18, 60);
             $angkatan = "20" . rand(10, 23);
-            $tanggalSurvei = date('Y-m-d', strtotime("-" . rand(1, 365) . " days"));
             $saranMasukan = "Saran dan masukan dummy untuk responden " . $i;
             $kategoriResponden = $kategoriRespondenOptions[array_rand($kategoriRespondenOptions)];
 
@@ -28,8 +35,8 @@ class RespondenSeeder extends Seeder
                 'saran_masukan' => $saranMasukan,
                 'kategori_responden' => $kategoriResponden,
                 'id_survei' => rand(1, 88),
-                'created_at' => date('Y-m-d H:i:s'),
-                'updated_at' => date('Y-m-d H:i:s')
+                'created_at' => $createdAt,
+                'updated_at' => $updatedAt,
             ];
 
             if ($kategoriResponden === 'mahasiswa') {
@@ -42,50 +49,52 @@ class RespondenSeeder extends Seeder
             }
 
             $this->db->table('responden')->insert($dataResponden);
-            $respondenId = $this->db->insertID(); // Ambil ID yang baru saja disimpan
+            $respondenId = $this->db->insertID();
 
-
-            // Insert jawaban survei untuk pertanyaan id 1-14
             $jawabanSurvei = [];
             for ($pertanyaanId = 1; $pertanyaanId <= 25; $pertanyaanId++) {
-                $jawaban = rand(2, 4);
+                $jawabanTimestamp = rand($startTimestamp, $endTimestamp);
+                $jawabanCreatedAt = date('Y-m-d H:i:s', $jawabanTimestamp);
+                $jawabanUpdatedAt = date('Y-m-d H:i:s', $jawabanTimestamp);
+
                 $jawabanSurvei[] = [
                     'id_responden' => $respondenId,
                     'id_pertanyaan' => $pertanyaanId,
-                    'jawaban' => $jawaban,
-                    'id_survei' => $dataResponden['id_survei']
+                    'jawaban' => rand(2, 4),
+                    'id_survei' => $dataResponden['id_survei'],
+                    'created_at' => $jawabanCreatedAt,
+                    'updated_at' => $jawabanUpdatedAt,
                 ];
             }
             $this->db->table('jawaban_survei')->insertBatch($jawabanSurvei);
-
-            // Ambil jawaban untuk hitung IKM
             $kategoriJawaban = [];
             foreach ($jawabanSurvei as $jawaban) {
                 $kategoriJawaban[$jawaban['id_pertanyaan']][] = $jawaban['jawaban'];
             }
 
-            // Hitung rata-rata tertimbang
-            $rataRataTertimbang = [];
             $bobotJawaban = [4 => 4, 3 => 3, 2 => 2, 1 => 1];
-            foreach ($kategoriJawaban as $kategori => $jawabans) {
-                $totalBobot = 0;
-                $totalJawaban = 0;
-                foreach ($jawabans as $jawaban) {
-                    $totalBobot += $bobotJawaban[$jawaban];
-                    $totalJawaban++;
+            $totalNilai = 0;
+            $totalKategori = 0;
+
+            foreach ($kategoriJawaban as $jawabans) {
+                $totalBobot = array_sum(array_map(fn($jawaban) => $bobotJawaban[$jawaban], $jawabans));
+                $totalJawaban = count($jawabans);
+                if ($totalJawaban > 0) {
+                    $totalNilai += $totalBobot / $totalJawaban;
+                    $totalKategori++;
                 }
-                $rataRataTertimbang[$kategori] = $totalJawaban > 0 ? $totalBobot / $totalJawaban : 0;
             }
 
-            // Menghitung nilai IKM
-            $totalNilai = array_sum($rataRataTertimbang);
-            $totalKategori = count($rataRataTertimbang);
             $ikm = $totalKategori > 0 ? ($totalNilai / $totalKategori) * 25 : 0;
 
-            // Update IKM di tabel survei
             $this->db->table('survei')->where('id', $dataResponden['id_survei'])->update([
                 'ikm' => $ikm
             ]);
+
+
+            if ($i % 1000 === 0) {
+                echo "Proses $i responden selesai...\n";
+            }
         }
     }
 }

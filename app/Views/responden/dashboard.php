@@ -15,7 +15,7 @@
         </div>
 
     </div>
-    <!-- <form>
+    <form>
         <?= csrf_field() ?>
         <div class="card">
             <div class="card-body">
@@ -207,7 +207,7 @@
                 return new bootstrap.Tooltip(tooltipTriggerEl);
             });
         });
-    </script> -->
+    </script>
 
 
 
@@ -295,19 +295,54 @@
         </div>
     </div>
     <div class="row justify-content-center">
-        <div class="card col-md-6">
-            <div class="card-body bg-warning justify-content-center">
-                <h4 class="card-title text-center">Hasil Survei Tingkat Unit</h4>
+        <div class="row m-3 justify-content-center">
+            <div class="card col-md-6">
+                <div class="card-body justify-content-center">
+                    <h4 class="card-title text-center">Hasil Survei Tingkat Unit</h4>
+                    <form class="mt-4" action="<?= base_url('responden/chartfilterunit') ?>" method="get" onsubmit="return redirectToRoute(this)">
+                        <div class="input-group">
+                            <select class="form-select" name="unit_name" id="unit_name" required>
+                                <option selected disabled>Choose...</option>
+                                <?php
+                                $addedUnits = []; // Array untuk melacak nama unit yang sudah ditambahkan
+                                foreach ($filter as $unit):
+                                    if (!in_array($unit['nama_unit'], $addedUnits)): // Periksa apakah unit sudah ditambahkan
+                                ?>
+                                        <option value="<?= urlencode($unit['nama_unit']) ?>"><?= $unit['nama_unit'] ?></option>
+                                        <?php
+                                        $addedUnits[] = $unit['nama_unit']; // Tambahkan nama unit ke array pelacakan
+                                        ?>
+                                <?php
+                                    endif;
+                                endforeach;
+                                ?>
+                            </select>
+                            <button class="btn ms-2 btn-success" type="submit">Submit</button>
+                        </div>
+                    </form>
+
+                </div>
             </div>
-        </div>
-        <div class="card col-md-4">
-            <div class="card-body bg-warning justify-content-center">
-                <h4 class="card-title text-center">Hasil Survei Tingkat Unit Layanan</h4>
-                <button type="button" class="btn  btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                    Hasil Tingkat Unit Layanan/Prodi
-                </button>
+            <div class="card col-md-4 ms-5">
+                <div class="card-body">
+                    <h4 class="card-title text-center">Hasil Survei Tingkat Unit Layanan</h4>
+                    <div class="d-flex justify-content-center">
+                        <button type="button" class="btn btn-success mt-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                            Cek Survei
+                        </button>
+                    </div>
+                </div>
             </div>
+
         </div>
+        <script>
+            function redirectToRoute(form) {
+                const selectedUnitName = document.getElementById('unit_name').value;
+                if (!selectedUnitName) return false; // Tidak ada unit yang dipilih
+                window.location.href = `<?= base_url('responden/chartfilterunit') ?>/${selectedUnitName}`;
+                return false; // Mencegah form submit normal
+            }
+        </script>
 
     </div>
 

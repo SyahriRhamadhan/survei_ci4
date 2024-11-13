@@ -16,7 +16,7 @@ class UnitPlaceholderPertanyaanModel extends Model
         'jenis_unit',
         'nama_unit',
         'jenis_layanan_yang_diterima',
-        
+
     ];
 
     protected bool $allowEmptyInserts = false;
@@ -48,4 +48,8 @@ class UnitPlaceholderPertanyaanModel extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+    public function getSortedUnits()
+    {
+        return $this->orderBy('nama_unit', 'ASC')->findAll();
+    }
 }

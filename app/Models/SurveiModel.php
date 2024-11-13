@@ -79,7 +79,34 @@ class SurveiModel extends Model
             ->join('unit_placeholder_pertanyaan', 'unit_placeholder_pertanyaan.id = survei.id_unit_placeholder', 'left')
             ->where('survei.status', 'on')
             ->where('unit_placeholder_pertanyaan.jenis_unit', 'UPPS')
+            ->where('survei.judul', 'Instrumen survei kepuasan mahasiswa di UPPS')
+            ->findAll();
+    }
+    public function getSurveiWithUnitDosen()
+    {
+        return $this->select('survei.*, unit_placeholder_pertanyaan.nama_unit, unit_placeholder_pertanyaan.jenis_layanan_yang_diterima')
+            ->join('unit_placeholder_pertanyaan', 'unit_placeholder_pertanyaan.id = survei.id_unit_placeholder', 'left')
+            ->where('survei.status', 'on')
+            ->where('unit_placeholder_pertanyaan.jenis_unit', 'UPPS')
             ->where('survei.judul', 'Instrumen survei kepuasan dosen di UPPS')
+            ->findAll();
+    }
+    public function getSurveiWithUnitTendik()
+    {
+        return $this->select('survei.*, unit_placeholder_pertanyaan.nama_unit, unit_placeholder_pertanyaan.jenis_layanan_yang_diterima')
+            ->join('unit_placeholder_pertanyaan', 'unit_placeholder_pertanyaan.id = survei.id_unit_placeholder', 'left')
+            ->where('survei.status', 'on')
+            ->where('unit_placeholder_pertanyaan.jenis_unit', 'UPPS')
+            ->where('survei.judul', 'Instrumen survei kepuasan tenaga kependidikan di UPPS')
+            ->findAll();
+    }
+    public function getSurveiWithUnitMitra()
+    {
+        return $this->select('survei.*, unit_placeholder_pertanyaan.nama_unit, unit_placeholder_pertanyaan.jenis_layanan_yang_diterima')
+            ->join('unit_placeholder_pertanyaan', 'unit_placeholder_pertanyaan.id = survei.id_unit_placeholder', 'left')
+            ->where('survei.status', 'on')
+            ->where('unit_placeholder_pertanyaan.jenis_unit', 'UPPS')
+            ->where('survei.judul', 'Instrumen survei kepuasan mitra di UPPS')
             ->findAll();
     }
 }

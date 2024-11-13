@@ -153,7 +153,7 @@
                 },
                 title: {
                     display: true,
-                    text: 'Kelamin Responden',
+                    text: 'Jenis Kelamin Responden',
                     font: {
                         size: 20,
                     },
@@ -300,7 +300,7 @@
                 },
                 title: {
                     display: true,
-                    text: 'Asal Responden',
+                    text: 'Asal Responden Survei',
                     font: {
                         size: 20,
                     },

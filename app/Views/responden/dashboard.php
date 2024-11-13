@@ -15,7 +15,7 @@
         </div>
 
     </div>
-    <form>
+    <!-- <form>
         <?= csrf_field() ?>
         <div class="card">
             <div class="card-body">
@@ -81,7 +81,7 @@
                                         <path d="M12 9h.01" />
                                         <path d="M11 12h1v4h1" />
                                     </svg>
-                                    <select class="form-control fs-6" id="unit_layanan2" name="unit_layanan" onchange="filterOptions()">
+                                    <select class="form-control fs-6" id="nama_unit2" name="nama_unit" onchange="filterOptions()">
                                         <option value=""></option>
                                         <?php
                                         $unitSeen = [];
@@ -139,11 +139,11 @@
         function filterOptions() {
             const judul = document.getElementById('judul').value;
             const jenisLayanan = document.getElementById('jenis_unit').value;
-            const unitLayanan = document.getElementById('unit_layanan2').value;
+            const unitLayanan = document.getElementById('nama_unit2').value;
             const jenisLayananYangDiterima = document.getElementById('jenis_layanan_yang_diterima2').value;
 
             document.getElementById('jenis_unit').disabled = (judul === '');
-            document.getElementById('unit_layanan2').disabled = (jenisLayanan === '');
+            document.getElementById('nama_unit2').disabled = (jenisLayanan === '');
             document.getElementById('jenis_layanan_yang_diterima2').disabled = (unitLayanan === '');
 
             const jenisLayananOptions = document.querySelectorAll('#jenis_unit option');
@@ -151,7 +151,7 @@
                 option.style.display = option.getAttribute('data-judul') === judul || judul === '' ? 'block' : 'none';
             });
 
-            const unitLayananOptions = document.querySelectorAll('#unit_layanan2 option');
+            const unitLayananOptions = document.querySelectorAll('#nama_unit2 option');
             unitLayananOptions.forEach(option => {
                 option.style.display = option.getAttribute('data-jenis') === jenisLayanan || jenisLayanan === '' ? 'block' : 'none';
             });
@@ -168,7 +168,7 @@
         // function filterOptions() {
         //     const judul = document.getElementById('judul').value;
         //     const jenisLayanan = document.getElementById('jenis_unit').value;
-        //     const unitLayanan = document.getElementById('unit_layanan2').value;
+        //     const unitLayanan = document.getElementById('nama_unit').value;
 
         //     // Filter 'Jenis Layanan' berdasarkan 'Judul'
         //     const jenisLayananOptions = document.querySelectorAll('#jenis_unit option');
@@ -177,7 +177,7 @@
         //     });
 
         //     // Filter 'Unit Layanan' berdasarkan 'Jenis Layanan'
-        //     const unitLayananOptions = document.querySelectorAll('#unit_layanan2 option');
+        //     const unitLayananOptions = document.querySelectorAll('#nama_unit option');
         //     unitLayananOptions.forEach(option => {
         //         option.style.display = option.getAttribute('data-jenis') === jenisLayanan || jenisLayanan === '' ? 'block' : 'none';
         //     });
@@ -190,7 +190,7 @@
         // }
 
         function goToDetail2() {
-            const unitLayanan = document.getElementById('unit_layanan2').value;
+            const unitLayanan = document.getElementById('nama_unit2').value;
             const jenisLayananYangDiterima = document.getElementById('jenis_layanan_yang_diterima2').value;
 
             if (unitLayanan && jenisLayananYangDiterima) {
@@ -207,7 +207,7 @@
                 return new bootstrap.Tooltip(tooltipTriggerEl);
             });
         });
-    </script>
+    </script> -->
 
 
 
@@ -294,6 +294,23 @@
             </div>
         </div>
     </div>
+    <div class="row justify-content-center">
+        <div class="card col-md-6">
+            <div class="card-body bg-warning justify-content-center">
+                <h4 class="card-title text-center">Hasil Survei Tingkat Unit</h4>
+            </div>
+        </div>
+        <div class="card col-md-4">
+            <div class="card-body bg-warning justify-content-center">
+                <h4 class="card-title text-center">Hasil Survei Tingkat Unit Layanan</h4>
+                <button type="button" class="btn  btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    Hasil Tingkat Unit Layanan/Prodi
+                </button>
+            </div>
+        </div>
+
+    </div>
+
     <!-- *************************************************************** -->
     <!-- End First Cards -->
     <!-- *************************************************************** -->
@@ -352,6 +369,137 @@
                 </div>
             </div>
         </div>
+
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-full-width">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="modal-title" id="exampleModalToggleLabel">Filter Hasil Survei</h3>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="">
+                            <div class="card">
+                                <div class="card-body">
+                                    <!-- <div class="table-responsive my-5"> -->
+                                    <!-- <table id="zero_config" class="table border table-striped table-bordered text-nowrap">
+                                            <thead>
+                                                <tr>
+                                                    <th>No</th>
+                                                    <th>Judul</th>
+                                                    <th>Nama Unit</th>
+                                                    <th>Jenis Unit</th>
+                                                    <th>Jenis Layanan/Prodi</th>
+                                                    <th>Cek Hasil</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php $no = 1;
+                                                foreach ($unitList as $s) : ?>
+                                                    <tr>
+                                                        <td><?= $no++ ?>.</td>
+                                                        <td><?= htmlspecialchars($s['judul']) ?></td>
+                                                        <td><?= htmlspecialchars($s['nama_unit']) ?></td>
+                                                        <td><?= htmlspecialchars($s['jenis_unit']) ?></td>
+                                                        <td><?= htmlspecialchars($s['jenis_layanan_yang_diterima']) ?></td>
+                                                        <td>
+                                                            <a href="<?= base_url('responden/chartfilter/' . $s['id']) ?>" class="btn btn-primary">Hasil Survei</a>
+                                                        </td>
+                                                    </tr>
+                                                <?php endforeach; ?>
+
+                                            </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <th>No</th>
+                                                    <th>Judul</th>
+                                                    <th>Nama Unit</th>
+                                                    <th>Jenis Unit</th>
+                                                    <th>Jenis Layanan/Prodi</th>
+                                                    <th>Cek Hasil</th>
+                                                </tr>
+                                            </tfoot>
+                                        </table> -->
+                                    <div id="example-table1"></div>
+                                    <script src="https://cdnjs.cloudflare.com/ajax/libs/tabulator/5.5.1/js/tabulator.min.js"></script>
+
+                                    <script>
+                                        // Tabulator configuration
+                                        var table = new Tabulator("#example-table1", {
+                                            height: "500px",
+                                            layout: "fitColumns",
+                                            columns: [{
+                                                    title: "No",
+                                                    field: "no",
+                                                    width: 50,
+                                                    headerFilter: "input"
+                                                },
+                                                {
+                                                    title: "Judul",
+                                                    field: "judul",
+                                                    headerFilter: "input"
+                                                },
+                                                {
+                                                    title: "Nama Unit",
+                                                    field: "nama_unit",
+                                                    headerFilter: "input"
+                                                },
+                                                {
+                                                    title: "Jenis Unit",
+                                                    field: "jenis_unit",
+                                                    headerFilter: "input"
+                                                },
+                                                {
+                                                    title: "Jenis Layanan/Prodi",
+                                                    field: "jenis_layanan",
+                                                    headerFilter: "input"
+                                                },
+                                                {
+                                                    title: "Cek Hasil",
+                                                    field: "cek_hasil",
+                                                    formatter: "html",
+                                                    headerFilter: false
+                                                },
+                                            ],
+                                            data: [
+                                                <?php foreach ($unitList as $no => $s) : ?> {
+                                                        no: <?= $no + 1 ?>,
+                                                        judul: "<?= htmlspecialchars($s['judul']) ?>",
+                                                        nama_unit: "<?= htmlspecialchars($s['nama_unit']) ?>",
+                                                        jenis_unit: "<?= htmlspecialchars($s['jenis_unit']) ?>",
+                                                        jenis_layanan: "<?= htmlspecialchars($s['jenis_layanan_yang_diterima']) ?>",
+                                                        cek_hasil: '<a href="<?= base_url('responden/chartfilter/' . $s['id']) ?>" class="btn btn-primary">Hasil Survei</a>',
+                                                    },
+                                                <?php endforeach; ?>
+                                            ],
+                                        });
+
+
+                                        // Example data
+                                        var tableData = [
+                                            <?php foreach ($unitList as $no => $s) : ?> {
+                                                    no: <?= $no + 1 ?>,
+                                                    judul: "<?= htmlspecialchars($s['judul']) ?>",
+                                                    nama_unit: "<?= htmlspecialchars($s['nama_unit']) ?>",
+                                                    jenis_unit: "<?= htmlspecialchars($s['jenis_unit']) ?>",
+                                                    jenis_layanan: "<?= htmlspecialchars($s['jenis_layanan_yang_diterima']) ?>",
+                                                    cek_hasil: '<a href="<?= base_url('responden/chartfilter/' . $s['id']) ?>" class="btn btn-primary">Hasil Survei</a>',
+                                                },
+                                            <?php endforeach; ?>
+                                        ];
+
+                                        // Set data to Tabulator
+                                        table.setData(tableData);
+                                    </script>
+                                    <!-- </div> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
 
         <!-- Grafik Fakultas Dosen -->
         <div class="col-lg-12 col-md-12">

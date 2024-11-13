@@ -21,6 +21,8 @@
     <link href="<?= base_url('dist/css/style.min.css') ?>" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://d3js.org/d3.v7.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tabulator/5.5.1/css/tabulator.min.css" rel="stylesheet">
+
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -113,10 +115,6 @@
                 <!-- Sidebar navigation-->
                 <nav class="sidebar-nav">
                     <ul id="sidebarnav">
-
-
-
-
                         <li class="list-divider"></li>
                         <li class="nav-small-cap"><span class="hide-menu">Menu Utama </span></li>
                         <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="/responden/dashboard"
@@ -124,16 +122,7 @@
                                     class="hide-menu ">Dashboard</span></a></li>
                         <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="/responden/layanan"
                                 aria-expanded="false"><i data-feather="file-text" class="feather-icon"></i><span
-                                    class="hide-menu ">Survei Layanan</span></a></li>
-                        <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="/responden/upps"
-                                aria-expanded="false"><i data-feather="file-text" class="feather-icon"></i><span
-                                    class="hide-menu ">Survei UPPS</span></a></li>
-
-
-
-
-
-
+                                    class="hide-menu ">Survei UMRAH</span></a></li>
                     </ul>
                 </nav>
                 <!-- End Sidebar navigation -->
@@ -202,28 +191,28 @@
             document.getElementById('tendikFields').style.display = category === 'tendik' ? 'block' : 'none';
         });
 
-        function filterJenisLayanan() {
-            const unitLayanan = document.getElementById('unit_layanan').value;
-            const jenisLayananSelect = document.getElementById('jenis_layanan_yang_diterima');
-            const jenisOptions = document.querySelectorAll('.jenis-option');
+        // function filterJenisLayanan() {
+        //     const unitLayanan = document.getElementById('unit_layanan').value;
+        //     const jenisLayananSelect = document.getElementById('jenis_layanan_yang_diterima');
+        //     const jenisOptions = document.querySelectorAll('.jenis-option');
 
-            jenisLayananSelect.value = '';
-            jenisOptions.forEach(option => {
-                option.style.display = option.getAttribute('data-unit') === unitLayanan ? 'block' : 'none';
-            });
-        }
+        //     jenisLayananSelect.value = '';
+        //     jenisOptions.forEach(option => {
+        //         option.style.display = option.getAttribute('data-unit') === unitLayanan ? 'block' : 'none';
+        //     });
+        // }
 
-        function goToDetail() {
-            const unitLayanan = document.getElementById('unit_layanan').value;
-            const jenisLayananYangDiterima = document.getElementById('jenis_layanan_yang_diterima').value;
+        // function goToDetail() {
+        //     const unitLayanan = document.getElementById('unit_layanan').value;
+        //     const jenisLayananYangDiterima = document.getElementById('jenis_layanan_yang_diterima').value;
 
-            if (unitLayanan && jenisLayananYangDiterima) {
-                const url = `<?= base_url('responden/survei/detail') ?>/${jenisLayananYangDiterima}`;
-                window.location.href = url;
-            } else {
-                alert("Silakan pilih Unit Layanan dan Jenis Layanan yang Diterima terlebih dahulu.");
-            }
-        }
+        //     if (unitLayanan && jenisLayananYangDiterima) {
+        //         const url = `<?= base_url('responden/survei/detail') ?>/${jenisLayananYangDiterima}`;
+        //         window.location.href = url;
+        //     } else {
+        //         alert("Silakan pilih Unit Layanan dan Jenis Layanan yang Diterima terlebih dahulu.");
+        //     }
+        // }
         $(function() {
             <?php if (session()->has('berhasil')): ?>
                 const Toast = Swal.mixin({

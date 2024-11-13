@@ -15,6 +15,15 @@ use App\Models\PertanyaanModel;
 
 class Dashboard extends BaseController
 {
+    private function limitWords($text, $limit = 4)
+    {
+        $words = explode(' ', $text); // Pisahkan teks menjadi array kata
+        if (count($words) > $limit) {
+            return implode(' ', array_slice($words, 0, $limit)) . '...'; // Gabungkan 4 kata pertama dengan '...'
+        }
+        return $text; // Jika kata kurang dari atau sama dengan 4, kembalikan teks asli
+    }
+
     public function index()
     {
         $respondenModel = new RespondenModel();
@@ -202,12 +211,25 @@ class Dashboard extends BaseController
         // Mengambil nama unit unik setelah disingkat jika perlu
         $unitNames = array_unique(array_column($ikmDataByUnit, 'nama_unit'));;
         $unitModel = new SurveiModel();
-        // $surveiModel = new SurveiModel();
+        // Ambil data dari model
+        // $unitList = $unitModel->getSurveiWithUnitFilter();
+
+        // // Proses data
+        // foreach ($unitList as &$unit) {
+        //     // Ambil singkatan nama_unit
+        //     if (preg_match('/\(([^)]+)\)/', $unit['nama_unit'], $matches)) {
+        //         $unit['nama_unit'] = $matches[1];
+        //     }
+
+        //     // Batasi kata pada judul dan jenis_layanan_yang_diterima
+        //     $unit['judul'] = $this->limitWords($unit['judul'], 5);
+        //     $unit['jenis_layanan_yang_diterima'] = $this->limitWords($unit['jenis_layanan_yang_diterima'], 4);
+        // }
         // Kirim data ke view
         $data = [
             'title' => 'Dashboard',
             'currentPage' => 'dashboard',
-            'unitList' => $unitModel->getSurveiWithUnitFilter(),
+            'unitList' => $unitModel -> getSurveiWithUnitFilter(),
             'totalResponden' => $totalResponden,
             'responseHariIni' => $responseHariIni,
             'percentageChange' => $percentageChange,

@@ -36,7 +36,8 @@
                         </svg>
                         Tambah Survei
                     </a>
-                    <div class="table-responsive">
+                    <div id="example-table2"></div>
+                    <!-- <div class="table-responsive">
                         <table id="zero_config" class="table border table-striped table-bordered text-nowrap">
                             <thead>
                                 <tr>
@@ -89,13 +90,80 @@
                                 </tr>
                             </tfoot>
                         </table>
-                    </div>
+                    </div> -->
+
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tabulator/5.5.1/js/tabulator.min.js"></script>
+<script>
+    // Konfigurasi Tabulator
+    var table = new Tabulator("#example-table2", {
+        height: "900px",
+        layout: "fitColumns",
+        columns: [{
+                title: "No",
+                field: "no",
+                width: 50,
+                headerFilter: "input"
+            },
+            {
+                title: "Survei",
+                field: "judul",
+                headerFilter: "input"
+            },
+            {
+                title: "Nama Unit",
+                field: "nama_unit",
+                headerFilter: "input"
+            },
+            {
+                title: "Jenis Unit",
+                field: "jenis_unit",
+                width: 100,
+                headerFilter: "input"
+            },
+            {
+                title: "Status",
+                field: "status",
+                formatter: "html",
+                width: 85,
+                headerFilter: false
+            },
+            {
+                title: "Jenis Layanan/Prodi",
+                field: "jenis_layanan",
+                headerFilter: "input"
+            },
+            {
+                title: "Aksi",
+                field: "aksi",
+                formatter: "html",
+                headerFilter: false
+            },
+        ],
+        data: [
+            <?php foreach ($survei as $no => $s) : ?> {
+                    no: <?= $no + 1 ?>,
+                    judul: "<?= htmlspecialchars($s['judul']) ?>",
+                    nama_unit: "<?= htmlspecialchars($s['nama_unit']) ?>",
+                    jenis_unit: "<?= htmlspecialchars($s['jenis_unit']) ?>",
+                    status: `<?php if ($s['status'] === 'on'): ?>
+                             <span class="badge bg-success">On</span>
+                         <?php else: ?>
+                             <span class="badge bg-danger">Off</span>
+                         <?php endif; ?>`,
+                    jenis_layanan: "<?= htmlspecialchars($s['jenis_layanan_yang_diterima']) ?>",
+                    aksi: `<a href="<?= base_url('admin/survei/edit/' . $s['id']) ?>" class="btn btn-primary">Edit</a>
+                       <a href="<?= base_url('admin/survei/delete/' . $s['id']) ?>" class="btn btn-danger tombol-hapus">Delete</a>
+                       <a href="<?= base_url('admin/survei/detail/' . $s['id']) ?>" class="btn btn-primary">Detail</a>`,
+                },
+            <?php endforeach; ?>
+        ],
+    });
+</script>
 
 <?= $this->endSection() ?>

@@ -26,90 +26,95 @@
             </a>
             <form method="post" action="<?= base_url("admin/survei/update/$id") ?>">
                 <?= csrf_field() ?>
-                <div class="input-style-1">
-                    <label class="text-dark mb-2 fs-6">Judul</label>
-                    <select class="form-select fs-6  mr-sm-2" id="inlineFormCustomSelect" name="judul" required>
-                        <option selected value="<?= $survei['judul_survei'] ?>"><?= $survei['judul_survei'] ?></option>
-                        <option value="Instrumen survei kepuasan mahasiswa di UPPS">Instrumen survei kepuasan mahasiswa di UPPS</option>
-                        <option value="Instrumen survei kepuasan dosen di UPPS">Instrumen survei kepuasan dosen di UPPS</option>
-                        <option value="Instrumen survei kepuasan tenaga kependidikan di UPPS">Instrumen survei kepuasan tenaga kependidikan di UPPS</option>
-                        <option value="Instrumen survei kepuasan mitra di UPPS">Instrumen survei kepuasan mitra di UPPS</option>
-                        <option value="Instrumen survei kepuasan Unit Layanan di lingkungan UMRAH">Instrumen survei kepuasan Unit Layanan di lingkungan UMRAH</option>
-                    </select>
-                </div>
-                <div class="input-style-1 my-2">
-                    <div class="form-group ">
-                        <label class="mr-sm-2 text-dark fs-6 mb-2" for="inlineFormCustomSelect">Unit</label>
-                        <select class="form-select fs-6  mr-sm-2" id="inlineFormCustomSelect" name="unit" required>
-                            <option selected value="<?= $survei['id_unit_placeholder'] ?>"><?= $survei['jenis_unit'] ?> - <?= $survei['nama_unit'] ?> - <?= $survei['jenis_layanan_yang_diterima'] ?> </option>
-                            <?php foreach ($unit_placeholder as $key) { ?>
-                                <option value="<?= $key['id'] ?>"> <?= $key['jenis_unit'] ?> - <?= $key['nama_unit'] ?> - <?= $key['jenis_layanan_yang_diterima'] ?> </option>
-                            <?php } ?>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="input-style-1">
+                            <label class="text-dark mb-2 fs-6">Judul</label>
+                            <select class="form-select fs-6  mr-sm-2" id="inlineFormCustomSelect" name="judul" required>
+                                <option selected value="<?= $survei['judul_survei'] ?>"><?= $survei['judul_survei'] ?></option>
+                                <option value="Instrumen survei kepuasan mahasiswa di UPPS">Instrumen survei kepuasan mahasiswa di UPPS</option>
+                                <option value="Instrumen survei kepuasan dosen di UPPS">Instrumen survei kepuasan dosen di UPPS</option>
+                                <option value="Instrumen survei kepuasan tenaga kependidikan di UPPS">Instrumen survei kepuasan tenaga kependidikan di UPPS</option>
+                                <option value="Instrumen survei kepuasan mitra di UPPS">Instrumen survei kepuasan mitra di UPPS</option>
+                                <option value="Instrumen survei kepuasan Unit Layanan di lingkungan UMRAH">Instrumen survei kepuasan Unit Layanan di lingkungan UMRAH</option>
+                            </select>
+                        </div>
+                        <div class="input-style-1 my-2">
+                            <div class="form-group ">
+                                <label class="mr-sm-2 text-dark fs-6 mb-2" for="inlineFormCustomSelect">Unit</label>
+                                <select class="form-select fs-6  mr-sm-2" id="inlineFormCustomSelect" name="unit" required>
+                                    <option selected value="<?= $survei['id_unit_placeholder'] ?>"><?= $survei['jenis_unit'] ?> - <?= $survei['nama_unit'] ?> - <?= $survei['jenis_layanan_yang_diterima'] ?> </option>
+                                    <?php foreach ($unit_placeholder as $key) { ?>
+                                        <option value="<?= $key['id'] ?>"> <?= $key['jenis_unit'] ?> - <?= $key['nama_unit'] ?> - <?= $key['jenis_layanan_yang_diterima'] ?> </option>
+                                    <?php } ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="input-style-1 my-1">
+                            <label class="text-dark mb-2 fs-6">Deskripsi</label>
+                            <textarea class="fs-6  form-control <?= ($validation->hasError('deskripsi')) ? 'is-invalid' : '' ?>" type="text" name="deskripsi" required><?= $survei['deskripsi_survei'] ?></textarea>
+                            <div class="invalid-feedback"><?= $validation->getError('deskripsi') ?></div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="input-style-1 my-1">
+                            <label class="text-dark mb-2 fs-6">Tanggal Mulai</label>
+                            <input class=" fs-6 form-control <?= ($validation->hasError('tgl_mulai')) ? 'is-invalid' : '' ?>" type="date" name="tgl_mulai" required value="<?= $survei['tgl_mulai'] ?>" />
+                            <div class="invalid-feedback"><?= $validation->getError('tgl_mulai') ?></div>
+                        </div>
+                        <div class="input-style-1 my-1">
+                            <label class="text-dark mb-2 fs-6">Tanggal Selesai</label>
+                            <input class="fs-6  form-control <?= ($validation->hasError('tgl_selesai')) ? 'is-invalid' : '' ?>" type="date" name="tgl_selesai" required value="<?= $survei['tgl_selesai'] ?>" />
+                            <div class="invalid-feedback"><?= $validation->getError('tgl_selesai') ?></div>
+                        </div>
+                        <div class="input-style-1 my-2">
+                            <h4 class="text-dark mb-2 fs-6">Status</h4>
+                            <div class="form-check form-check-inline">
+                                <div class="custom-control custom-radio">
+                                    <input type="radio" class="custom-control-input" id="customControlValidation2" name="status" value="on" <?= ($survei['status'] == 'on') ? 'checked' : '' ?>>
+                                    <label class="custom-control-label fs-6" for="customControlValidation2">On</label>
+                                </div>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <div class="custom-control custom-radio">
+                                    <input type="radio" class="custom-control-input" id="customControlValidation3" name="status" value="off" <?= ($survei['status'] == 'off') ? 'checked' : '' ?>>
+                                    <label class="custom-control-label fs-6" for="customControlValidation3">Off</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- New Fields: Tahun Ajaran -->
+                    <div class="input-style-1 my-1">
+                        <label class="text-dark mb-2 fs-6">Tahun Ajaran</label>
+                        <input class="fs-6 form-control" id="tahun_ajaran" type="text" name="tahun_ajaran" placeholder="Contoh: 2024/2025" required value="<?= $survei['tahun_ajaran'] ?>" />
+                        <div id="error_message" style="color: red; display: none;">Format tahun ajaran tidak valid. Gunakan format: YYYY/YYYY</div>
+                    </div>
+
+                    <!-- New Fields: Semester -->
+                    <div class="input-style-1 my-1">
+                        <label class="text-dark mb-2 fs-6">Semester</label>
+                        <select class="form-select fs-6 mr-sm-2" id="inlineFormCustomSelect" name="semester" required>
+                            <option value="">Pilih Semester</option>
+                            <option value="Ganjil" <?= ($survei['semester'] == 'Ganjil') ? 'selected' : '' ?>>Ganjil</option>
+                            <option value="Genap" <?= ($survei['semester'] == 'Genap') ? 'selected' : '' ?>>Genap</option>
                         </select>
                     </div>
-                </div>
-                <div class="input-style-1 my-1">
-                    <label class="text-dark mb-2 fs-6">Deskripsi</label>
-                    <textarea class="fs-6  form-control <?= ($validation->hasError('deskripsi')) ? 'is-invalid' : '' ?>" type="text" name="deskripsi" required><?= $survei['deskripsi_survei'] ?></textarea>
-                    <div class="invalid-feedback"><?= $validation->getError('deskripsi') ?></div>
-                </div>
-                <div class="input-style-1 my-1">
-                    <label class="text-dark mb-2 fs-6">Tanggal Mulai</label>
-                    <input class=" fs-6 form-control <?= ($validation->hasError('tgl_mulai')) ? 'is-invalid' : '' ?>" type="date" name="tgl_mulai" required value="<?= $survei['tgl_mulai'] ?>" />
-                    <div class="invalid-feedback"><?= $validation->getError('tgl_mulai') ?></div>
-                </div>
-                <div class="input-style-1 my-1">
-                    <label class="text-dark mb-2 fs-6">Tanggal Selesai</label>
-                    <input class="fs-6  form-control <?= ($validation->hasError('tgl_selesai')) ? 'is-invalid' : '' ?>" type="date" name="tgl_selesai" required value="<?= $survei['tgl_selesai'] ?>" />
-                    <div class="invalid-feedback"><?= $validation->getError('tgl_selesai') ?></div>
-                </div>
-                <div class="input-style-1 my-2">
-                    <h4 class="text-dark mb-2 fs-6">Status</h4>
-                    <div class="form-check form-check-inline">
-                        <div class="custom-control custom-radio">
-                            <input type="radio" class="custom-control-input" id="customControlValidation2" name="status" value="on" <?= ($survei['status'] == 'on') ? 'checked' : '' ?>>
-                            <label class="custom-control-label fs-6" for="customControlValidation2">On</label>
+                    <?php foreach ($pertanyaanGrouped as $kategori => $pertanyaans): ?>
+                        <div class="category-group mt-5">
+                            <h5 class="fw-bold text-dark">Kategori = <?= htmlspecialchars($kategori) ?></h5>
+                            <?php foreach ($pertanyaans as $pertanyaan): ?>
+                                <div class="form-check">
+                                    <input class="form-check-input border border-dark border-1" type="checkbox" name="pertanyaan[]" value="<?= htmlspecialchars($pertanyaan['id']) ?>"
+                                        <?= in_array($pertanyaan['id'], $selectedPertanyaan) ? 'checked' : '' ?>>
+                                    <label class="form-check-label text-dark"><?= htmlspecialchars($pertanyaan['pertanyaan']) ?></label>
+                                </div>
+                            <?php endforeach; ?>
                         </div>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <div class="custom-control custom-radio">
-                            <input type="radio" class="custom-control-input" id="customControlValidation3" name="status" value="off" <?= ($survei['status'] == 'off') ? 'checked' : '' ?>>
-                            <label class="custom-control-label fs-6" for="customControlValidation3">Off</label>
-                        </div>
-                    </div>
-                </div>
-                <!-- New Fields: Tahun Ajaran -->
-                <div class="input-style-1 my-1">
-                    <label class="text-dark mb-2 fs-6">Tahun Ajaran</label>
-                    <input class="fs-6 form-control" id="tahun_ajaran" type="text" name="tahun_ajaran" placeholder="Contoh: 2024/2025" required value="<?= $survei['tahun_ajaran'] ?>" />
-                    <div id="error_message" style="color: red; display: none;">Format tahun ajaran tidak valid. Gunakan format: YYYY/YYYY</div>
-                </div>
+                    <?php endforeach; ?>
 
-                <!-- New Fields: Semester -->
-                <div class="input-style-1 my-1">
-                    <label class="text-dark mb-2 fs-6">Semester</label>
-                    <select class="form-select fs-6 mr-sm-2" id="inlineFormCustomSelect" name="semester" required>
-                        <option value="">Pilih Semester</option>
-                        <option value="Ganjil" <?= ($survei['semester'] == 'Ganjil') ? 'selected' : '' ?>>Ganjil</option>
-                        <option value="Genap" <?= ($survei['semester'] == 'Genap') ? 'selected' : '' ?>>Genap</option>
-                    </select>
-                </div>
-                <?php foreach ($pertanyaanGrouped as $kategori => $pertanyaans): ?>
-                    <div class="category-group mt-5">
-                        <h5 class="fw-bold text-dark">Kategori = <?= htmlspecialchars($kategori) ?></h5>
-                        <?php foreach ($pertanyaans as $pertanyaan): ?>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="pertanyaan[]" value="<?= htmlspecialchars($pertanyaan['id']) ?>"
-                                    <?= in_array($pertanyaan['id'], $selectedPertanyaan) ? 'checked' : '' ?>>
-                                <label class="form-check-label text-dark"><?= htmlspecialchars($pertanyaan['pertanyaan']) ?></label>
-                            </div>
-                        <?php endforeach; ?>
+                    <div class="text-center mt-5">
+                        <button type="submit" class="btn btn-primary">Submit</button>
                     </div>
-                <?php endforeach; ?>
-
-                <div class="text-center mt-5">
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                </div>
             </form>
         </div>
     </div>

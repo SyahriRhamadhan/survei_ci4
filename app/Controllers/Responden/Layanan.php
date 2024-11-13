@@ -29,6 +29,10 @@ class Layanan extends BaseController
             'fakultasList' => $fakultasModel->findAll(),
             'unitList' => $unitModel->getSurveiWithUnit(),
             'unitKerja' => $unitKerja->findAll(),
+            'mahasiswa' => $unitModel->getSurveiWithUnitMahasiswa(),
+            'dosen' => $unitModel->getSurveiWithUnitDosen(),
+            'tendik' => $unitModel->getSurveiWithUnitTendik(),
+            'mitra' => $unitModel->getSurveiWithUnitMitra(),
             'survei' => $surveiModel
                 ->select('survei.*, unit_placeholder_pertanyaan.nama_unit, unit_placeholder_pertanyaan.jenis_unit')
                 ->join('unit_placeholder_pertanyaan', 'unit_placeholder_pertanyaan.id = survei.id_unit_placeholder')
@@ -51,6 +55,7 @@ class Layanan extends BaseController
         $survei = $surveiModel
             ->select('survei.*, unit_placeholder_pertanyaan.nama_unit, unit_placeholder_pertanyaan.jenis_unit, unit_placeholder_pertanyaan.jenis_layanan_yang_diterima')
             ->join('unit_placeholder_pertanyaan', 'unit_placeholder_pertanyaan.id = survei.id_unit_placeholder')
+            ->where('survei.status', 'on')
             ->find($id);
 
         if (!$survei) {
@@ -131,17 +136,17 @@ class Layanan extends BaseController
 
         $rataRataTertimbang = [];
         foreach ($kategoriJawaban as $kategori => $jawabans) {
-            $bobotJawaban = [4 => 4, 3 => 3, 2 => 2, 1 => 1]; 
+            $bobotJawaban = [4 => 4, 3 => 3, 2 => 2, 1 => 1];
             $totalBobot = 0;
             $totalJawaban = 0;
             foreach ($jawabans as $jawaban) {
-                $totalBobot += $bobotJawaban[$jawaban]; 
+                $totalBobot += $bobotJawaban[$jawaban];
                 $totalJawaban++;
             }
             $rataRataTertimbang[$kategori] = $totalJawaban > 0 ? $totalBobot / $totalJawaban : 0;
         }
 
-        
+
         $totalNilai = 0;
         $totalKategori = count($rataRataTertimbang);
 
@@ -149,13 +154,13 @@ class Layanan extends BaseController
             $totalNilai += $nilai;
         }
 
-        
+
         $ikm = $totalKategori > 0 ? ($totalNilai / $totalKategori) * 25 : 0;
 
 
         $surveiModel->update($this->request->getPost('id_survei'), [
-            'rata_rata_tertimbang' => json_encode($rataRataTertimbang), 
-            'ikm' => $ikm 
+            'rata_rata_tertimbang' => json_encode($rataRataTertimbang),
+            'ikm' => $ikm
         ]);
 
 

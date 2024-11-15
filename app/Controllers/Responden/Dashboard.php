@@ -435,6 +435,7 @@ class Dashboard extends BaseController
         return view('responden/chartfilter', $data);
     }
 
+
     public function hitungIKMUnit($namaUnit)
     {
         $placeholderModel = new UnitPlaceholderPertanyaanModel();
@@ -443,8 +444,8 @@ class Dashboard extends BaseController
         $pertanyaanModel = new PertanyaanModel();
         $respondenModel = new RespondenModel();
 
-        $tahun = $this->request->getGet('tahun'); 
-        $tahun = $tahun ?: date('Y'); 
+        $tahun = $this->request->getGet('tahun');
+        $tahun = $tahun ?: date('Y');
 
         $unitPlaceholders = $placeholderModel->where('nama_unit', urldecode($namaUnit))->findAll();
 
@@ -465,8 +466,10 @@ class Dashboard extends BaseController
                 'nama_unit' => $namaUnit,
                 'ikm' => 0,
                 'kategori' => 'Tidak ada data survei',
-                'total_responden' => 0,
+                'totalResponden' => 0,
                 'tahun' => $tahun,
+                'kategoriLabels' => '[]',
+                'kategoriCounts' => '[]',
             ]);
         }
 
@@ -474,15 +477,36 @@ class Dashboard extends BaseController
         $totalResponden = $jawabanSurveiModel
             ->select('id_responden')
             ->whereIn('id_survei', $surveiIds)
-            ->where('YEAR(jawaban_survei.created_at)', $tahun)  
+            ->where('YEAR(jawaban_survei.created_at)', $tahun)
             ->groupBy('id_responden')
             ->countAllResults();
+
+        $respondenKategoriCount = $respondenModel->select('kategori_responden, COUNT(DISTINCT jawaban_survei.id_responden) as count')
+            ->join('jawaban_survei', 'jawaban_survei.id_responden = responden.id')
+            ->whereIn('jawaban_survei.id_survei', $surveiIds)
+            ->where('YEAR(jawaban_survei.created_at)', $tahun)
+            ->groupBy('kategori_responden')
+            ->findAll();
+
+        $kategoriRespondenData = [];
+        foreach ($respondenKategoriCount as $item) {
+            $kategoriRespondenData[$item['kategori_responden']] = $item['count'];
+        }
+
+        $kategoriLabels = ['Mahasiswa', 'Dosen', 'Tendik', 'Mitra', 'Umum'];
+        $kategoriCounts = [
+            $kategoriRespondenData['mahasiswa'] ?? 0,
+            $kategoriRespondenData['dosen'] ?? 0,
+            $kategoriRespondenData['tendik'] ?? 0,
+            $kategoriRespondenData['mitra'] ?? 0,
+            $kategoriRespondenData['umum'] ?? 0
+        ];
 
         $jawabanSurvei = $jawabanSurveiModel
             ->select('jawaban_survei.id_survei, pertanyaan.tipe_pertanyaan, jawaban_survei.jawaban')
             ->join('pertanyaan', 'pertanyaan.id = jawaban_survei.id_pertanyaan')
             ->whereIn('jawaban_survei.id_survei', $surveiIds)
-            ->where('YEAR(jawaban_survei.created_at)', $tahun) 
+            ->where('YEAR(jawaban_survei.created_at)', $tahun)
             ->findAll();
 
         $groupedJawaban = [];
@@ -539,6 +563,8 @@ class Dashboard extends BaseController
             'kategori' => $ikmCategory,
             'totalResponden' => $totalResponden,
             'tahun' => $tahun,
+            'kategoriLabels' => json_encode($kategoriLabels),
+            'kategoriCounts' => json_encode($kategoriCounts),
         ]);
     }
 }

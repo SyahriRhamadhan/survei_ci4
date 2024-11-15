@@ -434,102 +434,6 @@ class Dashboard extends BaseController
         ];
         return view('responden/chartfilter', $data);
     }
-    //bro ini lemot
-    // public function hitungIKMUnit($namaUnit)
-    // {
-    //     $placeholderModel = new UnitPlaceholderPertanyaanModel();
-    //     $surveiModel = new SurveiModel();
-    //     $jawabanSurveiModel = new JawabanSurveiModel();
-    //     $pertanyaanModel = new PertanyaanModel();
-
-    //     // Cari semua unit placeholder berdasarkan nama_unit
-    //     $unitPlaceholders = $placeholderModel->where('nama_unit', urldecode($namaUnit))->findAll();
-
-    //     if (empty($unitPlaceholders)) {
-    //         throw new \CodeIgniter\Exceptions\PageNotFoundException("Unit dengan nama '$namaUnit' tidak ditemukan");
-    //     }
-
-    //     // Ambil semua ID unit placeholder
-    //     $unitPlaceholderIds = array_column($unitPlaceholders, 'id');
-
-    //     // Cari survei terkait dengan semua unit placeholder
-    //     $surveiList = $surveiModel
-    //         ->select('survei.*, unit_placeholder_pertanyaan.jenis_layanan_yang_diterima as jenis_layanan')
-    //         ->join('unit_placeholder_pertanyaan', 'unit_placeholder_pertanyaan.id = survei.id_unit_placeholder')
-    //         ->whereIn('survei.id_unit_placeholder', $unitPlaceholderIds)
-    //         ->findAll();
-
-    //     if (empty($surveiList)) {
-    //         return view('responden/chartfilterunit', [
-    //             'nama_unit' => $namaUnit,
-    //             'ikm' => 0,
-    //             'kategori' => 'Tidak ada data survei',
-    //         ]);
-    //     }
-
-    //     // Inisialisasi variabel untuk hasil
-    //     $totalIKM = 0;
-    //     $totalSurvei = 0;
-    //     $bobotJawaban = [4 => 4, 3 => 3, 2 => 2, 1 => 1];
-
-    //     foreach ($surveiList as $survei) {
-    //         if (!isset($survei['jenis_layanan'])) {
-    //             continue;
-    //         }
-
-    //         $jawabanSurvei = $jawabanSurveiModel
-    //             ->select('pertanyaan.tipe_pertanyaan, jawaban_survei.jawaban')
-    //             ->join('pertanyaan', 'pertanyaan.id = jawaban_survei.id_pertanyaan')
-    //             ->where('jawaban_survei.id_survei', $survei['id'])
-    //             ->findAll();
-
-    //         if (empty($jawabanSurvei)) {
-    //             continue; // Lewati survei tanpa data jawaban
-    //         }
-
-    //         $kategoriJawaban = [];
-    //         foreach ($jawabanSurvei as $jawaban) {
-    //             $kategoriJawaban[$jawaban['tipe_pertanyaan']][] = $jawaban['jawaban'];
-    //         }
-
-    //         $rataRataTertimbang = [];
-    //         foreach ($kategoriJawaban as $kategori => $jawabans) {
-    //             $totalBobot = 0;
-    //             $totalJawaban = 0;
-    //             foreach ($jawabans as $jawaban) {
-    //                 $totalBobot += $bobotJawaban[$jawaban];
-    //                 $totalJawaban++;
-    //             }
-    //             $rataRataTertimbang[$kategori] = $totalJawaban > 0 ? $totalBobot / $totalJawaban : 0;
-    //         }
-
-    //         $totalNilai = array_sum($rataRataTertimbang);
-    //         $totalKategori = count($rataRataTertimbang);
-    //         $IKM = $totalKategori > 0 ? ($totalNilai / $totalKategori) * 25 : 0;
-
-    //         $totalIKM += $IKM;
-    //         $totalSurvei++;
-    //     }
-
-    //     // Hitung rata-rata IKM
-    //     $averageIKM = $totalSurvei > 0 ? $totalIKM / $totalSurvei : 0;
-
-    //     // Menentukan kategori rata-rata IKM
-    //     $ikmCategory = match (true) {
-    //         $averageIKM >= 1 && $averageIKM <= 64.99 => 'Tidak Baik',
-    //         $averageIKM >= 65 && $averageIKM <= 76.60 => 'Kurang Baik',
-    //         $averageIKM >= 76.61 && $averageIKM <= 88.30 => 'Baik',
-    //         $averageIKM >= 88.31 && $averageIKM <= 100 => 'Sangat Baik',
-    //         default => 'Nilai IKM tidak valid',
-    //     };
-
-    //     // Tampilkan hasil ke view
-    //     return view('responden/chartfilterunit', [
-    //         'nama_unit' => $namaUnit,
-    //         'ikm' => number_format($averageIKM, 2),
-    //         'kategori' => $ikmCategory,
-    //     ]);
-    // }
 
     public function hitungIKMUnit($namaUnit)
     {
@@ -537,6 +441,10 @@ class Dashboard extends BaseController
         $surveiModel = new SurveiModel();
         $jawabanSurveiModel = new JawabanSurveiModel();
         $pertanyaanModel = new PertanyaanModel();
+        $respondenModel = new RespondenModel();
+
+        $tahun = $this->request->getGet('tahun'); 
+        $tahun = $tahun ?: date('Y'); 
 
         $unitPlaceholders = $placeholderModel->where('nama_unit', urldecode($namaUnit))->findAll();
 
@@ -557,14 +465,24 @@ class Dashboard extends BaseController
                 'nama_unit' => $namaUnit,
                 'ikm' => 0,
                 'kategori' => 'Tidak ada data survei',
+                'total_responden' => 0,
+                'tahun' => $tahun,
             ]);
         }
 
         $surveiIds = array_column($surveiList, 'id');
+        $totalResponden = $jawabanSurveiModel
+            ->select('id_responden')
+            ->whereIn('id_survei', $surveiIds)
+            ->where('YEAR(jawaban_survei.created_at)', $tahun)  
+            ->groupBy('id_responden')
+            ->countAllResults();
+
         $jawabanSurvei = $jawabanSurveiModel
             ->select('jawaban_survei.id_survei, pertanyaan.tipe_pertanyaan, jawaban_survei.jawaban')
             ->join('pertanyaan', 'pertanyaan.id = jawaban_survei.id_pertanyaan')
             ->whereIn('jawaban_survei.id_survei', $surveiIds)
+            ->where('YEAR(jawaban_survei.created_at)', $tahun) 
             ->findAll();
 
         $groupedJawaban = [];
@@ -619,6 +537,8 @@ class Dashboard extends BaseController
             'nama_unit' => $namaUnit,
             'ikm' => number_format($averageIKM, 2),
             'kategori' => $ikmCategory,
+            'totalResponden' => $totalResponden,
+            'tahun' => $tahun,
         ]);
     }
 }

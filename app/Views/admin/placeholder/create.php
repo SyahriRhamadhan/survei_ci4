@@ -57,7 +57,8 @@ $placeholders = $placeholderModel->select('nama_unit')->findAll();
 
                 <div class="input-style-1" id="jenis_layanan_div">
                     <label class="text-dark mb-2 fs-6">Jenis Layanan/Nama Prodi (jika tipe unit UPPS)</label>
-                    <input class="fs-6 form-control" type="text" name="jenis_layanan_yang_diterima" placeholder="*Contoh Layanan Akademik Fakultas Sertifikat Akreditasi Layanan Alumni (Legalisir), Teknik Informatika" />
+                    <input class="fs-6 form-control <?= ($validation->hasError('jenis_layanan_yang_diterima')) ? 'is-invalid' : '' ?>" type="text" name="jenis_layanan_yang_diterima" placeholder="*Contoh Layanan Akademik Fakultas Sertifikat Akreditasi Layanan Alumni (Legalisir), Teknik Informatika" />
+                    <div class="invalid-feedback"><?= $validation->getError('jenis_layanan_yang_diterima') ?></div>
                 </div>
 
                 <div class="text-center mt-3">

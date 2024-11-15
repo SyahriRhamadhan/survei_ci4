@@ -15,7 +15,7 @@
         </div>
 
     </div>
-    <form>
+    <!-- <form>
         <?= csrf_field() ?>
         <div class="card">
             <div class="card-body">
@@ -207,7 +207,7 @@
                 return new bootstrap.Tooltip(tooltipTriggerEl);
             });
         });
-    </script>
+    </script> -->
 
 
 
@@ -323,7 +323,7 @@
 
                 </div>
             </div>
-            <div class="card col-md-4 ms-5">
+            <div class="card col-md-4 ms-4">
                 <div class="card-body">
                     <h4 class="card-title text-center">Hasil Survei Tingkat Unit Layanan</h4>
                     <div class="d-flex justify-content-center">

@@ -43,18 +43,24 @@ class Placeholder extends BaseController
                 'errors' => [
                     'required' => 'Jenis unit tidak boleh kosong'
                 ]
+            ],
+            'jenis_layanan_yang_diterima' => [
+                'rules' => 'required',
+                'errors' => [
+                    'required' => ' tidak boleh kosong'
+                ]
             ]
         ];
 
         // Tambahkan validasi `jenis_layanan_yang_diterima` hanya jika `jenis_unit` bukan "UPPS"
-        if ($jenisUnit !== 'UPPS') {
-            $rules['jenis_layanan_yang_diterima'] = [
-                'rules' => 'required',
-                'errors' => [
-                    'required' => 'Jenis layanan tidak boleh kosong/isi dengan none'
-                ]
-            ];
-        }
+        // if ($jenisUnit !== 'UPPS') {
+        //     $rules['jenis_layanan_yang_diterima'] = [
+        //         'rules' => 'required',
+        //         'errors' => [
+        //             'required' => 'Jenis layanan tidak boleh kosong/isi dengan none'
+        //         ]
+        //     ];
+        // }
 
         if (!$this->validate($rules)) {
             $data = [
@@ -88,7 +94,7 @@ class Placeholder extends BaseController
     public function update($id)
     {
         $placeholderModel = new UnitPlaceholderPertanyaanModel();
-        
+
         // Kondisi validasi dinamis untuk `jenis_layanan_yang_diterima`
         $jenisUnit = $this->request->getPost('jenis_unit');
         $rules = [
@@ -103,18 +109,24 @@ class Placeholder extends BaseController
                 'errors' => [
                     'required' => 'Jenis unit tidak boleh kosong'
                 ]
+            ],
+            'jenis_layanan_yang_diterima' => [
+                'rules' => 'required',
+                'errors' => [
+                    'required' => ' tidak boleh kosong'
+                ]
             ]
         ];
 
         // Tambahkan validasi `jenis_layanan_yang_diterima` hanya jika `jenis_unit` bukan "UPPS"
-        if ($jenisUnit !== 'UPPS') {
-            $rules['jenis_layanan_yang_diterima'] = [
-                'rules' => 'required',
-                'errors' => [
-                    'required' => 'Jenis layanan tidak boleh kosong/isi dengan none'
-                ]
-            ];
-        }
+        // if ($jenisUnit !== 'UPPS') {
+        //     $rules['jenis_layanan_yang_diterima'] = [
+        //         'rules' => 'required',
+        //         'errors' => [
+        //             'required' => 'Jenis layanan tidak boleh kosong/isi dengan none'
+        //         ]
+        //     ];
+        // }
 
         if (!$this->validate($rules)) {
             $data = [
@@ -138,14 +150,14 @@ class Placeholder extends BaseController
     {
         $placeholderModel = new UnitPlaceholderPertanyaanModel();
         $placeholder = $placeholderModel->find($id);
-        
+
         if ($placeholder) {
             $placeholderModel->delete($id);
             session()->setFlashdata('berhasil', 'Data berhasil dihapus');
         } else {
             session()->setFlashdata('error', 'Data tidak ditemukan');
         }
-        
+
         return redirect()->to(base_url('/admin/placeholder'));
     }
 }

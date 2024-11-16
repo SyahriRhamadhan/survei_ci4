@@ -448,13 +448,13 @@ class Dashboard extends BaseController
         $tahun = $tahun ?: date('Y');
 
         $unitPlaceholders = $placeholderModel->where('nama_unit', urldecode($namaUnit))->findAll();
-
         if (empty($unitPlaceholders)) {
             throw new \CodeIgniter\Exceptions\PageNotFoundException("Unit dengan nama '$namaUnit' tidak ditemukan");
         }
 
         $unitPlaceholderIds = array_column($unitPlaceholders, 'id');
 
+        // Ambil data survei berdasarkan unit placeholder
         $surveiList = $surveiModel
             ->select('survei.id, unit_placeholder_pertanyaan.jenis_layanan_yang_diterima as jenis_layanan')
             ->join('unit_placeholder_pertanyaan', 'unit_placeholder_pertanyaan.id = survei.id_unit_placeholder')
@@ -470,10 +470,15 @@ class Dashboard extends BaseController
                 'tahun' => $tahun,
                 'kategoriLabels' => '[]',
                 'kategoriCounts' => '[]',
+                'ikmUnitLabels' => '[]',
+                'ikmUnitData' => '[]',
+                'ikmUnitDataAvg' => 0,
+                'genderCounts' => 0,
             ]);
         }
 
         $surveiIds = array_column($surveiList, 'id');
+
         $totalResponden = $jawabanSurveiModel
             ->select('id_responden')
             ->whereIn('id_survei', $surveiIds)
@@ -493,6 +498,7 @@ class Dashboard extends BaseController
             $kategoriRespondenData[$item['kategori_responden']] = $item['count'];
         }
 
+        // Define kategori responden dan hitung jumlah kategori
         $kategoriLabels = ['Mahasiswa', 'Dosen', 'Tendik', 'Mitra', 'Umum'];
         $kategoriCounts = [
             $kategoriRespondenData['mahasiswa'] ?? 0,
@@ -576,15 +582,69 @@ class Dashboard extends BaseController
             default => 'Nilai IKM tidak valid',
         };
 
+        $genderCount = $respondenModel
+            ->select('jenis_kelamin, COUNT(DISTINCT responden.id) as count')  // COUNT DISTINCT on respondents
+            ->join('jawaban_survei', 'jawaban_survei.id_responden = responden.id')
+            ->whereIn('jawaban_survei.id_survei', $surveiIds)
+            ->where('YEAR(jawaban_survei.created_at)', $tahun)
+            ->groupBy('jenis_kelamin')
+            ->findAll();
+
+        $genderCounts = [
+            'Laki-laki' => 0,
+            'Perempuan' => 0
+        ];
+        foreach ($genderCount as $item) {
+            if ($item['jenis_kelamin'] == 'Laki-laki') {
+                $genderCounts['Laki-laki'] = $item['count'];
+            } elseif ($item['jenis_kelamin'] == 'Perempuan') {
+                $genderCounts['Perempuan'] = $item['count'];
+            }
+        }
+
+
+        // Ambil data IKM per unit
+        $ikmDataByUnit = $jawabanSurveiModel
+            ->select('unit_placeholder_pertanyaan.nama_unit, unit_placeholder_pertanyaan.jenis_layanan_yang_diterima, AVG(jawaban_survei.jawaban) * 25 as ikm_avg')
+            ->join('survei', 'survei.id = jawaban_survei.id_survei')
+            ->join('unit_placeholder_pertanyaan', 'unit_placeholder_pertanyaan.id = survei.id_unit_placeholder')
+            ->whereIn('survei.id_unit_placeholder', $unitPlaceholderIds)
+            ->where('YEAR(jawaban_survei.created_at)', $tahun)
+            ->groupBy(['unit_placeholder_pertanyaan.nama_unit', 'unit_placeholder_pertanyaan.jenis_layanan_yang_diterima'])
+            ->findAll();
+
+        $ikmUnitLabels = [];
+        $ikmUnitData = [];
+
+        foreach ($ikmDataByUnit as $ikmRow) {
+            $namaUnit = $ikmRow['nama_unit'];
+            if (preg_match('/\(([^)]+)\)/', $namaUnit, $matches)) {
+                $singkatanNamaUnit = $matches[1];
+            } else {
+                $singkatanNamaUnit = $namaUnit;
+            }
+
+            $ikmUnitLabels[] = "{$singkatanNamaUnit} - {$ikmRow['jenis_layanan_yang_diterima']}";
+            $ikmUnitData[] = round($ikmRow['ikm_avg'], 2);  // Rata-rata IKM dibulatkan menjadi 2 angka desimal
+        }
+
+        // Rata-rata IKM Unit
+        $ikmUnitDataAvg = !empty($ikmUnitData) ? array_sum($ikmUnitData) / count($ikmUnitData) : 0;
+
+
+        // Render hasil ke view
         return view('responden/chartfilterunit', [
             'nama_unit' => $namaUnit,
-            'ikm' => number_format($averageIKM, 2),
+            'ikm' => round($averageIKM, 2),
             'kategori' => $ikmCategory,
             'totalResponden' => $totalResponden,
             'tahun' => $tahun,
             'kategoriLabels' => json_encode($kategoriLabels),
+            'genderCounts' => $genderCounts,
             'kategoriCounts' => json_encode($kategoriCounts),
-            'genderCounts' => $genderCounts
+            'ikmUnitLabels' => json_encode($ikmUnitLabels),
+            'ikmUnitData' => json_encode($ikmUnitData),
+            'ikmUnitDataAvg' => round($ikmUnitDataAvg, 2),
         ]);
     }
 }

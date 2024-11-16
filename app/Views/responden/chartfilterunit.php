@@ -54,11 +54,12 @@
                     <div class="col-md-6 d-flex">
                         <div class="card flex-fill">
                             <h3 class="card-title text-center fw-bold mt-3">Indeks Kepuasan Masyarakat</h3>
-                            <div class="card-body d-flex justify-content-center align-items-center" style="height: 100%;">
+                            <div class="card-body d-flex justify-content-center align-items-center" style="height: 75%;">
                                 <div class="text-center">
-                                    <h1><strong>Nilai IKM:</strong> <?= $ikm ?> (<?= $kategori ?>)</h1>
-                                    <h1 class="mt-2"><strong>Performa Pelayanan:</strong> </h1>
-                                    <h1> <?= $kategori ?></h1>
+                                    <h2><strong>Nilai IKM:</strong> <?= $ikm ?> (<?= $kategori ?>)</h2>
+                                    <h2><strong>Nilai IKM:</strong> <?= $ikmUnitDataAvg ?> (<?= $kategori ?>)</h2>
+                                    <h2 class="mt-2"><strong>Performa Pelayanan:</strong> </h2>
+                                    <h2> <?= $kategori ?></h2>
                                 </div>
                             </div>
                         </div>
@@ -146,11 +147,57 @@
 
     </div>
 </div>
+<div class="col-md-12 d-flex">
+    <div class="card border-5 flex-fill">
+        <div class="card-body">
+            <h3 class="fw-bold text-center">IKM per Jenis Layanan</h3>
+            <canvas id="ikmPerLayananChart"></canvas>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Data untuk chart IKM berdasarkan unit dan jenis layanan
+    const ikmUnitLabels = <?= $ikmUnitLabels ?>; // Labels (Nama Unit dan Layanan)
+    const ikmUnitData = <?= $ikmUnitData ?>; // Data IKM per unit dan layanan
+
+    // Membuat chart menggunakan Chart.js
+    var ctx = document.getElementById('ikmPerLayananChart').getContext('2d');
+    var ikmPerLayananChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ikmUnitLabels, // Labels untuk sumbu X (Nama Unit dan Jenis Layanan)
+            datasets: [{
+                label: 'IKM per Jenis Layanan',
+                data: ikmUnitData, // Data IKM untuk sumbu Y
+                backgroundColor: '#FF5733', // Bisa disesuaikan
+                borderColor: '#FF5733',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 100 // Tentukan batas maksimum untuk IKM (0-100)
+                }
+            },
+            plugins: {
+                legend: {
+                    position: 'top',
+                }
+            }
+        }
+    });
+</script>
 
 <script>
     var kategoriLabels = <?= $kategoriLabels ?>;
     var kategoriCounts = <?= $kategoriCounts ?>;
-
+    // Menampilkan data di console untuk debugging
+    console.log("IKM Unit Labels:", ikmUnitLabels);
+    console.log("IKM Unit Data:", ikmUnitData);
     document.getElementById('mahasiswa-count').textContent = kategoriCounts[0] || 0;
     document.getElementById('dosen-count').textContent = kategoriCounts[1] || 0;
     document.getElementById('tendik-count').textContent = kategoriCounts[2] || 0;

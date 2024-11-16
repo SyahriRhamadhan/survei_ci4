@@ -603,19 +603,64 @@ class Dashboard extends BaseController
         }
 
 
-        // Ambil data IKM per unit
         $ikmDataByUnit = $jawabanSurveiModel
-            ->select('unit_placeholder_pertanyaan.nama_unit, unit_placeholder_pertanyaan.jenis_layanan_yang_diterima, AVG(jawaban_survei.jawaban) * 25 as ikm_avg')
+            ->select('unit_placeholder_pertanyaan.nama_unit, 
+             unit_placeholder_pertanyaan.jenis_layanan_yang_diterima, 
+             AVG(jawaban_survei.jawaban) as ikm_avg, 
+             pertanyaan.tipe_pertanyaan')
             ->join('survei', 'survei.id = jawaban_survei.id_survei')
             ->join('unit_placeholder_pertanyaan', 'unit_placeholder_pertanyaan.id = survei.id_unit_placeholder')
+            ->join('pertanyaan', 'pertanyaan.id = jawaban_survei.id_pertanyaan')
             ->whereIn('survei.id_unit_placeholder', $unitPlaceholderIds)
             ->where('YEAR(jawaban_survei.created_at)', $tahun)
-            ->groupBy(['unit_placeholder_pertanyaan.nama_unit', 'unit_placeholder_pertanyaan.jenis_layanan_yang_diterima'])
+            ->groupBy([
+                'unit_placeholder_pertanyaan.nama_unit',
+                'unit_placeholder_pertanyaan.jenis_layanan_yang_diterima',
+                'pertanyaan.tipe_pertanyaan'
+            ])
             ->findAll();
+
+
+        $kategoriJawaban = [];
+
+        foreach ($ikmDataByUnit as $ikmRow) {
+            $tipePertanyaan = $ikmRow['tipe_pertanyaan'];
+            $ikmAvg = $ikmRow['ikm_avg'];
+
+            $kategoriJawaban[$tipePertanyaan][] = $ikmAvg;
+        }
+
+        $rataRataTertimbang = [];
+        foreach ($kategoriJawaban as $kategori => $ikmAverages) {
+            $totalBobot = 0;
+            $totalJawaban = 0;
+
+            foreach ($ikmAverages as $ikmAvg) {
+                $totalBobot += $ikmAvg;
+                $totalJawaban++;
+            }
+
+            $rataRataTertimbang[$kategori] = $totalJawaban > 0 ? $totalBobot / $totalJawaban : 0;
+        }
+        $totalNilai = array_sum($rataRataTertimbang);
+        $totalKategori = count($rataRataTertimbang);
+
+        $IKM = $totalKategori > 0 ? ($totalNilai / $totalKategori) * 25 : 0; // Scale to 25-100 range
+
+        if ($IKM >= 1 && $IKM <= 64.99) {
+            $ikmCategory = 'Tidak Baik';
+        } elseif ($IKM >= 65 && $IKM <= 76.60) {
+            $ikmCategory = 'Kurang Baik';
+        } elseif ($IKM >= 76.61 && $IKM <= 88.30) {
+            $ikmCategory = 'Baik';
+        } elseif ($IKM >= 88.31 && $IKM <= 100) {
+            $ikmCategory = 'Sangat Baik';
+        } else {
+            $ikmCategory = 'Nilai IKM tidak valid';
+        }
 
         $ikmUnitLabels = [];
         $ikmUnitData = [];
-
         foreach ($ikmDataByUnit as $ikmRow) {
             $namaUnit = $ikmRow['nama_unit'];
             if (preg_match('/\(([^)]+)\)/', $namaUnit, $matches)) {
@@ -625,14 +670,9 @@ class Dashboard extends BaseController
             }
 
             $ikmUnitLabels[] = "{$singkatanNamaUnit} - {$ikmRow['jenis_layanan_yang_diterima']}";
-            $ikmUnitData[] = round($ikmRow['ikm_avg'], 2);  // Rata-rata IKM dibulatkan menjadi 2 angka desimal
+            $ikmUnitData[] = round($IKM, 2);
         }
 
-        // Rata-rata IKM Unit
-        $ikmUnitDataAvg = !empty($ikmUnitData) ? array_sum($ikmUnitData) / count($ikmUnitData) : 0;
-
-
-        // Render hasil ke view
         return view('responden/chartfilterunit', [
             'nama_unit' => $namaUnit,
             'ikm' => round($averageIKM, 2),
@@ -644,7 +684,7 @@ class Dashboard extends BaseController
             'kategoriCounts' => json_encode($kategoriCounts),
             'ikmUnitLabels' => json_encode($ikmUnitLabels),
             'ikmUnitData' => json_encode($ikmUnitData),
-            'ikmUnitDataAvg' => round($ikmUnitDataAvg, 2),
+            'ikmUnitDataAvg' => round($IKM, 2),
         ]);
     }
 }

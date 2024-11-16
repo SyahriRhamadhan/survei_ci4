@@ -514,6 +514,25 @@ class Dashboard extends BaseController
             $groupedJawaban[$jawaban['id_survei']][] = $jawaban;
         }
 
+        $genderCount = $respondenModel
+            ->select('jenis_kelamin, COUNT(DISTINCT responden.id) as count')  // COUNT DISTINCT on respondents
+            ->join('jawaban_survei', 'jawaban_survei.id_responden = responden.id')
+            ->whereIn('jawaban_survei.id_survei', $surveiIds)
+            ->where('YEAR(jawaban_survei.created_at)', $tahun)
+            ->groupBy('jenis_kelamin')
+            ->findAll();
+
+        $genderCounts = [
+            'Laki-laki' => 0,
+            'Perempuan' => 0
+        ];
+        foreach ($genderCount as $item) {
+            if ($item['jenis_kelamin'] == 'Laki-laki') {
+                $genderCounts['Laki-laki'] = $item['count'];
+            } elseif ($item['jenis_kelamin'] == 'Perempuan') {
+                $genderCounts['Perempuan'] = $item['count'];
+            }
+        }
         $totalIKM = 0;
         $totalSurvei = 0;
         $bobotJawaban = [4 => 4, 3 => 3, 2 => 2, 1 => 1];
@@ -565,6 +584,7 @@ class Dashboard extends BaseController
             'tahun' => $tahun,
             'kategoriLabels' => json_encode($kategoriLabels),
             'kategoriCounts' => json_encode($kategoriCounts),
+            'genderCounts' => $genderCounts
         ]);
     }
 }

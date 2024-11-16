@@ -38,40 +38,44 @@
                 </form>
             </div>
         </div>
-
-        <!-- Card untuk IKM dan Pengguna Layanan -->
         <div class="card downloadhasil">
-            <div class="card-label  m-3 text-center">
-                <h3 class="fw-bold card-title">INDEKS KEPUASAN MASYARAKAT (IKM)</h3>
-                <h3 class="fw-bold card-title"> <?= htmlspecialchars($nama_unit) ?></h3>
-                <h3 class="fw-bold card-title">UNIVERSITAS MARITIM RAJA ALI HAJI (UMRAH)</h3>
-                <h3 class="fw-bold card-title">Priode <?= $tahun ?></h3>
+            <div class="card-label m-3 d-flex justify-content-center align-items-center" style="position: relative; ">
+                <img src="<?= base_url('assets/images/logo_umrah.png') ?>" alt="Logo UMRAH" style="width: 100px; height: auto; position: absolute; left: 0;">
+                <div class="text-center" style="flex: 1;">
+                    <h3 class="fw-bold card-title">INDEKS KEPUASAN MASYARAKAT (IKM)</h3>
+                    <h3 class="fw-bold card-title"><?= htmlspecialchars($nama_unit) ?></h3>
+                    <h3 class="fw-bold card-title">UNIVERSITAS MARITIM RAJA ALI HAJI (UMRAH)</h3>
+                    <h3 class="fw-bold card-title">Priode <?= $tahun ?></h3>
+                </div>
             </div>
             <div class="card-body">
                 <div class="row">
                     <!-- Indeks Kepuasan Masyarakat -->
-                    <div class="col-md-6">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class=" text-center">
-                                    <h3 class="card-title">Indeks Kepuasan Masyarakat</h3>
+                    <div class="col-md-6 d-flex">
+                        <div class="card flex-fill">
+                            <h3 class="card-title text-center fw-bold mt-3">Indeks Kepuasan Masyarakat</h3>
+                            <div class="card-body d-flex justify-content-center align-items-center" style="height: 100%;">
+                                <div class="text-center">
+                                    <h1><strong>Nilai IKM:</strong> <?= $ikm ?> (<?= $kategori ?>)</h1>
+                                    <h1 class="mt-2"><strong>Performa Pelayanan:</strong> </h1>
+                                    <h1> <?= $kategori ?></h1>
                                 </div>
-                                <p><strong>Nilai IKM:</strong> <?= $ikm ?></p>
-                                <p><strong>Kategori:</strong> <?= $kategori ?></p>
-                                <p><strong>Total Responden:</strong> <?= $totalResponden ?></p>
                             </div>
                         </div>
                     </div>
 
                     <!-- Keseluruhan Pengguna Layanan -->
-                    <div class="col-md-6">
-                        <div class="card">
+                    <div class="col-md-6 d-flex">
+                        <div class="card border-5 flex-fill">
                             <div class="card-body">
-                                <h3 class="card-title ">Keseluruhan Pengguna Layanan Survei</h3>
+                                <div class="text-center card-title mb-4">
+                                    <h3 class="fw-bold">Keseluruhan Pengguna Layanan Survei</h3>
+                                    <h3><strong>Total Responden:</strong> <?= $totalResponden ?></h3>
+                                </div>
                                 <div class="d-flex align-items-center">
                                     <!-- Canvas untuk Chart -->
                                     <div style="flex: 1;">
-                                        <canvas id="doughnutChart" width="150" height="150"></canvas>
+                                        <canvas id="doughnutChart" width="200" height="200"></canvas>
                                     </div>
                                     <!-- List keterangan disamping chart -->
                                     <div style="flex: 1;">
@@ -102,14 +106,44 @@
                                                 <span class="text-dark float-end font-weight-medium" id="umum-count">0</span>
                                             </li>
                                         </ul>
+
+                                        <!-- Display Gender Counts -->
+                                        <!-- Gender Counts Section -->
+                                        <div class="mt-4 ms-3">
+                                            <h5>Jenis Kelamin Responden:</h5>
+                                            <ul>
+                                                <li><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-mars">
+                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                        <path d="M10 14m-5 0a5 5 0 1 0 10 0a5 5 0 1 0 -10 0" />
+                                                        <path d="M19 5l-5.4 5.4" />
+                                                        <path d="M19 5l-5 0" />
+                                                        <path d="M19 5l0 5" />
+                                                    </svg><strong>Laki-laki:</strong> <?= $genderCounts['Laki-laki'] ?? 0 ?></li>
+                                                <li><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-gender-female">
+                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                        <path d="M12 9m-5 0a5 5 0 1 0 10 0a5 5 0 1 0 -10 0" />
+                                                        <path d="M12 14v7" />
+                                                        <path d="M9 18h6" />
+                                                    </svg><strong>Perempuan:</strong> <?= $genderCounts['Perempuan'] ?? 0 ?></li>
+                                            </ul>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+
                 </div>
             </div>
+            <div class="card-label text-center">
+                <h4 class="fw-bold card-title">TERIMA KASIH ATAS PENILAIAN YANG TELAH ADA BERIKAN </h4>
+                <h4 class="fw-bold card-title"> MASUKAN ANDA SANGAT BERMANFAAT UNTUK KEMAJUAN UNIT KAMI AGAR TERUS MEMPERBAIKI</h4>
+                <h4 class="fw-bold card-title">DAN MENINGKATKAN KUALITAS PELAYANAN BAGI MASYARAKAT</h4>
+                <h4 class="fw-bold card-title">UNIVERSITAS MARITIM RAJA ALI HAJI (UMRAH)</h4>
+                <h4 class="fw-bold card-title">Priode <?= $tahun ?></h4>
+            </div>
         </div>
+
     </div>
 </div>
 

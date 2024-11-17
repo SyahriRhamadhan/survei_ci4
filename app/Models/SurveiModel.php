@@ -22,8 +22,6 @@ class SurveiModel extends Model
         'id_pertanyaan',
         'rata_rata_tertimbang',
         'ikm',
-        'tahun_ajaran',
-        'semester'
     ];
 
     protected bool $allowEmptyInserts = false;

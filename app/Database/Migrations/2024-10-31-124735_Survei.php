@@ -39,16 +39,6 @@ class Survei extends Migration
                 'type' => 'DATE',
                 'null' => true,
             ],
-            'tahun_ajaran' => [
-                'type' => 'VARCHAR',
-                'constraint' => 9,
-                'null' => false,
-            ],
-            'semester' => [
-                'type' => 'ENUM',
-                'constraint' => ['Ganjil', 'Genap'],
-                'null' => true,
-            ],
             'status' => [
                 'type' => 'ENUM',
                 'constraint' => [

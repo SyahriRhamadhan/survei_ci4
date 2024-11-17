@@ -56,7 +56,7 @@
                                 foreach ($survei as $s) : ?>
                                     <tr>
                                         <td><?= $no++ ?>.</td>
-                                        <td><?= htmlspecialchars($s['tahun_ajaran']) ?> - <?= htmlspecialchars($s['semester']) ?></td>
+                                        
                                         <td><?= htmlspecialchars($s['judul']) ?></td>
                                         <td><?= htmlspecialchars($s['nama_unit']) ?></td>
                                         <td><?= htmlspecialchars($s['jenis_unit']) ?></td>

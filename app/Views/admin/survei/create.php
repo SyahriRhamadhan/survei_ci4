@@ -82,21 +82,6 @@
                         </div>
                     </div>
                 </div>
-                <!-- Input Tahun Ajaran -->
-                <div class="input-style-1 my-1">
-                    <label class="text-dark mb-2 fs-6">Tahun Ajaran</label>
-                    <input class="fs-6 form-control" type="text" name="tahun_ajaran" id="tahun_ajaran" placeholder="Contoh: 2024/2025" required />
-                    <div id="error_message" style="color: red; display: none;">Format tahun ajaran tidak valid. Gunakan format: YYYY/YYYY</div>
-                </div>
-                <!-- Input Semester -->
-                <div class="input-style-1 my-1">
-                    <label class="text-dark mb-2 fs-6">Semester</label>
-                    <select class="form-select fs-6 mr-sm-2" id="inlineFormCustomSelect" name="semester" required>
-                        <option selected value="">Pilih Semester</option>
-                        <option value="Ganjil">Ganjil</option>
-                        <option value="Genap">Genap</option>
-                    </select>
-                </div>
 
                 <?php foreach ($pertanyaanGrouped as $kategori => $pertanyaans): ?>
                     <div class="category-group mt-5">

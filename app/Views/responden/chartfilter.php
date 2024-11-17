@@ -1,8 +1,30 @@
 <?= $this->extend('responden/layout') ?>
 <?= $this->section('content') ?>
 <div class="row m-3">
-    <div class="card col-md text-center">
-        <h3 class="m-3 fw-bold">Hasil Survei <?= $survei['nama_unit'] ?> - <?= $survei['jenis_layanan_yang_diterima'] ?> </h3>
+    <div class="card col-md-8 text-center">
+        <h3 class="mx-3 mt-3 fw-bold">Hasil Survei <?= $survei['nama_unit'] ?> - <?= $survei['jenis_layanan_yang_diterima'] ?> </h3>
+        <h3 class=" mb-3 fw-bold"> Tahun <?= $tahun ?></h3>
+    </div>
+    <div class="col-md-4">
+        <form action="<?= base_url('responden/chartfilter/' . urlencode($id)) ?>" method="get">
+            <div class="input-group">
+                <select class="form-select" name="tahun" id="tahun" required>
+                    <?php
+                    $currentYear = date('Y');
+                    for ($year = 2024; $year <= $currentYear; $year++) {
+                        $selected = ($tahun == $year) ? 'selected' : '';
+                        echo "<option value='$year' $selected>$year</option>";
+                    }
+                    ?>
+                </select>
+                <button class="btn ms-2 btn-success" type="submit">Terapkan
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-filter">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                        <path d="M4 4h16v2.172a2 2 0 0 1 -.586 1.414l-4.414 4.414v7l-6 2v-8.5l-4.48 -4.928a2 2 0 0 1 -.52 -1.345v-2.227z" />
+                    </svg>
+                </button>
+            </div>
+        </form>
     </div>
     <div class="card col-md-12">
         <div class="card-body">
@@ -13,9 +35,14 @@
                     <td><?= $survei['judul'] ?></td>
                 </tr>
                 <tr>
+                    <td>Tahun/Priode</td>
+                    <td>:</td>
+                    <td><?= $tahun ?></td>
+                </tr>
+                <tr>
                     <td>Indeks Kepuasan Masyarakat</td>
                     <td>:</td>
-                    <td id="ikmValue"><?= $survei['ikm'] ?> (<span id="ikmCategory"></span>)
+                    <td id="ikmValue"><?= $IKM ?> (<span id="ikmCategory"></span>)
                     </td>
                 </tr>
                 <tr>

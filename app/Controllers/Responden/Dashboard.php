@@ -271,7 +271,6 @@ class Dashboard extends BaseController
         $fakultasModel = new FakultasModel();
         $placeholder = new UnitPlaceholderPertanyaanModel();
 
-        // Fetch the survey data
         $survei = $surveiModel
             ->select('survei.*, unit_placeholder_pertanyaan.nama_unit, unit_placeholder_pertanyaan.jenis_unit, unit_placeholder_pertanyaan.jenis_layanan_yang_diterima')
             ->join('unit_placeholder_pertanyaan', 'unit_placeholder_pertanyaan.id = survei.id_unit_placeholder')
@@ -281,10 +280,14 @@ class Dashboard extends BaseController
             throw new \CodeIgniter\Exceptions\PageNotFoundException("Survei dengan ID $id tidak ditemukan.");
         }
 
+        $tahun = $this->request->getGet('tahun');
+        $tahun = $tahun ?: date('Y');
+
         $questionIds = $jawabanSurveiModel
             ->select('id_pertanyaan')
             ->where('id_survei', $id)
             ->groupBy('id_pertanyaan')
+            ->where('YEAR(jawaban_survei.created_at)', $tahun)
             ->findColumn('id_pertanyaan');
 
         $namaUnit = $survei['nama_unit'];
@@ -306,6 +309,7 @@ class Dashboard extends BaseController
                 ->where('id_survei', $id)
                 ->whereIn('id_pertanyaan', $questionIds)
                 ->groupBy('id_pertanyaan, jawaban')
+                ->where('YEAR(jawaban_survei.created_at)', $tahun)
                 ->findAll();
         } else {
             $questions = [];
@@ -318,6 +322,7 @@ class Dashboard extends BaseController
             ->join('jawaban_survei', 'jawaban_survei.id_responden = responden.id')
             ->where('jawaban_survei.id_survei', $id)
             ->groupBy('kategori_responden')
+            ->where('YEAR(jawaban_survei.created_at)', $tahun)
             ->findAll();
 
 
@@ -333,6 +338,7 @@ class Dashboard extends BaseController
             ->select('COUNT(DISTINCT responden.id) as total_responden')
             ->join('jawaban_survei', 'jawaban_survei.id_responden = responden.id')
             ->where('jawaban_survei.id_survei', $id)
+            ->where('YEAR(jawaban_survei.created_at)', $tahun)
             ->first();
 
         $totalResponden = $totalResponden ? $totalResponden['total_responden'] : 0;
@@ -345,6 +351,7 @@ class Dashboard extends BaseController
             ->where('kategori_responden', 'mahasiswa')
             ->groupBy('angkatan')
             ->orderBy('angkatan', 'ASC')
+            ->where('YEAR(jawaban_survei.created_at)', $tahun)
             ->findAll();
 
         $angkatanLabels = [];
@@ -361,6 +368,7 @@ class Dashboard extends BaseController
             ->join('jawaban_survei', 'jawaban_survei.id_responden = responden.id')
             ->where('jawaban_survei.id_survei', $id)
             ->groupBy('jenis_kelamin')
+            ->where('YEAR(jawaban_survei.created_at)', $tahun)
             ->findAll();
 
         $genderLabels = [];
@@ -377,6 +385,7 @@ class Dashboard extends BaseController
         $jawabanPerKategori = $jawabanSurveiModel->select('pertanyaan.tipe_pertanyaan, jawaban')
             ->join('pertanyaan', 'pertanyaan.id = jawaban_survei.id_pertanyaan')
             ->where('jawaban_survei.id_survei', $id)
+            ->where('YEAR(jawaban_survei.created_at)', $tahun)
             ->findAll();
 
         $kategoriJawaban = [];
@@ -419,6 +428,8 @@ class Dashboard extends BaseController
             'title' => 'Hasil Survei',
             'survei' => $survei,
             'questions' => $questions,
+            'id' => $id,
+            'tahun' => $tahun,
             'responseCounts' => $responseCounts,
             'kategoriLabels' => $kategoriLabels,
             'kategoriCounts' => $kategoriCounts,

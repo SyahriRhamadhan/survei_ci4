@@ -222,45 +222,6 @@
                         <div class="">
                             <div class="card">
                                 <div class="card-body">
-                                    <!-- <div class="table-responsive my-5"> -->
-                                    <!-- <table id="zero_config" class="table border table-striped table-bordered text-nowrap">
-                                            <thead>
-                                                <tr>
-                                                    <th>No</th>
-                                                    <th>Judul</th>
-                                                    <th>Nama Unit</th>
-                                                    <th>Jenis Unit</th>
-                                                    <th>Jenis Layanan/Prodi</th>
-                                                    <th>Cek Hasil</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <?php $no = 1;
-                                                foreach ($unitList as $s) : ?>
-                                                    <tr>
-                                                        <td><?= $no++ ?>.</td>
-                                                        <td><?= htmlspecialchars($s['judul']) ?></td>
-                                                        <td><?= htmlspecialchars($s['nama_unit']) ?></td>
-                                                        <td><?= htmlspecialchars($s['jenis_unit']) ?></td>
-                                                        <td><?= htmlspecialchars($s['jenis_layanan_yang_diterima']) ?></td>
-                                                        <td>
-                                                            <a href="<?= base_url('responden/chartfilter/' . $s['id']) ?>" class="btn btn-primary">Hasil Survei</a>
-                                                        </td>
-                                                    </tr>
-                                                <?php endforeach; ?>
-
-                                            </tbody>
-                                            <tfoot>
-                                                <tr>
-                                                    <th>No</th>
-                                                    <th>Judul</th>
-                                                    <th>Nama Unit</th>
-                                                    <th>Jenis Unit</th>
-                                                    <th>Jenis Layanan/Prodi</th>
-                                                    <th>Cek Hasil</th>
-                                                </tr>
-                                            </tfoot>
-                                        </table> -->
                                     <div id="example-table1"></div>
                                     <script src="https://cdnjs.cloudflare.com/ajax/libs/tabulator/5.5.1/js/tabulator.min.js"></script>
 

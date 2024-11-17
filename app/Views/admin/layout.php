@@ -56,7 +56,7 @@
                     <!-- ============================================================== -->
                     <div class="navbar-brand d-flex justify-content-center align-items-center">
                         <!-- Logo icon -->
-                        <a href="/">
+                        <a href="<?= base_url('responden/dashboard') ?>">
                             <img src="<?= base_url('assets/images/sidebar-logo.png') ?>" alt="Logo" class="img-fluid" style="height: 70px;  width: 80px;">
                         </a>
                     </div>

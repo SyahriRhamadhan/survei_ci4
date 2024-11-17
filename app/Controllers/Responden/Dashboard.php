@@ -12,6 +12,7 @@ use App\Models\JawabanSurveiModel;
 use App\Models\UnitPlaceholderPertanyaanModel;
 use App\Models\SurveiPertanyaanModel;
 use App\Models\PertanyaanModel;
+use App\Models\StatusFilterModel;
 
 class Dashboard extends BaseController
 {
@@ -226,10 +227,14 @@ class Dashboard extends BaseController
         //     $unit['jenis_layanan_yang_diterima'] = $this->limitWords($unit['jenis_layanan_yang_diterima'], 4);
         // }
         $placeholder = new UnitPlaceholderPertanyaanModel();
+        $filter = new StatusFilterModel();
+
+        $dataId1 = $filter->find(1);
         // Kirim data ke view
         $data = [
             'title' => 'Dashboard',
             'currentPage' => 'dashboard',
+            'filter2' => $dataId1,
             'filter' => $placeholder->getSortedUnits(),
             'unitList' => $unitModel->getSurveiWithUnitFilter(),
             'totalResponden' => $totalResponden,

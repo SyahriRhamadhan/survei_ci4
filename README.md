@@ -51,6 +51,7 @@ Filter chart berdasarkan tahun ajaran
   php spark db:seed PertanyaanSeeder
   php spark db:seed FakultasSeeder
   php spark db:seed UnitKerjaSeeder 
+  php spark db:seed FilterSeeder 
   php spark db:seed SurveiSeeder
   php spark db:seed RespondenSeeder
 ```

@@ -34,7 +34,7 @@ $placeholders = $placeholderModel->select('nama_unit')->findAll();
                 <?= csrf_field() ?>
                 <div class="input-style-1 my-2">
                     <label class="text-dark mb-2 fs-6">Tipe/Kategori Unit</label>
-                    <select id="jenis_unit_select" class="fs-6 form-control <?= ($validation->hasError('jenis_unit')) ? 'is-invalid' : '' ?>" name="jenis_unit" onchange="toggleJenisLayanan()">
+                    <select id="jenis_unit_select" class="fs-6 form-control <?= ($validation->hasError('jenis_unit')) ? 'is-invalid' : '' ?>" name="jenis_unit">
                         <option value="" disabled selected>Pilih Tipe/Kategori Unit</option>
                         <option default value="UPPS">UPPS (Setahun Sekali)</option>
                         <option value="Unit Layanan">Unit Layanan</option>

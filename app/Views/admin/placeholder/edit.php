@@ -50,25 +50,25 @@
 
 <!-- JavaScript to toggle the visibility of Jenis Layanan field -->
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const jenisUnitSelect = document.getElementById('jenis_unit_select');
-        const jenisLayananDiv = document.getElementById('jenis_layanan_div');
+    // document.addEventListener('DOMContentLoaded', function() {
+    //     const jenisUnitSelect = document.getElementById('jenis_unit_select');
+    //     const jenisLayananDiv = document.getElementById('jenis_layanan_div');
 
-        // Function to toggle visibility based on selection
-        function toggleJenisLayanan() {
-            if (jenisUnitSelect.value === 'Unit Layanan') {
-                jenisLayananDiv.style.display = 'block';
-            } else {
-                jenisLayananDiv.style.display = 'none';
-            }
-        }
+    //     // Function to toggle visibility based on selection
+    //     function toggleJenisLayanan() {
+    //         if (jenisUnitSelect.value === 'Unit Layanan') {
+    //             jenisLayananDiv.style.display = 'block';
+    //         } else {
+    //             jenisLayananDiv.style.display = 'none';
+    //         }
+    //     }
 
-        // Initial check in case a value is already selected
-        toggleJenisLayanan();
+    //     // Initial check in case a value is already selected
+    //     toggleJenisLayanan();
 
-        // Event listener for changes
-        jenisUnitSelect.addEventListener('change', toggleJenisLayanan);
-    });
+    //     // Event listener for changes
+    //     jenisUnitSelect.addEventListener('change', toggleJenisLayanan);
+    // });
 </script>
 
 <?= $this->endSection() ?>

@@ -13,7 +13,7 @@
     <title>Survei UMRAH</title>
     <!-- Custom CSS -->
     <link href="<?= base_url('assets/extra-libs/c3/c3.min.css') ?>" rel="stylesheet">
-    <link href="<?= base_url('assets/libs/chartist/dist/chartist.min.css') ?>" rel="stylesheet">
+
     <link href="<?= base_url('assets/extra-libs/jvector/jquery-jvectormap-2.0.2.css') ?>" rel="stylesheet" />
     <link rel="stylesheet" href="<?= base_url('assets/extra-libs/datatables.net-bs4/css/dataTables.bootstrap4.css') ?>">
     <link rel="stylesheet" href="<?= base_url('assets/extra-libs/datatables.net-bs4/css/responsive.dataTables.min.css') ?>">
@@ -24,18 +24,9 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tabulator/5.5.1/css/tabulator.min.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" integrity="sha512-BNaRQnYJYiPSqHHDb58B0yaPfCu+Wgds8Gp/gU33kqBtgNS4tSPHuGibyoeqMV/TJlSKda6FXzoEyYGjTe+vXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-<![endif]-->
 </head>
 
 <body>
-
-    <!-- Preloader - style you can find in spinners.css -->
 
     <div class="preloader">
         <div class="lds-ripple">
@@ -43,8 +34,6 @@
             <div class="lds-pos"></div>
         </div>
     </div>
-
-    <!-- Main wrapper - style you can find in pages.scss -->
 
     <div id="main-wrapper" data-theme="light" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
         data-sidebar-position="fixed" data-header-position="fixed" data-boxed-layout="full">
@@ -66,12 +55,6 @@
                             <img src="<?= base_url('assets/images/sidebar-logo.png') ?>" alt="Logo" class="img-fluid" style="height: 70px;  width: 80px;">
                         </a>
                     </div>
-                    <!-- ============================================================== -->
-                    <!-- End Logo -->
-                    <!-- ============================================================== -->
-                    <!-- ============================================================== -->
-                    <!-- Toggle which is visible on mobile only -->
-                    <!-- ============================================================== -->
                     <a class="topbartoggler d-block d-lg-none waves-effect waves-light" href="javascript:void(0)"
                         data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
                         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><i
@@ -105,10 +88,6 @@
             </nav>
         </header>
 
-        <!-- End Topbar header -->
-
-
-        <!-- Left Sidebar - style you can find in sidebar.scss  -->
 
         <aside class="left-sidebar" data-sidebarbg="skin6">
             <!-- Sidebar scroll-->
@@ -126,22 +105,13 @@
                                     class="hide-menu ">Survei UMRAH</span></a></li>
                     </ul>
                 </nav>
-                <!-- End Sidebar navigation -->
             </div>
-            <!-- End Sidebar scroll-->
         </aside>
-
-        <!-- End Left Sidebar - style you can find in sidebar.scss  -->
-
-        <!-- Page wrapper  / MAIN CONTENT -->
 
         <div class="page-wrapper">
 
 
             <?= $this->renderSection('content') ?>
-
-
-            <!-- footer -->
 
             <footer class="footer text-center text-muted">
                 Copyright © SURVEI UMRAH 2024</a>.
@@ -152,11 +122,6 @@
 
     </div>
 
-    <!-- End Wrapper -->
-
-    <!-- End Wrapper -->
-
-    <!-- All Jquery -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="<?= base_url('assets/libs/jquery/dist/jquery.min.js') ?>"></script>
     <script src="<?= base_url('assets/libs/popper.js/dist/umd/popper.min.js') ?>"></script>
@@ -173,11 +138,10 @@
     <!--This page JavaScript -->
     <script src="<?= base_url('assets/extra-libs/c3/d3.min.js') ?>"></script>
     <script src="<?= base_url('assets/extra-libs/c3/c3.min.js') ?>"></script>
-    <script src="<?= base_url('assets/libs/chartist/dist/chartist.min.js') ?>"></script>
-    <script src="<?= base_url('assets/libs/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js') ?>"></script>
+
     <script src="<?= base_url('assets/extra-libs/jvector/jquery-jvectormap-2.0.2.min.js') ?>"></script>
     <script src="<?= base_url('assets/extra-libs/jvector/jquery-jvectormap-world-mill-en.js') ?>"></script>
-    <script src="<?= base_url('dist/js/pages/dashboards/dashboard1.min.js') ?>"></script>
+
 
     <!--This page plugins -->
     <script src="<?= base_url('assets/extra-libs/datatables.net/js/jquery.dataTables.min.js') ?>"></script>
@@ -185,35 +149,9 @@
     <script src="<?= base_url('dist/js/pages/datatable/datatable-basic.init.js') ?>"></script>
 
     <script>
-        document.getElementById('kategori_responden').addEventListener('change', function() {
-            var category = this.value;
-            document.getElementById('mahasiswaFields').style.display = category === 'mahasiswa' ? 'block' : 'none';
-            document.getElementById('dosenFields').style.display = category === 'dosen' ? 'block' : 'none';
-            document.getElementById('tendikFields').style.display = category === 'tendik' ? 'block' : 'none';
-        });
 
-        // function filterJenisLayanan() {
-        //     const unitLayanan = document.getElementById('unit_layanan').value;
-        //     const jenisLayananSelect = document.getElementById('jenis_layanan_yang_diterima');
-        //     const jenisOptions = document.querySelectorAll('.jenis-option');
 
-        //     jenisLayananSelect.value = '';
-        //     jenisOptions.forEach(option => {
-        //         option.style.display = option.getAttribute('data-unit') === unitLayanan ? 'block' : 'none';
-        //     });
-        // }
 
-        // function goToDetail() {
-        //     const unitLayanan = document.getElementById('unit_layanan').value;
-        //     const jenisLayananYangDiterima = document.getElementById('jenis_layanan_yang_diterima').value;
-
-        //     if (unitLayanan && jenisLayananYangDiterima) {
-        //         const url = `<?= base_url('responden/survei/detail') ?>/${jenisLayananYangDiterima}`;
-        //         window.location.href = url;
-        //     } else {
-        //         alert("Silakan pilih Unit Layanan dan Jenis Layanan yang Diterima terlebih dahulu.");
-        //     }
-        // }
         $(function() {
             <?php if (session()->has('berhasil')): ?>
                 const Toast = Swal.mixin({

@@ -78,7 +78,7 @@
                 Partisipasi Anda sangat berarti dalam meningkatkan kualitas pelayanan di Universitas Maritim Raja Ali Haji
             </p>
             <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                <a href="#survey-section" 
+                <a href="<?= base_url('/responden/dashboard') ?>" 
                    class="glass-effect px-8 py-4 rounded-full text-lg font-semibold hover-scale inline-flex items-center justify-center">
                     <i class="fas fa-clipboard-list mr-2"></i>
                     Mulai Survei

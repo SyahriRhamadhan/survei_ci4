@@ -203,5 +203,14 @@
     </form>
 </div>
 
-
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('kategori_responden').addEventListener('change', function() {
+            var category = this.value;
+            document.getElementById('mahasiswaFields').style.display = category === 'mahasiswa' ? 'block' : 'none';
+            document.getElementById('dosenFields').style.display = category === 'dosen' ? 'block' : 'none';
+            document.getElementById('tendikFields').style.display = category === 'tendik' ? 'block' : 'none';
+        });
+    });
+</script>
 <?= $this->endSection() ?>

@@ -13,7 +13,6 @@
     <title>Survei UMRAH</title>
     <!-- Custom CSS -->
     <link href="<?= base_url('assets/extra-libs/c3/c3.min.css') ?>" rel="stylesheet">
-    <link href="<?= base_url('assets/libs/chartist/dist/chartist.min.css') ?>" rel="stylesheet">
     <link href="<?= base_url('assets/extra-libs/jvector/jquery-jvectormap-2.0.2.css') ?>" rel="stylesheet" />
     <link rel="stylesheet" href="<?= base_url('assets/extra-libs/datatables.net-bs4/css/dataTables.bootstrap4.css') ?>">
     <link rel="stylesheet" href="<?= base_url('assets/extra-libs/datatables.net-bs4/css/responsive.dataTables.min.css') ?>">
@@ -258,39 +257,36 @@
     <!--This page JavaScript -->
     <script src="<?= base_url('assets/extra-libs/c3/d3.min.js') ?>"></script>
     <script src="<?= base_url('assets/extra-libs/c3/c3.min.js') ?>"></script>
-    <script src="<?= base_url('assets/libs/chartist/dist/chartist.min.js') ?>"></script>
-    <script src="<?= base_url('assets/libs/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js') ?>"></script>
     <script src="<?= base_url('assets/extra-libs/jvector/jquery-jvectormap-2.0.2.min.js') ?>"></script>
     <script src="<?= base_url('assets/extra-libs/jvector/jquery-jvectormap-world-mill-en.js') ?>"></script>
-    <script src="<?= base_url('dist/js/pages/dashboards/dashboard1.min.js') ?>"></script>
 
     <!--This page plugins -->
     <script src="<?= base_url('assets/extra-libs/datatables.net/js/jquery.dataTables.min.js') ?>"></script>
     <script src="<?= base_url('assets/extra-libs/datatables.net-bs4/js/dataTables.responsive.min.js') ?>"></script>
     <script src="<?= base_url('dist/js/pages/datatable/datatable-basic.init.js') ?>"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const tahunAjaranInput = document.getElementById('tahun_ajaran');
-            const errorMessage = document.getElementById('error_message');
+        // document.addEventListener('DOMContentLoaded', function() {
+        //     const tahunAjaranInput = document.getElementById('tahun_ajaran');
+        //     const errorMessage = document.getElementById('error_message');
 
-            // Fungsi untuk memvalidasi format tahun ajaran
-            function validateTahunAjaran(input) {
-                const regex = /^\d{4}\/\d{4}$/; // Pola untuk format YYYY/YYYY
-                return regex.test(input);
-            }
+        //     // Fungsi untuk memvalidasi format tahun ajaran
+        //     function validateTahunAjaran(input) {
+        //         const regex = /^\d{4}\/\d{4}$/; // Pola untuk format YYYY/YYYY
+        //         return regex.test(input);
+        //     }
 
-            tahunAjaranInput.addEventListener('input', function() {
-                const value = tahunAjaranInput.value;
+        //     tahunAjaranInput.addEventListener('input', function() {
+        //         const value = tahunAjaranInput.value;
 
-                if (validateTahunAjaran(value)) {
-                    errorMessage.style.display = 'none'; // Sembunyikan pesan error jika valid
-                    tahunAjaranInput.setCustomValidity(''); // Reset custom validity
-                } else {
-                    errorMessage.style.display = 'block'; // Tampilkan pesan error jika tidak valid
-                    tahunAjaranInput.setCustomValidity('Format tahun ajaran tidak valid. Gunakan format: YYYY/YYYY'); // Set custom validity message
-                }
-            });
-        });
+        //         if (validateTahunAjaran(value)) {
+        //             errorMessage.style.display = 'none'; // Sembunyikan pesan error jika valid
+        //             tahunAjaranInput.setCustomValidity(''); // Reset custom validity
+        //         } else {
+        //             errorMessage.style.display = 'block'; // Tampilkan pesan error jika tidak valid
+        //             tahunAjaranInput.setCustomValidity('Format tahun ajaran tidak valid. Gunakan format: YYYY/YYYY'); // Set custom validity message
+        //         }
+        //     });
+        // });
 
         $(function() {
             <?php if (session()->has('berhasil')): ?>
@@ -332,19 +328,19 @@
             });
         });
         //untuk placeholder, jika memilih upps setahun sekali jennnnis unit layanan akan dihilangkan
-        function toggleJenisLayanan() {
-            const jenisUnit = document.getElementById('jenis_unit_select').value;
-            // const jenisLayananDiv = document.getElementById('jenis_layanan_div');
+        // function toggleJenisLayanan() {
+        //     const jenisUnit = document.getElementById('jenis_unit_select').value;
+        //     // const jenisLayananDiv = document.getElementById('jenis_layanan_div');
 
-            if (jenisUnit === 'UPPS') {
-                jenisLayananDiv.style.display = 'none';
-            } else {
-                jenisLayananDiv.style.display = 'block';
-            }
-        }
+        //     if (jenisUnit === 'UPPS') {
+        //         jenisLayananDiv.style.display = 'none';
+        //     } else {
+        //         jenisLayananDiv.style.display = 'block';
+        //     }
+        // }
 
         // Inisialisasi tampilan awal
-        window.onload = toggleJenisLayanan;
+        // window.onload = toggleJenisLayanan;
     </script>
 </body>
 

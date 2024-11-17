@@ -271,29 +271,12 @@
                                                         jenis_unit: "<?= htmlspecialchars($s['jenis_unit']) ?>",
                                                         jenis_layanan: "<?= htmlspecialchars($s['jenis_layanan_yang_diterima']) ?>",
                                                         cek_hasil: '<a href="<?= base_url('responden/chartfilter/' . $s['id']) ?>" class="btn btn-primary">Hasil Survei</a>',
-                                                    },
+                                                    }
+                                                    <?php if ($no !== count($unitList) - 1) echo ','; ?>
                                                 <?php endforeach; ?>
                                             ],
                                         });
-
-
-                                        // Example data
-                                        var tableData = [
-                                            <?php foreach ($unitList as $no => $s) : ?> {
-                                                    no: <?= $no + 1 ?>,
-                                                    judul: "<?= htmlspecialchars($s['judul']) ?>",
-                                                    nama_unit: "<?= htmlspecialchars($s['nama_unit']) ?>",
-                                                    jenis_unit: "<?= htmlspecialchars($s['jenis_unit']) ?>",
-                                                    jenis_layanan: "<?= htmlspecialchars($s['jenis_layanan_yang_diterima']) ?>",
-                                                    cek_hasil: '<a href="<?= base_url('responden/chartfilter/' . $s['id']) ?>" class="btn btn-primary">Hasil Survei</a>',
-                                                },
-                                            <?php endforeach; ?>
-                                        ];
-
-                                        // Set data to Tabulator
-                                        table.setData(tableData);
                                     </script>
-                                    <!-- </div> -->
                                 </div>
                             </div>
                         </div>
@@ -301,6 +284,7 @@
                 </div>
             </div>
         </div>
+
 
 
         <!-- Grafik Fakultas Dosen -->

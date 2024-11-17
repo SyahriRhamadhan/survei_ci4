@@ -104,6 +104,7 @@
     var table = new Tabulator("#example-table2", {
         height: "900px",
         layout: "fitColumns",
+        responsiveLayout: true,
         columns: [{
                 title: "No",
                 field: "no",
@@ -142,7 +143,8 @@
                 title: "Aksi",
                 field: "aksi",
                 formatter: "html",
-                headerFilter: false
+                headerFilter: false,
+                width: 220
             },
         ],
         data: [

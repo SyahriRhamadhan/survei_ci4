@@ -520,67 +520,6 @@ class Dashboard extends BaseController
             $groupedJawaban[$jawaban['id_survei']][] = $jawaban;
         }
 
-        $genderCount = $respondenModel
-            ->select('jenis_kelamin, COUNT(DISTINCT responden.id) as count')  // COUNT DISTINCT on respondents
-            ->join('jawaban_survei', 'jawaban_survei.id_responden = responden.id')
-            ->whereIn('jawaban_survei.id_survei', $surveiIds)
-            ->where('YEAR(jawaban_survei.created_at)', $tahun)
-            ->groupBy('jenis_kelamin')
-            ->findAll();
-
-        $genderCounts = [
-            'Laki-laki' => 0,
-            'Perempuan' => 0
-        ];
-        foreach ($genderCount as $item) {
-            if ($item['jenis_kelamin'] == 'Laki-laki') {
-                $genderCounts['Laki-laki'] = $item['count'];
-            } elseif ($item['jenis_kelamin'] == 'Perempuan') {
-                $genderCounts['Perempuan'] = $item['count'];
-            }
-        }
-        $totalIKM = 0;
-        $totalSurvei = 0;
-        $bobotJawaban = [4 => 4, 3 => 3, 2 => 2, 1 => 1];
-
-        foreach ($surveiList as $survei) {
-            $jawabanSurvei = $groupedJawaban[$survei['id']] ?? [];
-            if (empty($jawabanSurvei)) {
-                continue;
-            }
-
-            $kategoriJawaban = [];
-            foreach ($jawabanSurvei as $jawaban) {
-                $kategoriJawaban[$jawaban['tipe_pertanyaan']][] = $jawaban['jawaban'];
-            }
-
-            $rataRataTertimbang = [];
-            foreach ($kategoriJawaban as $kategori => $jawabans) {
-                $totalBobot = 0;
-                $totalJawaban = count($jawabans);
-                foreach ($jawabans as $jawaban) {
-                    $totalBobot += $bobotJawaban[$jawaban];
-                }
-                $rataRataTertimbang[$kategori] = $totalJawaban > 0 ? $totalBobot / $totalJawaban : 0;
-            }
-
-            $totalNilai = array_sum($rataRataTertimbang);
-            $totalKategori = count($rataRataTertimbang);
-            $IKM = $totalKategori > 0 ? ($totalNilai / $totalKategori) * 25 : 0;
-
-            $totalIKM += $IKM;
-            $totalSurvei++;
-        }
-
-        $averageIKM = $totalSurvei > 0 ? $totalIKM / $totalSurvei : 0;
-
-        $ikmCategory = match (true) {
-            $averageIKM >= 1 && $averageIKM <= 64.99 => 'Tidak Baik',
-            $averageIKM >= 65 && $averageIKM <= 76.60 => 'Kurang Baik',
-            $averageIKM >= 76.61 && $averageIKM <= 88.30 => 'Baik',
-            $averageIKM >= 88.31 && $averageIKM <= 100 => 'Sangat Baik',
-            default => 'Nilai IKM tidak valid',
-        };
 
         $genderCount = $respondenModel
             ->select('jenis_kelamin, COUNT(DISTINCT responden.id) as count')  // COUNT DISTINCT on respondents
@@ -601,8 +540,6 @@ class Dashboard extends BaseController
                 $genderCounts['Perempuan'] = $item['count'];
             }
         }
-
-
         $ikmDataByUnit = $jawabanSurveiModel
             ->select('unit_placeholder_pertanyaan.nama_unit, 
              unit_placeholder_pertanyaan.jenis_layanan_yang_diterima, 
@@ -620,14 +557,12 @@ class Dashboard extends BaseController
             ])
             ->findAll();
 
-
         $kategoriJawaban = [];
 
         foreach ($ikmDataByUnit as $ikmRow) {
-            $tipePertanyaan = $ikmRow['tipe_pertanyaan'];
+            $jenisLayanan = $ikmRow['jenis_layanan_yang_diterima'];
             $ikmAvg = $ikmRow['ikm_avg'];
-
-            $kategoriJawaban[$tipePertanyaan][] = $ikmAvg;
+            $kategoriJawaban[$jenisLayanan][] = $ikmAvg;
         }
 
         $rataRataTertimbang = [];
@@ -645,8 +580,7 @@ class Dashboard extends BaseController
         $totalNilai = array_sum($rataRataTertimbang);
         $totalKategori = count($rataRataTertimbang);
 
-        $IKM = $totalKategori > 0 ? ($totalNilai / $totalKategori) * 25 : 0; // Scale to 25-100 range
-
+        $IKM = $totalKategori > 0 ? ($totalNilai / $totalKategori) * 25 : 0;
         if ($IKM >= 1 && $IKM <= 64.99) {
             $ikmCategory = 'Tidak Baik';
         } elseif ($IKM >= 65 && $IKM <= 76.60) {
@@ -663,19 +597,29 @@ class Dashboard extends BaseController
         $ikmUnitData = [];
         foreach ($ikmDataByUnit as $ikmRow) {
             $namaUnit = $ikmRow['nama_unit'];
+            $jenisLayanan = $ikmRow['jenis_layanan_yang_diterima'];
+            $ikmAvg = $ikmRow['ikm_avg'];
+
+            if (isset($kategoriJawaban[$jenisLayanan])) {
+                $totalJawaban = count($kategoriJawaban[$jenisLayanan]);
+                $rataIkm = array_sum($kategoriJawaban[$jenisLayanan]) / $totalJawaban;
+            } else {
+                $rataIkm = 0;
+            }
+
             if (preg_match('/\(([^)]+)\)/', $namaUnit, $matches)) {
                 $singkatanNamaUnit = $matches[1];
             } else {
                 $singkatanNamaUnit = $namaUnit;
             }
 
-            $ikmUnitLabels[] = "{$singkatanNamaUnit} - {$ikmRow['jenis_layanan_yang_diterima']}";
-            $ikmUnitData[] = round($IKM, 2);
+            $ikmUnitLabels[] = "{$singkatanNamaUnit} - {$jenisLayanan}";
+            $ikmUnitData[] = round($rataIkm * 25, 2); // Multiply by 25 to scale
         }
 
         return view('responden/chartfilterunit', [
             'nama_unit' => $namaUnit,
-            'ikm' => round($averageIKM, 2),
+            // 'ikm' => round($averageIKM, 2),
             'kategori' => $ikmCategory,
             'totalResponden' => $totalResponden,
             'tahun' => $tahun,

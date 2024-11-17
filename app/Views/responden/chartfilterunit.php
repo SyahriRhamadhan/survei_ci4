@@ -3,7 +3,7 @@
 <div class="row mx-3">
     <div class="container mt-5">
         <div class="row mb-5 ">
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <button class="btn ms-2 btn-success" id="downloadButton">
                     Unduh Hasil
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-file-type-jpg">
@@ -16,7 +16,7 @@
                     </svg>
                 </button>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <form action="<?= base_url('responden/chartfilterunit/' . urlencode($nama_unit)) ?>" method="get">
                     <div class="input-group">
                         <select class="form-select" name="tahun" id="tahun" required>
@@ -54,10 +54,9 @@
                     <div class="col-md-6 d-flex">
                         <div class="card flex-fill">
                             <h3 class="card-title text-center fw-bold mt-3">Indeks Kepuasan Masyarakat</h3>
-                            <div class="card-body d-flex justify-content-center align-items-center" style="height: 75%;">
+                            <div class="card-body d-flex justify-content-center align-items-center" style="height: 60%;">
                                 <div class="text-center">
-                                    <h2><strong>Nilai IKM:</strong> <?= $ikm ?> (<?= $kategori ?>)</h2>
-                                    <h2><strong>Nilai IKM:</strong> <?= $ikmUnitDataAvg ?> (<?= $kategori ?>)</h2>
+                                    <h2><strong>Nilai IKM:</strong> <?= $ikmUnitDataAvg ?></h2>
                                     <h2 class="mt-2"><strong>Performa Pelayanan:</strong> </h2>
                                     <h2> <?= $kategori ?></h2>
                                 </div>
@@ -147,7 +146,7 @@
 
     </div>
 </div>
-<div class="col-md-12 d-flex">
+<div class="col-md-12 m-3 d-flex">
     <div class="card border-5 flex-fill">
         <div class="card-body">
             <h3 class="fw-bold text-center">IKM per Jenis Layanan</h3>
@@ -157,20 +156,48 @@
 </div>
 
 <script>
-    // Data untuk chart IKM berdasarkan unit dan jenis layanan
-    const ikmUnitLabels = <?= $ikmUnitLabels ?>; // Labels (Nama Unit dan Layanan)
-    const ikmUnitData = <?= $ikmUnitData ?>; // Data IKM per unit dan layanan
+    const ikmUnitLabels = <?= $ikmUnitLabels ?>;
+    const ikmUnitData = <?= $ikmUnitData ?>;
 
-    // Membuat chart menggunakan Chart.js
+    function groupAndAverageData(labels, data) {
+        const groupedData = {};
+
+        for (let i = 0; i < labels.length; i++) {
+            if (!groupedData[labels[i]]) {
+                groupedData[labels[i]] = [];
+            }
+            groupedData[labels[i]].push(data[i]);
+        }
+        const newLabels = [];
+        const newData = [];
+
+        for (const label in groupedData) {
+            newLabels.push(label);
+            const average = groupedData[label].reduce((acc, val) => acc + val, 0) / groupedData[label].length;
+            newData.push(average);
+        }
+
+        return {
+            labels: newLabels,
+            data: newData
+        };
+    }
+
+    const grouped = groupAndAverageData(ikmUnitLabels, ikmUnitData);
+    console.log("IKM Unit Labels:", ikmUnitLabels);
+    console.log("IKM Unit Data:", ikmUnitData);
+    // Menampilkan data di console untuk debugging
+    console.log("p", grouped);
+
     var ctx = document.getElementById('ikmPerLayananChart').getContext('2d');
     var ikmPerLayananChart = new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: ikmUnitLabels, // Labels untuk sumbu X (Nama Unit dan Jenis Layanan)
+            labels: grouped.labels,
             datasets: [{
                 label: 'IKM per Jenis Layanan',
-                data: ikmUnitData, // Data IKM untuk sumbu Y
-                backgroundColor: '#FF5733', // Bisa disesuaikan
+                data: grouped.data,
+                backgroundColor: '#FF5733',
                 borderColor: '#FF5733',
                 borderWidth: 1
             }]
@@ -180,7 +207,7 @@
             scales: {
                 y: {
                     beginAtZero: true,
-                    max: 100 // Tentukan batas maksimum untuk IKM (0-100)
+                    max: 100
                 }
             },
             plugins: {
@@ -195,9 +222,6 @@
 <script>
     var kategoriLabels = <?= $kategoriLabels ?>;
     var kategoriCounts = <?= $kategoriCounts ?>;
-    // Menampilkan data di console untuk debugging
-    console.log("IKM Unit Labels:", ikmUnitLabels);
-    console.log("IKM Unit Data:", ikmUnitData);
     document.getElementById('mahasiswa-count').textContent = kategoriCounts[0] || 0;
     document.getElementById('dosen-count').textContent = kategoriCounts[1] || 0;
     document.getElementById('tendik-count').textContent = kategoriCounts[2] || 0;

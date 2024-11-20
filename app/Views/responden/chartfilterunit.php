@@ -15,7 +15,7 @@
                         <path d="M5 15h3v4.5a1.5 1.5 0 0 1 -3 0" />
                     </svg>
                 </button>
-                <button class="btn ms-2 btn-success" id="downloadPdf">Download as PDF</button>
+                <a href="#download" class="btn ms-2 btn-success">Download as PDF</a>
             </div>
             <div class="col-md-6">
                 <form action="<?= base_url('responden/chartfilterunit/' . urlencode($nama_unit)) ?>" method="get">
@@ -41,7 +41,7 @@
         </div>
     </div>
 </div>
-<div>
+<div class="">
     <div id="halaman1">
         <div class=" mx-3 card downloadhasil">
             <div class="card-label m-3 d-flex justify-content-center align-items-center" style="position: relative; ">
@@ -226,11 +226,15 @@
                 </div>
             </div>
 
-            <div class="mt-3" id="respondenTable"></div>
+            <div class="mt-3 mx-5" id="respondenTable"></div>
+            <section id="download" class="my-5">
+                <button class="btn ms-2 btn-success" id="downloadPdf">Download as PDF</button>
+            </section>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/tabulator/5.5.1/js/tabulator.min.js"></script>
             <script type="text/javascript">
                 // Data dari PHP
                 var respondenData = <?= json_encode($respondenData) ?>;
+                console.log(respondenData);
 
                 // Mendapatkan nilai unik untuk dropdown Unit Layanan
                 var unitLayananValues = [...new Set(respondenData.map(item => item.jenis_layanan_yang_diterima))];
@@ -302,53 +306,52 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.2/jspdf.umd.min.js"></script>
 <script src="https://unpkg.com/jspdf@latest/dist/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
 <script>
     document.getElementById('downloadPdf').addEventListener('click', function() {
         const {
             jsPDF
         } = window.jspdf;
-        const pdf = new jsPDF();
+        const pdf = new jsPDF({
+            orientation: 'portrait',
+            unit: 'mm',
+            format: 'a4',
+        });
 
-        // Fungsi untuk menangkap halaman dan menambahkannya ke PDF
         function addPageToPDF(element, isLastPage) {
-            return html2canvas(element).then(function(canvas) {
-                // Mengonversi canvas ke data URL gambar (format PNG)
-                const imgData = canvas.toDataURL('image/png');
-
-                // Mendapatkan ukuran halaman PDF
-                const pageWidth = pdf.internal.pageSize.width;
-                const pageHeight = pdf.internal.pageSize.height;
-
-                // Menghitung ukuran gambar agar sesuai dengan lebar halaman
+            return html2canvas(element, {
+                scale: 2,
+                willReadFrequently: true,
+            }).then(function(canvas) {
+                const imgData = canvas.toDataURL('image/jpeg', 0.7);
+                const pageWidth = 210;
+                const pageHeight = 297;
                 const imgWidth = pageWidth;
                 const imgHeight = (canvas.height * imgWidth) / canvas.width;
 
-                // Menambahkan gambar ke dalam PDF
-                pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+                pdf.addImage(imgData, 'JPEG', 0, 0, imgWidth, imgHeight);
 
-                // Tambahkan halaman baru untuk elemen berikutnya, kecuali halaman terakhir
                 if (!isLastPage) {
                     pdf.addPage();
                 }
             });
         }
 
-        // Elemen halaman yang ingin diubah menjadi PDF
         const halaman1 = document.getElementById('halaman1');
         const halaman2 = document.getElementById('halaman2');
         const halaman3 = document.getElementById('halaman3');
 
-        // Proses setiap halaman secara berurutan
         addPageToPDF(halaman1, false)
             .then(() => addPageToPDF(halaman2, false))
             .then(() => addPageToPDF(halaman3, true))
             .then(() => {
-                // Menyimpan file PDF setelah semua halaman ditambahkan
                 pdf.save('download.pdf');
             });
     });
 </script>
+
 
 
 <script>

@@ -15,6 +15,7 @@
                         <path d="M5 15h3v4.5a1.5 1.5 0 0 1 -3 0" />
                     </svg>
                 </button>
+                <button class="btn ms-2 btn-success" id="downloadPdf">Download as PDF</button>
             </div>
             <div class="col-md-6">
                 <form action="<?= base_url('responden/chartfilterunit/' . urlencode($nama_unit)) ?>" method="get">
@@ -38,7 +39,11 @@
                 </form>
             </div>
         </div>
-        <div class="card downloadhasil">
+    </div>
+</div>
+<div>
+    <div id="halaman1">
+        <div class=" mx-3 card downloadhasil">
             <div class="card-label m-3 d-flex justify-content-center align-items-center" style="position: relative; ">
                 <img src="<?= base_url('assets/images/logo_umrah.png') ?>" alt="Logo UMRAH" style="width: 100px; height: auto; position: absolute; left: 0;">
                 <div class="text-center" style="flex: 1;">
@@ -143,18 +148,310 @@
                 <h4 class="fw-bold card-title">Priode <?= $tahun ?></h4>
             </div>
         </div>
-
+        <div class="row">
+            <div class="col-md-4 ms-3 d-flex">
+                <div class="card border-5 flex-fill">
+                    <div class="card-body">
+                        <h3 class="fw-bold text-center">Tahun Angkatan Responden Mahasiswa</h3>
+                        <canvas id="angkatanChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md d-flex">
+                <div class="card border-5 flex-fill">
+                    <div class="card-body">
+                        <h3 class="fw-bold text-center">Asal Prodi Responden Mahasiswa</h3>
+                        <canvas id="prodiChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 d-flex">
+                <div class="card border-5 flex-fill">
+                    <div class="card-body ">
+                        <h3 class="fw-bold text-center">Asal Fakultas Responden Dosen</h3>
+                        <canvas id="fakultasChart" width="100" height="25"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
-<div class="col-md-12 m-3 d-flex">
-    <div class="card border-5 flex-fill">
-        <div class="card-body">
-            <h3 class="fw-bold text-center">IKM per Jenis Layanan</h3>
-            <canvas id="ikmPerLayananChart"></canvas>
+
+    <div id="halaman2">
+        <div class="col-md-12 m-3 d-flex">
+            <div class="card border-5 flex-fill">
+                <div class="card-body">
+                    <h3 class="fw-bold text-center">Asal Unit Kerja Responden Tendik</h3>
+                    <canvas id="unitChart"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12 m-3 d-flex">
+            <div class="card border-5 flex-fill">
+                <div class="card-body">
+                    <h3 class="fw-bold text-center">IKM per Jenis Layanan</h3>
+                    <canvas id="ikmPerLayananChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="halaman3">
+        <div class="col-md-12 mx-3">
+            <div class="row">
+                <div class="col-md-2">
+                    <label for="entriesSelector">Show entries: </label>
+                    <select id="entriesSelector" class="form-select mr-sm-2" id="inlineFormCustomSelect">
+                        <option value="10">10</option>
+                        <option value="25">25</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                        <option value="all">All</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <label for="kategoriFilter">Kategori </label>
+                    <select id="kategoriFilter" class="form-select mr-sm-2" id="inlineFormCustomSelect">
+                        <option value=""></option>
+                        <option value="mahasiswa">Mahasiswa</option>
+                        <option value="dosen">Dosen</option>
+                        <option value="tendik">Tendik</option>
+                        <option value="mitra">Mitra</option>
+                        <option value="umum">Umum</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <label for="unitLayananFilter">Unit Layanan </label>
+                    <select class="form-select mr-sm-2" id="unitLayananFilter">
+                        <option value="">All</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="mt-3" id="respondenTable"></div>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/tabulator/5.5.1/js/tabulator.min.js"></script>
+            <script type="text/javascript">
+                // Data dari PHP
+                var respondenData = <?= json_encode($respondenData) ?>;
+
+                // Mendapatkan nilai unik untuk dropdown Unit Layanan
+                var unitLayananValues = [...new Set(respondenData.map(item => item.jenis_layanan_yang_diterima))];
+
+                // Isi Dropdown Unit Layanan
+                var unitDropdown = document.getElementById("unitLayananFilter");
+                unitLayananValues.forEach(value => {
+                    var option = document.createElement("option");
+                    option.value = value;
+                    option.textContent = value;
+                    unitDropdown.appendChild(option);
+                });
+
+                // Definisi kolom Tabulator
+                var columns = [{
+                        title: "Kategori Responden",
+                        field: "kategori_responden",
+                        width: 200,
+                        headerFilter: "input"
+                    },
+                    {
+                        title: "Unit Layanan",
+                        field: "jenis_layanan_yang_diterima",
+                        width: 200,
+                        headerFilter: "input"
+                    },
+                    {
+                        title: "Saran Masukan",
+                        field: "saran_masukan",
+                        headerFilter: "input"
+                    },
+                ];
+
+                // Inisialisasi Tabulator
+                var table = new Tabulator("#respondenTable", {
+                    data: respondenData,
+                    layout: "fitColumns",
+                    columns: columns,
+                    pagination: "local",
+                    paginationSize: 10, // Default rows per page
+                    paginationSizeSelector: [10, 25, 50, 100, "all"],
+                    resizableRows: true,
+                    movableColumns: true,
+                });
+                document.getElementById('kategoriFilter').addEventListener('change', function() {
+                    var filterValue = this.value;
+
+                    table.setFilter("kategori_responden", "like", filterValue);
+                });
+
+                document.getElementById("unitLayananFilter").addEventListener("change", function() {
+                    var filterValue = this.value;
+                    table.setFilter("jenis_layanan_yang_diterima", "like", filterValue);
+                });
+
+                document.getElementById("entriesSelector").addEventListener("change", function() {
+                    var entriesValue = this.value;
+
+                    if (entriesValue === "all") {
+                        table.setPageSize(respondenData.length);
+                    } else {
+                        table.setPageSize(parseInt(entriesValue));
+                    }
+                });
+            </script>
         </div>
     </div>
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.2/jspdf.umd.min.js"></script>
+<script src="https://unpkg.com/jspdf@latest/dist/jspdf.umd.min.js"></script>
+
+<script>
+    document.getElementById('downloadPdf').addEventListener('click', function() {
+        const {
+            jsPDF
+        } = window.jspdf;
+        const pdf = new jsPDF();
+
+        // Fungsi untuk menangkap halaman dan menambahkannya ke PDF
+        function addPageToPDF(element, isLastPage) {
+            return html2canvas(element).then(function(canvas) {
+                // Mengonversi canvas ke data URL gambar (format PNG)
+                const imgData = canvas.toDataURL('image/png');
+
+                // Mendapatkan ukuran halaman PDF
+                const pageWidth = pdf.internal.pageSize.width;
+                const pageHeight = pdf.internal.pageSize.height;
+
+                // Menghitung ukuran gambar agar sesuai dengan lebar halaman
+                const imgWidth = pageWidth;
+                const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+                // Menambahkan gambar ke dalam PDF
+                pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+
+                // Tambahkan halaman baru untuk elemen berikutnya, kecuali halaman terakhir
+                if (!isLastPage) {
+                    pdf.addPage();
+                }
+            });
+        }
+
+        // Elemen halaman yang ingin diubah menjadi PDF
+        const halaman1 = document.getElementById('halaman1');
+        const halaman2 = document.getElementById('halaman2');
+        const halaman3 = document.getElementById('halaman3');
+
+        // Proses setiap halaman secara berurutan
+        addPageToPDF(halaman1, false)
+            .then(() => addPageToPDF(halaman2, false))
+            .then(() => addPageToPDF(halaman3, true))
+            .then(() => {
+                // Menyimpan file PDF setelah semua halaman ditambahkan
+                pdf.save('download.pdf');
+            });
+    });
+</script>
+
+
+<script>
+    const ctxUnit = document.getElementById('unitChart').getContext('2d');
+    const unitChart = new Chart(ctxUnit, {
+        type: 'bar',
+        data: {
+            labels: JSON.parse('<?= $unitLabels ?>'), // Nama fakultas
+            datasets: [{
+                label: 'Jumlah Responden Tendik per Unit Kerja <?= $totalUnitResponden ?>',
+                data: JSON.parse('<?= $unitCounts ?>'), // Jumlah responden
+                backgroundColor: 'rgba(200, 50, 150, 0.2)',
+                borderColor: 'rgba(200, 50, 150, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>
+<script>
+    const ctxFakultas = document.getElementById('fakultasChart').getContext('2d');
+    const fakultasChart = new Chart(ctxFakultas, {
+        type: 'bar',
+        data: {
+            labels: JSON.parse('<?= $fakultasLabels ?>'), // Nama fakultas
+            datasets: [{
+                label: 'Jumlah Responden Dosen per Fakultas <?= $totalFakultasResponden ?>',
+                data: JSON.parse('<?= $fakultasCounts ?>'), // Jumlah responden
+                backgroundColor: 'rgba(153, 102, 255, 0.2)',
+                borderColor: 'rgba(153, 102, 255, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>
+<script>
+    const ctxProdMhs = document.getElementById('prodiChart').getContext('2d');
+    const prodiChart = new Chart(ctxProdMhs, {
+        type: 'bar',
+        data: {
+            labels: JSON.parse('<?= $prodiLabels ?>'), // Nama program studi
+            datasets: [{
+                label: 'Jumlah Responden per Program Studi <?= $totalProdiResponden ?>',
+                data: JSON.parse('<?= $prodiCounts ?>'), // Jumlah responden
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>
+<script>
+    const ctxAngkatan = document.getElementById('angkatanChart').getContext('2d');
+    const angkatanChart = new Chart(ctxAngkatan, {
+        type: 'bar',
+        data: {
+            labels: <?= $angkatanLabels ?>,
+            datasets: [{
+                label: 'Jumlah Responden Mahasiswa',
+                data: <?= $angkatanCounts ?>,
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    display: false
+                },
+            },
+            scales: {
+                y: {
+                    beginAtZero: true
+                },
+            }
+        }
+    });
+</script>
 <script>
     const ikmUnitLabels = <?= $ikmUnitLabels ?>;
     const ikmUnitData = <?= $ikmUnitData ?>;

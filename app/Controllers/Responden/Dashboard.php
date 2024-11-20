@@ -488,8 +488,21 @@ class Dashboard extends BaseController
                 'kategoriCounts' => '[]',
                 'ikmUnitLabels' => '[]',
                 'ikmUnitData' => '[]',
-                'ikmUnitDataAvg' => 0,
-                'genderCounts' => 0,
+                'ikmUnitDataAvg' => '[]',
+                'genderCounts' => '[]',
+                'angkatanLabels' => '[]',
+                'angkatanCounts' => '[]',
+                'prodiLabels' => '[]',
+                'prodiCounts' => '[]',
+                'fakultasLabels' => '[]',
+                'fakultasCounts' => '[]',
+                'unitLabels' => '[]',
+                'unitCounts' => '[]',
+                'respondenData' => '[]',
+                'totalFakultasResponden' => '[]',
+                'totalUnitResponden' => '[]',
+                'totalAngkatanResponden' => '[]',
+                'totalProdiResponden' => '[]',
             ]);
         }
 
@@ -633,6 +646,109 @@ class Dashboard extends BaseController
             $ikmUnitData[] = round($rataIkm * 25, 2); // Multiply by 25 to scale
         }
 
+        // Data responden kategori mahasiswa dengan filtering berdasarkan survei dan tahun
+        $angkatanMahasiswa = $respondenModel
+            ->select('angkatan, COUNT(DISTINCT responden.id) as jumlah_responden')
+            ->join('jawaban_survei', 'jawaban_survei.id_responden = responden.id')
+            ->where('responden.kategori_responden', 'mahasiswa')
+            ->whereIn('jawaban_survei.id_survei', $surveiIds)
+            ->where('YEAR(jawaban_survei.created_at)', $tahun)
+            ->groupBy('angkatan')
+            ->orderBy('angkatan', 'ASC')
+            ->findAll();
+
+        $angkatanLabels = array_column($angkatanMahasiswa, 'angkatan');
+        $angkatanCounts = array_column($angkatanMahasiswa, 'jumlah_responden');
+
+        // Data responden kategori mahasiswa berdasarkan survei, tahun, dan program studi
+        $prodiMahasiswa = $respondenModel
+            ->select('prodi.nama, COUNT(DISTINCT responden.id) as jumlah_responden')
+            ->join('jawaban_survei', 'jawaban_survei.id_responden = responden.id')
+            ->join('prodi', 'prodi.id = responden.id_prodi', 'left') // Gabungkan dengan tabel prodi
+            ->where('responden.kategori_responden', 'mahasiswa')
+            ->whereIn('jawaban_survei.id_survei', $surveiIds)
+            ->where('YEAR(jawaban_survei.created_at)', $tahun)
+            ->groupBy('prodi.nama')
+            ->orderBy('prodi.nama', 'ASC')
+            ->findAll();
+
+        $prodiLabels = array_column($prodiMahasiswa, 'nama');
+        $prodiCounts = array_column($prodiMahasiswa, 'jumlah_responden');
+
+        // Data responden kategori dosen berdasarkan survei, tahun, dan fakultas
+        $fakultasDosen = $respondenModel
+            ->select('fakultas.nama, COUNT(DISTINCT responden.id) as jumlah_responden')
+            ->join('jawaban_survei', 'jawaban_survei.id_responden = responden.id')
+            ->join('fakultas', 'fakultas.id = responden.id_fakultas', 'left') // Gabungkan dengan tabel fakultas
+            ->where('responden.kategori_responden', 'dosen')
+            ->whereIn('jawaban_survei.id_survei', $surveiIds)
+            ->where('YEAR(jawaban_survei.created_at)', $tahun)
+            ->groupBy('fakultas.nama')
+            ->orderBy('fakultas.nama', 'ASC')
+            ->findAll();
+
+        // Pisahkan data fakultas menjadi labels dan counts
+        $fakultasLabels = array_column($fakultasDosen, 'nama');
+        $fakultasCounts = array_column($fakultasDosen, 'jumlah_responden');
+
+        // Data responden kategori tendik berdasarkan survei, tahun, dan unit kerja
+        $unitKerjaTendik = $respondenModel
+            ->select('unit_kerja.nama_unit, COUNT(DISTINCT responden.id) as jumlah_responden')
+            ->join('jawaban_survei', 'jawaban_survei.id_responden = responden.id')
+            ->join('unit_kerja', 'unit_kerja.id = responden.id_unit', 'left') // Gabungkan dengan tabel unit_kerja
+            ->where('responden.kategori_responden', 'tendik')
+            ->whereIn('jawaban_survei.id_survei', $surveiIds)
+            ->where('YEAR(jawaban_survei.created_at)', $tahun)
+            ->groupBy('unit_kerja.nama_unit')
+            ->orderBy('unit_kerja.nama_unit', 'ASC')
+            ->findAll();
+
+        $unitLabels = [];
+        $unitCounts = [];
+
+        foreach ($unitKerjaTendik as $unit) {
+            if (preg_match('/\((.*?)\)/', $unit['nama_unit'], $matches)) {
+                $unitLabels[] = $matches[1];
+            } else {
+                $unitLabels[] = $unit['nama_unit'];
+            }
+
+            $unitCounts[] = $unit['jumlah_responden'];
+        }
+
+        // Hitung total angkatan responden
+        $totalAngkatanResponden = array_sum($angkatanCounts);
+
+        // Hitung total responden dari prodi
+        $totalProdiResponden = array_sum($prodiCounts);
+
+        // Hitung total responden dari fakultas
+        $totalFakultasResponden = array_sum($fakultasCounts);
+        $totalUnitResponden = array_sum($unitCounts);
+
+        // $respondenData = $respondenModel
+        //     ->select('responden.kategori_responden, responden.saran_masukan, unit_placeholder_pertanyaan.jenis_layanan_yang_diterima,unit_placeholder_pertanyaan.nama_unit, COUNT(DISTINCT responden.id) as jumlah_responden')
+        //     ->join('jawaban_survei', 'jawaban_survei.id_responden = responden.id')
+        //     ->join('survei', 'jawaban_survei.id_survei = survei.id')
+        //     ->join('unit_placeholder_pertanyaan', 'survei.id_unit_placeholder = unit_placeholder_pertanyaan.id')
+        //     ->whereIn('jawaban_survei.id_survei', $surveiIds)
+        //     ->where('YEAR(jawaban_survei.created_at)', $tahun)
+        //     ->groupBy('responden.kategori_responden, responden.saran_masukan, unit_placeholder_pertanyaan.jenis_layanan_yang_diterima')
+        //     ->orderBy('responden.kategori_responden', 'ASC')
+        //     ->findAll();
+        $respondenData = $respondenModel
+            ->select('responden.kategori_responden, responden.saran_masukan, unit_placeholder_pertanyaan.jenis_layanan_yang_diterima, unit_placeholder_pertanyaan.nama_unit, COUNT(DISTINCT responden.id) AS jumlah_responden')
+            ->join('jawaban_survei', 'jawaban_survei.id_responden = responden.id')
+            ->join('survei', 'jawaban_survei.id_survei = survei.id')
+            ->join('unit_placeholder_pertanyaan', 'survei.id_unit_placeholder = unit_placeholder_pertanyaan.id')
+            ->whereIn('jawaban_survei.id_survei', $surveiIds)
+            ->where('jawaban_survei.created_at >=', $tahun . '-01-01') // Membatasi secara eksplisit dengan tanggal
+            ->where('jawaban_survei.created_at <=', $tahun . '-12-31')
+            ->groupBy(['responden.kategori_responden', 'responden.saran_masukan', 'unit_placeholder_pertanyaan.jenis_layanan_yang_diterima'])
+            ->orderBy('responden.kategori_responden', 'ASC')
+            ->findAll();
+
+
         return view('responden/chartfilterunit', [
             'nama_unit' => $namaUnit,
             // 'ikm' => round($averageIKM, 2),
@@ -645,6 +761,19 @@ class Dashboard extends BaseController
             'ikmUnitLabels' => json_encode($ikmUnitLabels),
             'ikmUnitData' => json_encode($ikmUnitData),
             'ikmUnitDataAvg' => round($IKM, 2),
+            'angkatanLabels' => json_encode($angkatanLabels),
+            'angkatanCounts' => json_encode($angkatanCounts),
+            'prodiLabels' => json_encode($prodiLabels),
+            'prodiCounts' => json_encode($prodiCounts),
+            'fakultasLabels' => json_encode($fakultasLabels),
+            'fakultasCounts' => json_encode($fakultasCounts),
+            'unitLabels' => json_encode($unitLabels),
+            'unitCounts' => json_encode($unitCounts),
+            'totalAngkatanResponden' => $totalAngkatanResponden,
+            'totalProdiResponden' => $totalProdiResponden,
+            'totalFakultasResponden' => $totalFakultasResponden,
+            'totalUnitResponden' => $totalUnitResponden,
+            'respondenData' => $respondenData,
         ]);
     }
 }

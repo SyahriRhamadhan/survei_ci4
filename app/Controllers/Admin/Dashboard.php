@@ -14,10 +14,19 @@ class Dashboard extends BaseController
 
         $dataId1 = $filter->find(1);
 
+        $session = session();
+        $userId = $session->get('id');
+        $userName = $session->get('name');
+        $userRole = $session->get('role_id');
+
         $data = [
             'title' => 'Dashboard',
             'filter' => $dataId1,
+            'user_id' => $userId,
+            'user_name' => $userName,
+            'user_role' => $userRole
         ];
+
         return view('admin/dashboard', $data);
     }
 

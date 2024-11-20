@@ -91,10 +91,10 @@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="javascript:void(0)" data-bs-toggle="dropdown"
                                 aria-haspopup="true" aria-expanded="false">
-                                <img src="<?= base_url('assets/images/users/profile-pic.jpg') ?>" alt="user" class="rounded-circle"
+                                <img src="<?= base_url('assets/images/logo_umrah.png') ?>" alt="user" class="rounded-circle"
                                     width="40">
                                 <span class="ms-2 d-none d-lg-inline-block"><span>Hello,</span> <span
-                                        class="text-dark">Jason Doe</span> <i data-feather="chevron-down"
+                                        class="text-dark">Admin</span> <i data-feather="chevron-down"
                                         class="svg-icon"></i></span>
                             </a>
                             <div class="dropdown-menu dropdown-menu-end dropdown-menu-right user-dd animated flipInY">
@@ -126,18 +126,6 @@
                         <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="/auth/login"
                                 aria-expanded="false"><i data-feather="home" class="feather-icon"></i><span
                                     class="hide-menu">Dashboard</span></a></li>
-                        <!-- Contoh Sidebar Tidak Bersarang -->
-                        <!-- <li class="list-divider"></li>
-                        <li class="nav-small-cap"><span class="hide-menu">Survei Responden</span></li> -->
-
-
-                        <!-- <li class="sidebar-item"> <a class="sidebar-link" href="ticket-list.html"
-                                aria-expanded="false"><i data-feather="tag" class="feather-icon"></i><span
-                                    class="hide-menu">Ticket List
-                                </span></a>
-                        </li> -->
-                        <!-- ICON  -->
-                        <!-- <i data-feather="file-text" class="feather-icon"></i> -->
 
 
                         <!-- Contoh Sidebar Bersarang -->
@@ -193,7 +181,7 @@
                                             class="hide-menu h6"> Manajemen Unit Kerja
                                         </span></a>
                                 </li>
-                                <li class="sidebar-item"><a href="<?= base_url('admin/users') ?>" class="sidebar-link"><span
+                                <li class="sidebar-item"><a href="<?= base_url('admin/user') ?>" class="sidebar-link"><span
                                             class="hide-menu h6"> Tambahkan Akun
                                         </span></a>
                                 </li>
@@ -265,29 +253,6 @@
     <script src="<?= base_url('assets/extra-libs/datatables.net-bs4/js/dataTables.responsive.min.js') ?>"></script>
     <script src="<?= base_url('dist/js/pages/datatable/datatable-basic.init.js') ?>"></script>
     <script>
-        // document.addEventListener('DOMContentLoaded', function() {
-        //     const tahunAjaranInput = document.getElementById('tahun_ajaran');
-        //     const errorMessage = document.getElementById('error_message');
-
-        //     // Fungsi untuk memvalidasi format tahun ajaran
-        //     function validateTahunAjaran(input) {
-        //         const regex = /^\d{4}\/\d{4}$/; // Pola untuk format YYYY/YYYY
-        //         return regex.test(input);
-        //     }
-
-        //     tahunAjaranInput.addEventListener('input', function() {
-        //         const value = tahunAjaranInput.value;
-
-        //         if (validateTahunAjaran(value)) {
-        //             errorMessage.style.display = 'none'; // Sembunyikan pesan error jika valid
-        //             tahunAjaranInput.setCustomValidity(''); // Reset custom validity
-        //         } else {
-        //             errorMessage.style.display = 'block'; // Tampilkan pesan error jika tidak valid
-        //             tahunAjaranInput.setCustomValidity('Format tahun ajaran tidak valid. Gunakan format: YYYY/YYYY'); // Set custom validity message
-        //         }
-        //     });
-        // });
-
         $(function() {
             <?php if (session()->has('berhasil')): ?>
                 const Toast = Swal.mixin({
@@ -327,20 +292,6 @@
                 }
             });
         });
-        //untuk placeholder, jika memilih upps setahun sekali jennnnis unit layanan akan dihilangkan
-        // function toggleJenisLayanan() {
-        //     const jenisUnit = document.getElementById('jenis_unit_select').value;
-        //     // const jenisLayananDiv = document.getElementById('jenis_layanan_div');
-
-        //     if (jenisUnit === 'UPPS') {
-        //         jenisLayananDiv.style.display = 'none';
-        //     } else {
-        //         jenisLayananDiv.style.display = 'block';
-        //     }
-        // }
-
-        // Inisialisasi tampilan awal
-        // window.onload = toggleJenisLayanan;
     </script>
 </body>
 

@@ -92,6 +92,16 @@ $routes->group('admin', static function ($routes) {
         $routes->post('update/(:segment)', 'Admin\Unit::update/$1');
         $routes->get('delete/(:segment)', 'Admin\Unit::delete/$1');
     });
+
+    //Akun
+    $routes->group('user', function ($routes) {
+        $routes->get('', 'Admin\User::index');
+        $routes->get('create', 'Admin\User::create');
+        $routes->post('store', 'Admin\User::store');
+        $routes->get('edit/(:segment)', 'Admin\User::edit/$1');
+        $routes->post('update/(:segment)', 'Admin\User::update/$1');
+        $routes->get('delete/(:segment)', 'Admin\User::delete/$1');
+    });
 });
 
 // pimpinan routes

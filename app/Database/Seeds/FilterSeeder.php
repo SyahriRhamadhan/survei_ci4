@@ -11,8 +11,8 @@ class FilterSeeder extends Seeder
         // Insert data dengan status 'on'
         $data = [
             'id' => 1,
-            'key'   => 'status',  // Kamu bisa sesuaikan key-nya dengan kebutuhan
-            'value' => 'on',      // Set status menjadi 'on' untuk satu data
+            'key'   => 'status',
+            'value' => 'off',
         ];
 
         // Insert data ke dalam tabel 'settings'

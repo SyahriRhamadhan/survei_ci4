@@ -81,27 +81,27 @@
                                     <div style="flex: 1;">
                                         <ul class="mb-0 ms-3">
                                             <li>
-                                                <i class="fas fa-circle" style="color: #FF5733;"></i>
+                                                <i class="fas fa-circle" style="color: rgba(255, 99, 132, 0.5);"></i>
                                                 <span class="text-muted">Mahasiswa</span>
                                                 <span class="text-dark float-end font-weight-medium" id="mahasiswa-count">0</span>
                                             </li>
                                             <li class="mt-3">
-                                                <i class="fas fa-circle" style="color: #33FF57;"></i>
+                                                <i class="fas fa-circle" style="color: rgba(54, 162, 235, 0.5);"></i>
                                                 <span class="text-muted">Dosen</span>
                                                 <span class="text-dark float-end font-weight-medium" id="dosen-count">0</span>
                                             </li>
                                             <li class="mt-3">
-                                                <i class="fas fa-circle" style="color: #3357FF;"></i>
+                                                <i class="fas fa-circle" style="color: rgba(255, 206, 86, 0.5);"></i>
                                                 <span class="text-muted">Tendik</span>
                                                 <span class="text-dark float-end font-weight-medium" id="tendik-count">0</span>
                                             </li>
                                             <li class="mt-3">
-                                                <i class="fas fa-circle" style="color: #F1C40F;"></i>
+                                                <i class="fas fa-circle" style="color: rgba(75, 192, 192, 0.5);"></i>
                                                 <span class="text-muted">Mitra</span>
                                                 <span class="text-dark float-end font-weight-medium" id="mitra-count">0</span>
                                             </li>
                                             <li class="mt-3">
-                                                <i class="fas fa-circle" style="color: #9B59B6;"></i>
+                                                <i class="fas fa-circle" style="color: rgba(255, 159, 64, 0.5);"></i>
                                                 <span class="text-muted">Umum</span>
                                                 <span class="text-dark float-end font-weight-medium" id="umum-count">0</span>
                                             </li>
@@ -197,9 +197,15 @@
             datasets: [{
                 label: 'IKM per Jenis Layanan',
                 data: grouped.data,
-                backgroundColor: '#FF5733',
-                borderColor: '#FF5733',
-                borderWidth: 1
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.7)',
+                    'rgba(54, 162, 235, 0.7)',
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                ],
+                borderWidth: 2
             }]
         },
         options: {
@@ -237,8 +243,22 @@
                 label: 'Jumlah Responden per Kategori',
                 data: kategoriCounts,
                 backgroundColor: [
-                    '#FF5733', '#33FF57', '#3357FF', '#F1C40F', '#9B59B6'
+                    'rgba(255, 99, 132, 0.5)',
+                    'rgba(54, 162, 235, 0.5)',
+                    'rgba(255, 206, 86, 0.5)',
+                    'rgba(75, 192, 192, 0.5)',
+                    'rgba(153, 102, 255, 0.5)',
+                    'rgba(255, 159, 64, 0.5)'
                 ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+                ],
+                borderWidth: 1,
                 hoverOffset: 4
             }]
         },

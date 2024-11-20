@@ -153,7 +153,7 @@
             const selectedUnitName = document.getElementById('unit_name').value;
             if (!selectedUnitName) return false;
             window.location.href = `<?= base_url('responden/chartfilterunit') ?>/${selectedUnitName}`;
-            return false; 
+            return false;
         }
     </script>
 
@@ -446,14 +446,27 @@
             datasets: [{
                 label: 'Jumlah Responden',
                 data: <?= $chartValues ?>, // Menampilkan jumlah responden per kategori
-                backgroundColor: ['#FF5733', '#33FF57', '#3357FF', '#F1C40F', '#9B59B6'], // Pilih warna yang sesuai
-                borderColor: ['#FF5733', '#33FF57', '#3357FF', '#F1C40F', '#9B59B6'],
-                borderWidth: 1
+                backgroundColor: [
+                    'rgba(255, 87, 51, 0.6)',
+                    'rgba(51, 255, 87, 0.6)',
+                    'rgba(51, 87, 255, 0.6)',
+                    'rgba(241, 196, 15, 0.6)',
+                    'rgba(155, 89, 182, 0.6)'
+                ],
+                borderColor: [
+                    'rgba(255, 87, 51, 1)',
+                    'rgba(51, 255, 87, 1)',
+                    'rgba(51, 87, 255, 1)',
+                    'rgba(241, 196, 15, 1)',
+                    'rgba(155, 89, 182, 1)'
+                ],
+                borderWidth: 2
             }]
+
         },
         options: {
             responsive: true,
-            cutout: '80%', // Menentukan lebar bagian tengah (misalnya 70%)
+            cutout: '50%', // Menentukan lebar bagian tengah (misalnya 70%)
             plugins: {
                 legend: {
                     position: 'top',

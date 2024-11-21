@@ -22,6 +22,7 @@ $routes->group('auth', static function ($routes) {
 $routes->group('admin', static function ($routes) {
     // Dashboard
     $routes->get('dashboard', 'Admin\Dashboard::index');
+    $routes->get('chartfilterunit/(:segment)', 'Admin\Dashboard::hitungIKMUnit/$1');
     $routes->post('update-status', 'Admin\Dashboard::updateStatus');
 
     // pertanyaan crud

@@ -26,8 +26,40 @@
             <p>No filter data found with ID = 1.</p>
         <?php endif; ?>
     </div>
-
-
+    <div class="card col-md-6">
+        <div class="card-body justify-content-center">
+            <h4 class="card-title text-center">Hasil Survei Tingkat Unit</h4>
+            <form class="mt-4" action="<?= base_url('admin/chartfilterunit') ?>" method="get" onsubmit="return redirectToRoute(this)">
+                <div class="input-group">
+                    <select class="form-select" name="unit_name" id="unit_name" required>
+                        <option selected disabled>Choose...</option>
+                        <?php
+                        $addedUnits = []; // Array untuk melacak nama unit yang sudah ditambahkan
+                        foreach ($filter2 as $unit):
+                            if (!in_array($unit['nama_unit'], $addedUnits)): // Periksa apakah unit sudah ditambahkan
+                        ?>
+                                <option value="<?= urlencode($unit['nama_unit']) ?>"><?= $unit['nama_unit'] ?></option>
+                                <?php
+                                $addedUnits[] = $unit['nama_unit']; // Tambahkan nama unit ke array pelacakan
+                                ?>
+                        <?php
+                            endif;
+                        endforeach;
+                        ?>
+                    </select>
+                    <button class="btn ms-2 btn-success" type="submit">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
+<script>
+    function redirectToRoute(form) {
+        const selectedUnitName = document.getElementById('unit_name').value;
+        if (!selectedUnitName) return false;
+        window.location.href = `<?= base_url('admin/chartfilterunit') ?>/${selectedUnitName}`;
+        return false;
+    }
+</script>
 
 <?= $this->endSection() ?>

@@ -35,7 +35,7 @@
 
                 <!-- The Jenis Layanan section -->
                 <div class="input-style-1" id="jenis_layanan_div">
-                    <label class="text-dark mb-2 fs-6">Jenis Layanan</label>
+                    <label class="text-dark mb-2 fs-6">Jenis Layanan/Nama Prodi (jika tipe unit UPPS)</label>
                     <input value="<?= esc($placeholder['jenis_layanan_yang_diterima']) ?>" class="fs-6 form-control <?= ($validation->hasError('jenis_layanan_yang_diterima')) ? 'is-invalid' : '' ?>" type="text" name="jenis_layanan_yang_diterima" placeholder="*Contoh Layanan Akademik Fakultas, Sertifikat Akreditasi, Layanan Alumni (Legalisir)" />
                     <div class="invalid-feedback"><?= esc($validation->getError('jenis_layanan_yang_diterima')) ?></div>
                 </div>

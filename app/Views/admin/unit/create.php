@@ -36,7 +36,7 @@
                     <label class="text-dark mb-2 fs-6">Tipe/Kategori Unit</label>
                     <select class="fs-6 form-control <?= ($validation->hasError('jenis_unit')) ? 'is-invalid' : '' ?>" name="jenis_unit">
                         <option value="" disabled selected>Pilih Tipe/Kategori Unit</option>
-                        <option default value="UPPS">UPPS (Setahun Sekali)</option>
+                        <option default value="UPPS">UPPS</option>
                         <option value="Unit Layanan">Unit Layanan</option>
                     </select>
                     <div class="invalid-feedback"><?= $validation->getError('jenis_unit') ?></div>

@@ -159,13 +159,18 @@
                              <span class="badge bg-danger">Off</span>
                          <?php endif; ?>`,
                     jenis_layanan: "<?= htmlspecialchars($s['jenis_layanan_yang_diterima']) ?>",
-                    aksi: `<a href="<?= base_url('admin/survei/edit/' . $s['id']) ?>" class="btn btn-primary">Edit</a>
-                       <a href="<?= base_url('admin/survei/delete/' . $s['id']) ?>" class="btn btn-danger tombol-hapus">Delete</a>
-                       <a href="<?= base_url('admin/survei/detail/' . $s['id']) ?>" class="btn btn-primary">Detail</a>`,
+                    aksi: `<a href="javascript:void(0)" onclick="openPopup('<?= base_url('admin/survei/edit/' . $s['id']) ?>')" class="btn btn-primary">Edit</a>
+       <a href="<?= base_url('admin/survei/delete/' . $s['id']) ?>" class="btn btn-danger tombol-hapus">Delete</a>
+       <a href="javascript:void(0)" onclick="openPopup('<?= base_url('admin/survei/detail/' . $s['id']) ?>')" class="btn btn-primary">Detail</a>`,
+
                 },
             <?php endforeach; ?>
         ],
     });
+
+    function openPopup(url) {
+        window.open(url, '_blank', 'width=800,height=600,scrollbars=yes,resizable=yes');
+    }
 </script>
 
 <?= $this->endSection() ?>

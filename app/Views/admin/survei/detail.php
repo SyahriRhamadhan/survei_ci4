@@ -34,11 +34,6 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>Tahun ajaran</td>
-                    <td>:</td>
-                    <td><?= $survei['tahun_ajaran'] ?> - <?= $survei['semester'] ?></td>
-                </tr>
-                <tr>
                     <td>Nama Unit</td>
                     <td>:</td>
                     <td><?= $survei['nama_unit'] ?></td>

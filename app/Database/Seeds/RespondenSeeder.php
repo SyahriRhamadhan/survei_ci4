@@ -14,7 +14,7 @@ class RespondenSeeder extends Seeder
         $startTimestamp = strtotime('2024-01-01');
         $endTimestamp = strtotime('2025-12-31');
 
-        for ($i = 1; $i <= 15000; $i++) {
+        for ($i = 1; $i <= 25000; $i++) {
             $randomTimestamp = rand($startTimestamp, $endTimestamp);
             $createdAt = date('Y-m-d H:i:s', $randomTimestamp);
             $updatedAt = date('Y-m-d H:i:s', $randomTimestamp);
@@ -34,7 +34,7 @@ class RespondenSeeder extends Seeder
                 'tanggal_survei' => $tanggalSurvei,
                 'saran_masukan' => $saranMasukan,
                 'kategori_responden' => $kategoriResponden,
-                'id_survei' => rand(1, 88),
+                'id_survei' => rand(1, 212),
                 'created_at' => $createdAt,
                 'updated_at' => $updatedAt,
             ];

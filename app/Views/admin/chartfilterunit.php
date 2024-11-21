@@ -199,8 +199,8 @@
         <div class="col-md-12 mx-3">
             <div class="card">
                 <div class="card-body">
-                    <div class="card-title">
-                        Saran dan Masukan dari Responden
+                    <div class="">
+                        <h3 class="fw-bold card-title">Saran dan Masukan dari Responden</h3>
                     </div>
                     <div class="row">
                         <div class="col-md-2">
@@ -357,7 +357,7 @@
             .then(() => addPageToPDF(halaman2, false))
             .then(() => addPageToPDF(halaman3, true))
             .then(() => {
-                pdf.save('download.pdf');
+                pdf.save('ikm_<?= htmlspecialchars($nama_unit) ?>.pdf');
             });
     });
 </script>

@@ -56,6 +56,7 @@ class Dashboard extends BaseController
 
     public function hitungIKMUnit($namaUnit)
     {
+        ini_set('max_execution_time', 100);
         $placeholderModel = new UnitPlaceholderPertanyaanModel();
         $surveiModel = new SurveiModel();
         $jawabanSurveiModel = new JawabanSurveiModel();

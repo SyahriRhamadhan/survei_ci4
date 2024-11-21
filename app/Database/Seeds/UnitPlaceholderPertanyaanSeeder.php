@@ -10,56 +10,68 @@ class UnitPlaceholderPertanyaanSeeder extends Seeder
     {
         // Data UPPS
         $uppsData = [
-            [
-                'jenis_unit' => 'UPPS',
-                'nama_unit' => 'Fakultas Ekonomi dan Bisnis Maritim (FEBM)',
-                'jenis_layanan_yang_diterima' => null,
-                'created_at' => date('Y-m-d H:i:s'),
-                'updated_at' => date('Y-m-d H:i:s'),
+            'Fakultas Ekonomi dan Bisnis Maritim (FEBM)' => [
+                'Akuntansi',
+                'Manajemen',
+                'Bisnis Digital',
+                'Kewirausahaan'
             ],
-            [
-                'jenis_unit' => 'UPPS',
-                'nama_unit' => 'Fakultas Ilmu Kelautan dan Perikanan (FIKP)',
-                'jenis_layanan_yang_diterima' => null,
-                'created_at' => date('Y-m-d H:i:s'),
-                'updated_at' => date('Y-m-d H:i:s'),
+            'Fakultas Ilmu Kelautan dan Perikanan (FIKP)' => [
+                'Ilmu Kelautan',
+                'Manajemen Sumberdaya Perairan',
+                'Budidaya Perairan',
+                'Teknologi Hasil Perikanan',
+                'Sosial Ekonomi Perikanan'
             ],
-            [
-                'jenis_unit' => 'UPPS',
-                'nama_unit' => 'Fakultas Ilmu Sosial dan Ilmu Politik (FISIP)',
-                'jenis_layanan_yang_diterima' => null,
-                'created_at' => date('Y-m-d H:i:s'),
-                'updated_at' => date('Y-m-d H:i:s'),
+            'Fakultas Ilmu Sosial dan Ilmu Politik (FISIP)' => [
+                'Ilmu Pemerintahan',
+                'Administrasi Publik',
+                'Sosiologi',
+                'Ilmu Hukum',
+                'Hubungan Internasional',
+                'Kajian Film, Televisi, dan Media'
             ],
-            [
-                'jenis_unit' => 'UPPS',
-                'nama_unit' => 'Fakultas Keguruan dan Ilmu Pendidikan (FKIP)',
-                'jenis_layanan_yang_diterima' => null,
-                'created_at' => date('Y-m-d H:i:s'),
-                'updated_at' => date('Y-m-d H:i:s'),
+            'Fakultas Keguruan dan Ilmu Pendidikan (FKIP)' => [
+                'Pendidikan Bahasa dan Sastra Indonesia',
+                'Pendidikan Bahasa Inggris',
+                'Pendidikan Matematika',
+                'Pendidikan Biologi',
+                'Pendidikan Kimia',
+                'Pendidikan Profesi Guru (Profesi)'
             ],
-            [
-                'jenis_unit' => 'UPPS',
-                'nama_unit' => 'Fakultas Teknik dan Teknologi Kemaritiman (FTTK)',
-                'jenis_layanan_yang_diterima' => null,
-                'created_at' => date('Y-m-d H:i:s'),
-                'updated_at' => date('Y-m-d H:i:s'),
+            'Fakultas Teknik dan Teknologi Kemaritiman (FTTK)' => [
+                'Teknik Informatika',
+                'Teknik Elektro',
+                'Teknik Perkapalan',
+                'Kimia',
+                'Teknik Industri'
             ],
-            [
-                'jenis_unit' => 'UPPS',
-                'nama_unit' => 'Program Pascasarjana',
-                'jenis_layanan_yang_diterima' => null,
-                'created_at' => date('Y-m-d H:i:s'),
-                'updated_at' => date('Y-m-d H:i:s'),
+            'Program Pascasarjana (Magister)' => [
+                'Magister Administrasi Publik',
+                'Magister Ilmu Lingkungan',
+                'Magister Pedagogi FKIP UMRAH'
             ],
-            [
-                'jenis_unit' => 'UPPS',
-                'nama_unit' => 'Fakultas Kedokteran (FK)',
-                'jenis_layanan_yang_diterima' => null,
-                'created_at' => date('Y-m-d H:i:s'),
-                'updated_at' => date('Y-m-d H:i:s'),
+            'Fakultas Kedokteran (FK)' => [
+                'Kedokteran',
+                'Pendidikan Profesi Dokter'
             ],
         ];
+
+        // Format data UPPS menjadi baris terpisah
+        $formattedUppsData = [];
+        $currentTime = date('Y-m-d H:i:s');
+
+        foreach ($uppsData as $namaUnit => $layananList) {
+            foreach ($layananList as $layanan) {
+                $formattedUppsData[] = [
+                    'jenis_unit' => 'UPPS',
+                    'nama_unit' => $namaUnit,
+                    'jenis_layanan_yang_diterima' => $layanan,
+                    'created_at' => $currentTime,
+                    'updated_at' => $currentTime,
+                ];
+            }
+        }
 
         // Data Unit Layanan
         $unitLayananData = [
@@ -167,15 +179,13 @@ class UnitPlaceholderPertanyaanSeeder extends Seeder
                 'Electrochemical Research & Analysis',
                 'Computational Analysis',
             ],
-
         ];
 
-        $formattedData = [];
-        $currentTime = date('Y-m-d H:i:s');
-
+        // Format ulang data Unit Layanan
+        $formattedUnitLayananData = [];
         foreach ($unitLayananData as $namaUnit => $layananList) {
             foreach ($layananList as $layanan) {
-                $formattedData[] = [
+                $formattedUnitLayananData[] = [
                     'jenis_unit' => 'Unit Layanan',
                     'nama_unit' => $namaUnit,
                     'jenis_layanan_yang_diterima' => $layanan,
@@ -185,8 +195,8 @@ class UnitPlaceholderPertanyaanSeeder extends Seeder
             }
         }
 
-        // Menggabungkan data UPPS dan formattedData yang sesuai format
-        $data = array_merge($uppsData, $formattedData);
+        // Gabungkan data UPPS dan Unit Layanan
+        $data = array_merge($formattedUppsData, $formattedUnitLayananData);
 
         // Insert data ke tabel `unit_placeholder_pertanyaan`
         $this->db->table('unit_placeholder_pertanyaan')->insertBatch($data);

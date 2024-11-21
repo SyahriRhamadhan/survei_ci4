@@ -125,6 +125,6 @@ $routes->group('responden', function ($routes) {
     $routes->post('layanan/store', 'Responden\Layanan::store');
     $routes->get('chartfilter/(:segment)', 'Responden\Dashboard::filter/$1');
     // $routes->get('chartfilterunit/(:segment)', 'Responden\Dashboard::filterUnit/$1');
-    $routes->get('chartfilterunit/(:segment)', 'Responden\Dashboard::hitungIKMUnit/$1');
+    // $routes->get('chartfilterunit/(:segment)', 'Responden\Dashboard::hitungIKMUnit/$1');
 
 });

@@ -234,6 +234,9 @@
                     <div class="mt-3 mx-5" id="respondenTable"></div>
                 </div>
             </div>
+            <section>
+                <p></p>
+            </section>
             <section id="download" class="my-5">
                 <button class="btn ms-2 btn-success" id="downloadPdf">Download as PDF</button>
             </section>
@@ -491,10 +494,6 @@
     }
 
     const grouped = groupAndAverageData(ikmUnitLabels, ikmUnitData);
-    console.log("IKM Unit Labels:", ikmUnitLabels);
-    console.log("IKM Unit Data:", ikmUnitData);
-    // Menampilkan data di console untuk debugging
-    console.log("p", grouped);
 
     var ctx = document.getElementById('ikmPerLayananChart').getContext('2d');
     var ikmPerLayananChart = new Chart(ctx, {

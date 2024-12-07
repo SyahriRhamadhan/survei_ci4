@@ -131,17 +131,22 @@
                 </div>
 
                 <?php foreach ($pertanyaanGrouped as $kategori => $pertanyaans): ?>
-                    <div class="category-group mt-5">
-                        <h5 class="fw-semibold text-dark ">Kategori = <?= htmlspecialchars($kategori) ?></h5>
+                    <div class="category-group mt-5" id="kategori-<?= htmlspecialchars($kategori) ?>">
+                        <h5 class="fw-semibold text-dark">Kategori = <?= htmlspecialchars($kategori) ?></h5>
                         <?php foreach ($pertanyaans as $pertanyaan): ?>
                             <div class="form-check">
-                                <input class="form-check-input border border-dark border-1" type="checkbox" name="pertanyaan[]" value="<?= htmlspecialchars($pertanyaan['id']) ?>">
+                                <input class="form-check-input border border-dark border-1"
+                                    type="checkbox"
+                                    name="pertanyaan[<?= htmlspecialchars($kategori) ?>][]"
+                                    value="<?= htmlspecialchars($pertanyaan['id']) ?>">
                                 <label class="form-check-label text-dark"><?= htmlspecialchars($pertanyaan['pertanyaan']) ?></label>
                             </div>
                         <?php endforeach; ?>
                     </div>
                 <?php endforeach; ?>
 
+                <!-- Tempat untuk pesan kesalahan secara umum -->
+                <div id="form-error" class="error-message text-danger" style="display: none; text-align: center;"></div>
                 <div class="text-center mt-5">
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </div>
@@ -149,5 +154,20 @@
         </div>
     </div>
 </div>
+<script>
+    document.querySelector('form').addEventListener('submit', function(e) {
+        const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+
+        const errorMessage = document.getElementById('form-error');
+
+        if (checkboxes.length === 0) {
+            e.preventDefault();
+            errorMessage.textContent = 'Pilih minimal satu pertanyaan.';
+            errorMessage.style.display = 'block'; 
+        } else {
+            errorMessage.style.display = 'none';
+        }
+    });
+</script>
 
 <?= $this->endSection() ?>

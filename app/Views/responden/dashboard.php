@@ -130,29 +130,34 @@
                         <div style="flex: 1;">
                             <ul class=" mb-0 ms-3">
                                 <li>
-                                    <i class="fas fa-circle" style="color: #FF5733;"></i>
+                                    <i class="fas fa-circle" style="color: rgba(255, 99, 132, 0.5);"></i>
                                     <span class="text-muted">Mahasiswa</span>
                                     <span class="text-dark float-end font-weight-medium"><?= $respondenByKategori['mahasiswa'] ?? 0; ?></span>
                                 </li>
                                 <li class="mt-3">
-                                    <i class="fas fa-circle" style="color: #33FF57;"></i>
+                                    <i class="fas fa-circle" style="color: rgba(54, 162, 235, 0.5);"></i>
                                     <span class="text-muted">Dosen</span>
                                     <span class="text-dark float-end font-weight-medium"><?= $respondenByKategori['dosen'] ?? 0; ?></span>
                                 </li>
                                 <li class="mt-3">
-                                    <i class="fas fa-circle" style="color: #3357FF;"></i>
+                                    <i class="fas fa-circle" style="color:  rgba(255, 206, 86, 0.5);"></i>
                                     <span class="text-muted">Tendik</span>
                                     <span class="text-dark float-end font-weight-medium"><?= $respondenByKategori['tendik'] ?? 0; ?></span>
                                 </li>
                                 <li class="mt-3">
-                                    <i class="fas fa-circle" style="color: #F1C40F;"></i>
+                                    <i class="fas fa-circle" style="color: rgba(75, 192, 192, 0.5);;"></i>
                                     <span class="text-muted">Mitra</span>
                                     <span class="text-dark float-end font-weight-medium"><?= $respondenByKategori['mitra'] ?? 0; ?></span>
                                 </li>
                                 <li class="mt-3">
-                                    <i class="fas fa-circle" style="color: #9B59B6;"></i>
+                                    <i class="fas fa-circle" style="color:  rgb(204, 178, 255);;"></i>
                                     <span class="text-muted">Umum</span>
                                     <span class="text-dark float-end font-weight-medium"><?= $respondenByKategori['umum'] ?? 0; ?></span>
+                                </li>
+                                <li class="mt-3">
+                                    <i class="fas fa-circle" style="color: rgb(255,207,159);"></i>
+                                    <span class="text-muted">Alumni</span>
+                                    <span class="text-dark float-end font-weight-medium"><?= $respondenByKategori['alumni'] ?? 0; ?></span>
                                 </li>
                             </ul>
                         </div>
@@ -529,18 +534,20 @@
                 label: 'Jumlah Responden',
                 data: <?= $chartValues ?>, // Menampilkan jumlah responden per kategori
                 backgroundColor: [
-                    'rgba(255, 87, 51, 0.8)',
-                    'rgba(51, 255, 87, 0.8)',
-                    'rgba(51, 87, 255, 0.8)',
-                    'rgba(241, 196, 15, 0.8)',
-                    'rgba(155, 89, 182, 0.8)'
+                    'rgba(255, 99, 132, 0.5)',
+                    'rgba(54, 162, 235, 0.5)',
+                    'rgba(255, 206, 86, 0.5)',
+                    'rgba(75, 192, 192, 0.5)',
+                    'rgba(153, 102, 255, 0.5)',
+                    'rgba(255, 159, 64, 0.5)'
                 ],
                 borderColor: [
-                    'rgba(255, 87, 51, 1)',
-                    'rgba(51, 255, 87, 1)',
-                    'rgba(51, 87, 255, 1)',
-                    'rgba(241, 196, 15, 1)',
-                    'rgba(155, 89, 182, 1)'
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
                 ],
                 borderWidth: 4
             }]
@@ -572,8 +579,14 @@
             datasets: [{
                 label: 'Jumlah Responden',
                 data: <?= $chartValuesGender ?>, // Data jumlah responden per jenis kelamin
-                backgroundColor: ['#3498DB', '#E74C3C'], // Warna untuk masing-masing jenis kelamin
-                borderColor: ['#2980B9', '#C0392B'],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.5)',
+                    'rgba(54, 162, 235, 0.5)',
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                ],
                 borderWidth: 1
             }]
         },

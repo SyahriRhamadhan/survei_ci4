@@ -1,5 +1,20 @@
 <?= $this->extend('responden/layout') ?>
 <?= $this->section('content') ?>
+<div class="row mx-5">
+    <div class="col-md mx-5">
+        <!-- Menampilkan pesan error jika ada -->
+        <?php if (session()->getFlashdata('error')): ?>
+            <div class="alert alert-danger">
+                <?= session()->getFlashdata('error') ?>
+            </div>
+        <?php endif; ?>
+        <?php if (session()->getFlashdata('success')): ?>
+            <div class="alert alert-success">
+                <?= session()->getFlashdata('success') ?>
+            </div>
+        <?php endif; ?>
+    </div>
+</div>
 <div class="container-fluid">
     <div class="row">
         <div class="card col-md-4">
@@ -63,7 +78,7 @@
             <div class="card-body">
                 <div class="row">
                     <div class="align-self-center">
-                        <h3 class="page-title text-truncate text-dark font-weight-medium mb-3">Instrumen Survei Kepuasan UPPS</h3>
+                        <h3 class="page-title text-truncate text-dark font-weight-medium mb-3">Survei Kepuasan UPPS</h3>
                     </div>
                     <div class="card">
                         <div class="card-body">
@@ -89,9 +104,9 @@
                                 <div class="col-md">
                                     <h3>Instrumen survei kepuasan mahasiswa di UPPS</h3>
                                     <div class="input-style-1 mt-3">
-                                        <label class="text-dark mb-2 fs-6">Unit Layanan</label>
+                                        <label class="text-dark mb-2 fs-6">Unit Pengelola Program Studi (UPPS)</label>
                                         <select class="form-control fs-6" id="unit_layanan_mhs" name="unit_layanan" onchange="filterJenisLayanan('mhs')">
-                                            <option value="">Pilih Unit Layanan</option>
+                                            <option value="">Pilih (UPPS)</option>
                                             <?php
                                             $unitSeen = [];
                                             foreach ($mahasiswa as $unit):
@@ -108,9 +123,9 @@
                                     </div>
 
                                     <div class="input-style-1 mt-3">
-                                        <label class="text-dark mb-2 fs-6">Jenis Layanan yang Diterima</label>
+                                        <label class="text-dark mb-2 fs-6">Jenis Jurusan/prodi</label>
                                         <select class="form-control fs-6" id="jenis_layanan_yang_diterima_mhs" name="jenis_layanan_yang_diterima">
-                                            <option value="">Pilih Jenis Layanan yang Diterima</option>
+                                            <option value="">Pilih Jenis Jurusan/prodi</option>
                                             <?php foreach ($mahasiswa as $unit): ?>
                                                 <?php if (!empty($unit['jenis_layanan_yang_diterima'])): ?>
                                                     <option class="jenis-option-mhs" value="<?= htmlspecialchars($unit['id']) ?>" data-unit="<?= htmlspecialchars($unit['nama_unit']) ?>">
@@ -136,9 +151,9 @@
                                     <div class="col-md">
                                         <h3>Instrumen survei kepuasan dosen di UPPS</h3>
                                         <div class="input-style-1 mt-3">
-                                            <label class="text-dark mb-2 fs-6">Unit Layanan</label>
+                                            <label class="text-dark mb-2 fs-6">Unit Pengelola Program Studi (UPPS)</label>
                                             <select class="form-control fs-6" id="unit_layanan_dosen" name="unit_layanan" onchange="filterJenisLayanan('dosen')">
-                                                <option value="">Pilih Unit Layanan</option>
+                                                <option value="">Pilih (UPPS)</option>
                                                 <?php
                                                 $unitSeen = [];
                                                 foreach ($dosen as $unit):
@@ -155,9 +170,9 @@
                                         </div>
 
                                         <div class="input-style-1 mt-3">
-                                            <label class="text-dark mb-2 fs-6">Jenis Layanan yang Diterima</label>
+                                            <label class="text-dark mb-2 fs-6">Jenis Jurusan/prodi</label>
                                             <select class="form-control fs-6" id="jenis_layanan_yang_diterima_dosen" name="jenis_layanan_yang_diterima">
-                                                <option value="">Pilih Jenis Layanan yang Diterima</option>
+                                                <option value="">Pilih Jenis Jurusan/prodi</option>
                                                 <?php foreach ($dosen as $unit): ?>
                                                     <?php if (!empty($unit['jenis_layanan_yang_diterima'])): ?>
                                                         <option class="jenis-option-dosen" value="<?= htmlspecialchars($unit['id']) ?>" data-unit="<?= htmlspecialchars($unit['nama_unit']) ?>">
@@ -185,9 +200,9 @@
                                     <div class="col-md">
                                         <h3>Instrumen survei kepuasan tenaga pendidikan di UPPS</h3>
                                         <div class="input-style-1 mt-3">
-                                            <label class="text-dark mb-2 fs-6">Unit Layanan</label>
+                                            <label class="text-dark mb-2 fs-6">Unit Pengelola Program Studi (UPPS)</label>
                                             <select class="form-control fs-6" id="unit_layanan_tendik" name="unit_layanan" onchange="filterJenisLayanan('tendik')">
-                                                <option value="">Pilih Unit Layanan</option>
+                                                <option value="">Pilih (UPPS)</option>
                                                 <?php
                                                 $unitSeen = [];
                                                 foreach ($tendik as $unit):
@@ -204,9 +219,9 @@
                                         </div>
 
                                         <div class="input-style-1 mt-3">
-                                            <label class="text-dark mb-2 fs-6">Jenis Layanan yang Diterima</label>
+                                            <label class="text-dark mb-2 fs-6">Jenis Jurusan/prodi</label>
                                             <select class="form-control fs-6" id="jenis_layanan_yang_diterima_tendik" name="jenis_layanan_yang_diterima">
-                                                <option value="">Pilih Jenis Layanan yang Diterima</option>
+                                                <option value="">Pilih Jenis Jurusan/prodi</option>
                                                 <?php foreach ($tendik as $unit): ?>
                                                     <?php if (!empty($unit['jenis_layanan_yang_diterima'])): ?>
                                                         <option class="jenis-option-tendik" value="<?= htmlspecialchars($unit['id']) ?>" data-unit="<?= htmlspecialchars($unit['nama_unit']) ?>">
@@ -234,9 +249,9 @@
                                     <div class="col-md">
                                         <h3>Instrumen survei kepuasan mitra di UPPS</h3>
                                         <div class="input-style-1 mt-3">
-                                            <label class="text-dark mb-2 fs-6">Unit Layanan</label>
+                                            <label class="text-dark mb-2 fs-6">Unit Pengelola Program Studi (UPPS)</label>
                                             <select class="form-control fs-6" id="unit_layanan_mitra" name="unit_layanan" onchange="filterJenisLayanan('mitra')">
-                                                <option value="">Pilih Unit Layanan</option>
+                                                <option value="">Pilih (UPPS)</option>
                                                 <?php
                                                 $unitSeen = [];
                                                 foreach ($mitra as $unit):
@@ -253,9 +268,9 @@
                                         </div>
 
                                         <div class="input-style-1 mt-3">
-                                            <label class="text-dark mb-2 fs-6">Jenis Layanan yang Diterima</label>
+                                            <label class="text-dark mb-2 fs-6">Jenis Jurusan/prodi</label>
                                             <select class="form-control fs-6" id="jenis_layanan_yang_diterima_mitra" name="jenis_layanan_yang_diterima">
-                                                <option value="">Pilih Jenis Layanan yang Diterima</option>
+                                                <option value="">Pilih Jenis Jurusan/prodi</option>
                                                 <?php foreach ($mitra as $unit): ?>
                                                     <?php if (!empty($unit['jenis_layanan_yang_diterima'])): ?>
                                                         <option class="jenis-option-mitra" value="<?= htmlspecialchars($unit['id']) ?>" data-unit="<?= htmlspecialchars($unit['nama_unit']) ?>">
@@ -280,7 +295,7 @@
     </div>
     <script>
         function filterJenisLayanan() {
-            const unitLayanan = document.getElementById('unit_layanan').value; // Ambil nilai Unit Layanan
+            const unitLayanan = document.getElementById('unit_layanan').value; // Ambil nilai Unit Pengelola Program Studi (UPPS)
             const jenisLayananSelect = document.getElementById('jenis_layanan_yang_diterima'); // Dropdown Jenis Layanan
             const jenisOptions = document.querySelectorAll('.jenis-option'); // Semua opsi di dropdown Jenis Layanan
 

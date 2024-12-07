@@ -65,6 +65,13 @@ class User extends BaseController
                     'matches' => 'Konfirmasi password harus sama dengan password'
                 ]
             ],
+            'akses' => [
+                'rules' => 'required|in_list[yes,no]',
+                'errors' => [
+                    'required' => 'Akses tidak boleh kosong',
+                    'in_list' => 'Akses harus berupa "yes" atau "no"'
+                ]
+            ],
         ];
 
         if (!$this->validate($rules)) {
@@ -80,7 +87,8 @@ class User extends BaseController
             'name' => $this->request->getPost('name'),
             'email' => $this->request->getPost('email'),
             'role' => $this->request->getPost('role'),
-            'password' => $hashedPassword
+            'password' => $hashedPassword,
+            'akses' => $this->request->getPost('akses')
         ]);
 
         session()->setFlashdata('berhasil', 'Data berhasil ditambahkan');
@@ -162,6 +170,13 @@ class User extends BaseController
                     'matches' => 'Konfirmasi password harus sama dengan password'
                 ]
             ],
+            'akses' => [
+                'rules' => 'required|in_list[yes,no]',
+                'errors' => [
+                    'required' => 'Akses tidak boleh kosong',
+                    'in_list' => 'Akses harus berupa "yes" atau "no"'
+                ]
+            ],
         ];
 
         if (!$this->validate($rules)) {
@@ -173,7 +188,8 @@ class User extends BaseController
         $data = [
             'name' => $this->request->getPost('name'),
             'email' => $this->request->getPost('email'),
-            'role' => $this->request->getPost('role')
+            'role' => $this->request->getPost('role'),
+            'akses' => $this->request->getPost('akses')
         ];
 
         // Only hash the password if it was provided

@@ -64,6 +64,20 @@
                     </div>
                 </div>
 
+                <!-- Akses -->
+                <div class="input-style-1">
+                    <label class="text-dark mb-2 fs-6">Full Akses?</label>
+                    <select class="fs-6 form-control <?= session('validation') && session('validation')->hasError('akses') ? 'is-invalid' : '' ?>"
+                        name="akses">
+                        <option value="">-- Pilih Akses --</option>
+                        <option value="yes" <?= old('akses') == 'yes' ? 'selected' : '' ?>>Yes</option>
+                        <option value="no" <?= old('akses') == 'no' ? 'selected' : '' ?>>No</option>
+                    </select>
+                    <div class="invalid-feedback">
+                        <?= session('validation') ? session('validation')->getError('akses') : '' ?>
+                    </div>
+                </div>
+
                 <!-- Password -->
                 <div class="input-style-1">
                     <label class="text-dark mb-2 fs-6">Password</label>

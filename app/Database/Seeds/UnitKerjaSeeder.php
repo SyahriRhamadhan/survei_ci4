@@ -26,7 +26,7 @@ class UnitKerjaSeeder extends Seeder
             ['jenis_unit' => 'UPPS', 'nama_unit' => 'Fakultas Ilmu Kelautan dan Perikanan (FIKP)'],
             ['jenis_unit' => 'UPPS', 'nama_unit' => 'Fakultas Keguruan dan Ilmu Pendidikan (FKIP)'],
             ['jenis_unit' => 'UPPS', 'nama_unit' => 'Fakultas Ilmu Sosial dan Ilmu Politik (FISIP)'],
-            ['jenis_unit' => 'UPPS', 'nama_unit' => 'Program Pascasarjana (Magister)'],
+            ['jenis_unit' => 'UPPS', 'nama_unit' => 'Program Pascasarjana (PPS)'],
             ['jenis_unit' => 'UPPS', 'nama_unit' => 'Fakultas Kedokteran (FK)'],
         ];
 

@@ -130,65 +130,32 @@
 
                         <!-- Contoh Sidebar Bersarang -->
                         <li class="list-divider"></li>
+                        <?php if (session('akses') == 'yes'): ?>
                         <li class="nav-small-cap"><span class="hide-menu">Dashboard Admin </span></li>
-                        <li class="sidebar-item"> <a class="sidebar-link has-arrow" href="javascript:void(0)"
-                                aria-expanded="false"><i data-feather="grid" class="feather-icon"></i><span
-                                    class="hide-menu"> Manajemen Survei </span></a>
-                            <ul aria-expanded="false" class="collapse  first-level base-level-line">
+                            <li class="sidebar-item">
+                                <a class="sidebar-link has-arrow" href="javascript:void(0)" aria-expanded="false">
+                                    <i data-feather="grid" class="feather-icon"></i><span class="hide-menu"> Manajemen Survei </span>
+                                </a>
+                                <ul aria-expanded="false" class="collapse first-level base-level-line">
+                                    <li class="sidebar-item"><a href="<?= base_url('admin/survei') ?>" class="sidebar-link"><span class="hide-menu h6"> Survei </span></a></li>
+                                    <li class="sidebar-item"><a href="<?= base_url('admin/pertanyaan') ?>" class="sidebar-link"><span class="hide-menu h6"> Pertanyaan </span></a></li>
+                                    <li class="sidebar-item"><a href="<?= base_url('admin/tipe_pertanyaan') ?>" class="sidebar-link"><span class="hide-menu h6"> Tipe/Kategori Pertanyaan </span></a></li>
+                                    <li class="sidebar-item"><a href="<?= base_url('admin/placeholder') ?>" class="sidebar-link"><span class="hide-menu h6"> Placeholder </span></a></li>
+                                </ul>
+                            </li>
+                            <li class="sidebar-item">
+                                <a class="sidebar-link has-arrow" href="javascript:void(0)" aria-expanded="false">
+                                    <i data-feather="user" class="feather-icon"></i><span class="hide-menu">Manajemen User </span>
+                                </a>
+                                <ul aria-expanded="false" class="collapse first-level base-level-line">
+                                    <li class="sidebar-item"><a href="<?= base_url('admin/prodi') ?>" class="sidebar-link"><span class="hide-menu h6"> Manajemen Prodi </span></a></li>
+                                    <li class="sidebar-item"><a href="<?= base_url('admin/fakultas') ?>" class="sidebar-link"><span class="hide-menu h6"> Manajemen Fakultas </span></a></li>
+                                    <li class="sidebar-item"><a href="<?= base_url('admin/unit') ?>" class="sidebar-link"><span class="hide-menu h6"> Manajemen Unit Kerja </span></a></li>
+                                    <li class="sidebar-item"><a href="<?= base_url('admin/user') ?>" class="sidebar-link"><span class="hide-menu h6"> Tambahkan Akun </span></a></li>
+                                </ul>
+                            </li>
+                        <?php endif; ?>
 
-                                <!-- <li class="sidebar-item"><a href="form-input-grid.html" class="sidebar-link"><span
-                                            class="hide-menu h6"> Tipe Setahun
-                                        </span></a>
-                                </li>
-                                <li class="sidebar-item"><a href="form-input-grid.html" class="sidebar-link"><span
-                                            class="hide-menu h6"> Tipe Pengunjung
-                                        </span></a>
-                                </li> -->
-                                <li class="sidebar-item"><a href="<?= base_url('admin/survei') ?>" class="sidebar-link"><span
-                                            class="hide-menu h6"> Survei
-                                        </span></a>
-                                </li>
-                                <li class="sidebar-item"><a href="<?= base_url('admin/pertanyaan') ?>" class="sidebar-link"><span
-                                            class="hide-menu h6"> Pertanyaan
-                                        </span></a>
-                                </li>
-                                <li class="sidebar-item"><a href="<?= base_url('admin/tipe_pertanyaan') ?>" class="sidebar-link"><span
-                                            class="hide-menu h6"> Tipe/Kategori Pertanyaan
-                                        </span></a>
-                                </li>
-                                <li class="sidebar-item"><a href="<?= base_url('admin/placeholder') ?>" class="sidebar-link"><span
-                                            class="hide-menu h6"> Placeholder
-                                        </span></a>
-                                </li>
-
-
-                            </ul>
-                        </li>
-
-                        <li class="sidebar-item"> <a class="sidebar-link has-arrow" href="javascript:void(0)"
-                                aria-expanded="false"><i data-feather="user" class="feather-icon"></i><span
-                                    class="hide-menu">Manajemen User </span></a>
-                            <ul aria-expanded="false" class="collapse  first-level base-level-line">
-                                <li class="sidebar-item"><a href="<?= base_url('admin/prodi') ?>" class="sidebar-link"><span
-                                            class="hide-menu h6"> Manajemen Prodi
-                                        </span></a>
-                                </li>
-                                <li class="sidebar-item"><a href="<?= base_url('admin/fakultas') ?>" class="sidebar-link"><span
-                                            class="hide-menu h6"> Manajemen Fakultas
-                                        </span></a>
-                                </li>
-                                <li class="sidebar-item"><a href="<?= base_url('admin/unit') ?>" class="sidebar-link"><span
-                                            class="hide-menu h6"> Manajemen Unit Kerja
-                                        </span></a>
-                                </li>
-                                <li class="sidebar-item"><a href="<?= base_url('admin/user') ?>" class="sidebar-link"><span
-                                            class="hide-menu h6"> Tambahkan Akun
-                                        </span></a>
-                                </li>
-
-
-                            </ul>
-                        </li>
 
                         <li class="list-divider"></li>
                         <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="<?= base_url('auth/logout') ?>"

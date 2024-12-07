@@ -418,9 +418,9 @@ class Dashboard extends BaseController
 
         // Menentukan kategori IKM berdasarkan nilai
         if ($IKM >= 1 && $IKM <= 64.99) {
-            $ikmCategory = 'Tidak Baik';
+            $ikmCategory = 'Tidak Baik/Kurang';
         } elseif ($IKM >= 65 && $IKM <= 76.60) {
-            $ikmCategory = 'Kurang Baik';
+            $ikmCategory = 'Kurang Baik/Cukup';
         } elseif ($IKM >= 76.61 && $IKM <= 88.30) {
             $ikmCategory = 'Baik';
         } elseif ($IKM >= 88.31 && $IKM <= 100) {

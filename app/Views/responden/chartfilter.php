@@ -278,9 +278,9 @@
 
     let ikmCategory = '';
     if (ikmValue >= 1 && ikmValue <= 64.99) {
-        ikmCategory = 'Tidak Baik';
+        ikmCategory = 'Tidak Baik/Kurang';
     } else if (ikmValue >= 65 && ikmValue <= 76.60) {
-        ikmCategory = 'Kurang Baik';
+        ikmCategory = 'Kurang Baik/Cukup';
     } else if (ikmValue >= 76.61 && ikmValue <= 88.30) {
         ikmCategory = 'Baik';
     } else if (ikmValue >= 88.31 && ikmValue <= 100) {

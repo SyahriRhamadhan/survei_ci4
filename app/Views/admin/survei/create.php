@@ -26,7 +26,7 @@
                 <?= csrf_field() ?>
                 <div class="row">
                     <div class="col-md-6">
-                        <div class="input-style-1">
+                        <!-- <div class="input-style-1">
                             <label class="text-dark mb-2 fs-6">Judul</label>
                             <select class="form-select fs-6  mr-sm-2" id="inlineFormCustomSelect" name="judul" required>
                                 <option selected value="">Pilih Judul</option>
@@ -47,7 +47,54 @@
                                     <?php } ?>
                                 </select>
                             </div>
+                        </div> -->
+                        <div class="input-style-1">
+                            <label class="text-dark mb-2 fs-6" for="inlineFormCustomSelectJudul">Judul</label> <!-- Match for="inlineFormCustomSelectJudul" with id -->
+                            <select class="form-select fs-6 mr-sm-2" id="inlineFormCustomSelectJudul" name="judul" required>
+                                <option selected value="">Pilih Judul</option>
+                                <option value="Instrumen survei kepuasan mahasiswa di UPPS">Instrumen survei kepuasan mahasiswa di UPPS</option>
+                                <option value="Instrumen survei kepuasan dosen di UPPS">Instrumen survei kepuasan dosen di UPPS</option>
+                                <option value="Instrumen survei kepuasan tenaga kependidikan di UPPS">Instrumen survei kepuasan tenaga kependidikan di UPPS</option>
+                                <option value="Instrumen survei kepuasan mitra di UPPS">Instrumen survei kepuasan mitra di UPPS</option>
+                                <option value="Instrumen survei kepuasan Unit Layanan di lingkungan UMRAH">Instrumen survei kepuasan Unit Layanan di lingkungan UMRAH</option>
+                            </select>
                         </div>
+
+                        <!-- Dropdown Unit -->
+                        <div class="input-style-1 my-2">
+                            <div class="form-group">
+                                <label class="mr-sm-2 text-dark fs-6 mb-2" for="inlineFormCustomSelectUnit">Unit</label> <!-- Match for="inlineFormCustomSelectUnit" with id -->
+                                <select class="form-select fs-6 mr-sm-2" id="inlineFormCustomSelectUnit" name="unit" required>
+                                    <option selected value="">Pilih Unit</option>
+                                    <?php foreach ($unit_placeholder as $key) { ?>
+                                        <option value="<?= $key['id'] ?>" data-jenis_unit="<?= $key['jenis_unit'] ?>"><?= $key['jenis_unit'] ?> - <?= $key['nama_unit'] ?> - <?= $key['jenis_layanan_yang_diterima'] ?></option>
+                                    <?php } ?>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Script jQuery -->
+                        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                        <script>
+                            $(document).ready(function() {
+                                $('#inlineFormCustomSelectJudul').change(function() {
+                                    var selectedJudul = $(this).val();
+
+                                    // Filter unit berdasarkan jenis unit sesuai dengan judul
+                                    $('#inlineFormCustomSelectUnit option').each(function() {
+                                        var jenisUnit = $(this).data('jenis_unit');
+
+                                        if (selectedJudul === 'Instrumen survei kepuasan Unit Layanan di lingkungan UMRAH' && jenisUnit === 'Unit Layanan') {
+                                            $(this).show(); // Menampilkan unit Layanan
+                                        } else if (selectedJudul !== 'Instrumen survei kepuasan Unit Layanan di lingkungan UMRAH' && jenisUnit === 'UPPS') {
+                                            $(this).show(); // Menampilkan unit UPPS
+                                        } else {
+                                            $(this).hide(); // Menyembunyikan unit yang tidak relevan
+                                        }
+                                    });
+                                });
+                            });
+                        </script>
                         <div class="input-style-1 my-1">
                             <label class="text-dark mb-2 fs-6">Deskripsi</label>
                             <textarea class="fs-6 form-control <?= ($validation->hasError('deskripsi')) ? 'is-invalid' : '' ?>" type="text" name="deskripsi" placeholder="" required></textarea>

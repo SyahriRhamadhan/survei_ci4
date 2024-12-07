@@ -124,7 +124,5 @@ $routes->group('responden', function ($routes) {
     $routes->get('survei/detail/(:segment)', 'Responden\Layanan::detail/$1');
     $routes->post('layanan/store', 'Responden\Layanan::store');
     $routes->get('chartfilter/(:segment)', 'Responden\Dashboard::filter/$1');
-    // $routes->get('chartfilterunit/(:segment)', 'Responden\Dashboard::filterUnit/$1');
-    // $routes->get('chartfilterunit/(:segment)', 'Responden\Dashboard::hitungIKMUnit/$1');
 
 });

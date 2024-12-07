@@ -54,15 +54,6 @@ class SurveiModel extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    public function getSurveiWithUnit()
-    {
-        return $this->select('survei.*, unit_placeholder_pertanyaan.nama_unit, unit_placeholder_pertanyaan.jenis_layanan_yang_diterima')
-            ->join('unit_placeholder_pertanyaan', 'unit_placeholder_pertanyaan.id = survei.id_unit_placeholder', 'left')
-            ->where('survei.status', 'on')
-            ->where('unit_placeholder_pertanyaan.jenis_unit', 'Unit Layanan')
-            ->where('survei.judul', 'Instrumen survei kepuasan Unit Layanan di lingkungan UMRAH')
-            ->findAll();
-    }
     public function getSurveiWithUnitFilter()
     {
         return $this->select('survei.*, unit_placeholder_pertanyaan.nama_unit,unit_placeholder_pertanyaan.jenis_unit, unit_placeholder_pertanyaan.jenis_layanan_yang_diterima')
@@ -71,6 +62,18 @@ class SurveiModel extends Model
             ->findAll();
     }
 
+    public function getSurveiWithUnit()
+    {
+        return $this->select('survei.*, unit_placeholder_pertanyaan.nama_unit, unit_placeholder_pertanyaan.jenis_layanan_yang_diterima')
+            ->join('unit_placeholder_pertanyaan', 'unit_placeholder_pertanyaan.id = survei.id_unit_placeholder', 'left')
+            ->where('survei.status', 'on')
+            ->where('unit_placeholder_pertanyaan.jenis_unit', 'Unit Layanan')
+            ->where('survei.judul', 'Instrumen survei kepuasan Unit Layanan di lingkungan UMRAH')
+            ->orderBy('unit_placeholder_pertanyaan.nama_unit', 'ASC')
+            ->orderBy('unit_placeholder_pertanyaan.jenis_layanan_yang_diterima', 'ASC')
+            ->findAll();
+    }
+    
     public function getSurveiWithUnitMahasiswa()
     {
         return $this->select('survei.*, unit_placeholder_pertanyaan.nama_unit, unit_placeholder_pertanyaan.jenis_layanan_yang_diterima')
@@ -78,8 +81,11 @@ class SurveiModel extends Model
             ->where('survei.status', 'on')
             ->where('unit_placeholder_pertanyaan.jenis_unit', 'UPPS')
             ->where('survei.judul', 'Instrumen survei kepuasan mahasiswa di UPPS')
+            ->orderBy('unit_placeholder_pertanyaan.nama_unit', 'ASC')
+            ->orderBy('unit_placeholder_pertanyaan.jenis_layanan_yang_diterima', 'ASC')
             ->findAll();
     }
+    
     public function getSurveiWithUnitDosen()
     {
         return $this->select('survei.*, unit_placeholder_pertanyaan.nama_unit, unit_placeholder_pertanyaan.jenis_layanan_yang_diterima')
@@ -87,8 +93,11 @@ class SurveiModel extends Model
             ->where('survei.status', 'on')
             ->where('unit_placeholder_pertanyaan.jenis_unit', 'UPPS')
             ->where('survei.judul', 'Instrumen survei kepuasan dosen di UPPS')
+            ->orderBy('unit_placeholder_pertanyaan.nama_unit', 'ASC')
+            ->orderBy('unit_placeholder_pertanyaan.jenis_layanan_yang_diterima', 'ASC')
             ->findAll();
     }
+    
     public function getSurveiWithUnitTendik()
     {
         return $this->select('survei.*, unit_placeholder_pertanyaan.nama_unit, unit_placeholder_pertanyaan.jenis_layanan_yang_diterima')
@@ -96,8 +105,11 @@ class SurveiModel extends Model
             ->where('survei.status', 'on')
             ->where('unit_placeholder_pertanyaan.jenis_unit', 'UPPS')
             ->where('survei.judul', 'Instrumen survei kepuasan tenaga kependidikan di UPPS')
+            ->orderBy('unit_placeholder_pertanyaan.nama_unit', 'ASC')
+            ->orderBy('unit_placeholder_pertanyaan.jenis_layanan_yang_diterima', 'ASC')
             ->findAll();
     }
+    
     public function getSurveiWithUnitMitra()
     {
         return $this->select('survei.*, unit_placeholder_pertanyaan.nama_unit, unit_placeholder_pertanyaan.jenis_layanan_yang_diterima')
@@ -105,6 +117,8 @@ class SurveiModel extends Model
             ->where('survei.status', 'on')
             ->where('unit_placeholder_pertanyaan.jenis_unit', 'UPPS')
             ->where('survei.judul', 'Instrumen survei kepuasan mitra di UPPS')
+            ->orderBy('unit_placeholder_pertanyaan.nama_unit', 'ASC')
+            ->orderBy('unit_placeholder_pertanyaan.jenis_layanan_yang_diterima', 'ASC')
             ->findAll();
     }
 }

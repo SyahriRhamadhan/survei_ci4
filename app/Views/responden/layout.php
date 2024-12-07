@@ -71,7 +71,7 @@
                         <!-- Sebelumnya terdapat content notifikasi kemudian di hapus -->
                         <h3 class="fw-bolder text-dark">
 
-                            SURVEI UMRAH
+                            SURVEI KEPUASAN UMRAH
                         </h3>
                     </ul>
 
@@ -99,7 +99,7 @@
                         <li class="nav-small-cap"><span class="hide-menu">Menu Utama </span></li>
                         <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="/responden/dashboard"
                                 aria-expanded="false"><i data-feather="home" class="feather-icon"></i><span
-                                    class="hide-menu ">Dashboard</span></a></li>
+                                    class="hide-menu ">Halaman Utama</span></a></li>
                         <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="/responden/layanan"
                                 aria-expanded="false"><i data-feather="file-text" class="feather-icon"></i><span
                                     class="hide-menu ">Survei UMRAH</span></a></li>
@@ -149,9 +149,6 @@
     <script src="<?= base_url('dist/js/pages/datatable/datatable-basic.init.js') ?>"></script>
 
     <script>
-
-
-
         $(function() {
             <?php if (session()->has('berhasil')): ?>
                 const Toast = Swal.mixin({

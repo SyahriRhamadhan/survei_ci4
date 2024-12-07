@@ -61,6 +61,7 @@ class Login extends BaseController
                                 'id' => $cekEmail['id'],
                                 'role_id' => $cekEmail['role'],
                                 'name' => $cekEmail['name'],
+                                'akses' => $cekEmail['akses'],
                             ];
                             $session->set($session_data);
                             return redirect()->to('admin/dashboard');

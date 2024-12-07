@@ -8,7 +8,7 @@
             <div class="card border-end">
                 <div class="card-body">
                     <div class="d-flex justify-content-center">
-                        <h3 class="page-title  text-center text-dark font-weight-medium mb-1">Selamat Datang di Survei Universitas Maritim Raja Ali Haji</h3>
+                        <h3 class="page-title  text-center text-dark font-weight-medium mb-1">Selamat Datang di Survei Universitas Maritim Raja Ali Haji (UMRAH)</h3>
                     </div>
                 </div>
             </div>
@@ -319,9 +319,128 @@
     }
 </style>
 
-
-
 <script>
+    // Data dari Controller
+    const labels = <?= $ikmUnitLabels; ?>;
+    const data = <?= $ikmUnitData; ?>;
+
+    // Gabungkan labels dan data dalam array objek
+    const combinedData = labels.map((label, index) => {
+        return {
+            label: label,
+            value: data[index]
+        };
+    });
+
+    // Mengelompokkan berdasarkan kategori (misalnya 'BAPKK', 'FEBM', dll.)
+    const groupedData = {};
+    combinedData.forEach(item => {
+        const category = item.label.split(' - ')[0]; // Mengambil kategori sebelum tanda '-'
+        if (!groupedData[category]) {
+            groupedData[category] = [];
+        }
+        groupedData[category].push(item);
+    });
+
+    // Urutkan setiap kategori berdasarkan nilai secara menurun
+    Object.keys(groupedData).forEach(category => {
+        groupedData[category].sort((a, b) => b.value - a.value);
+    });
+
+    // Mengurutkan kategori berdasarkan nilai tertinggi di dalam kategori
+    const sortedCategories = Object.keys(groupedData).sort((a, b) => {
+        const sumA = groupedData[a].reduce((acc, item) => acc + item.value, 0);
+        const sumB = groupedData[b].reduce((acc, item) => acc + item.value, 0);
+        return sumB - sumA; // Mengurutkan kategori berdasarkan total nilai tertinggi
+    });
+
+    // Flatten data kembali ke dalam array dengan urutan kategori dan nilai yang benar
+    const finalSortedData = [];
+    sortedCategories.forEach(category => {
+        finalSortedData.push(...groupedData[category]);
+    });
+
+    // Setting ukuran chart
+    const margin = {
+            top: 40,
+            right: 10,
+            bottom: 470,
+            left: 50
+        },
+        width = 1800 - margin.left - margin.right,
+        height = 900 - margin.top - margin.bottom;
+
+    // Membuat SVG
+    const svg = d3.select("#chart")
+        .append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+        .append("g")
+        .attr("transform", `translate(${margin.left}, ${margin.top})`);
+
+    // Skala X dan Y
+    const x = d3.scaleBand()
+        .domain(finalSortedData.map(d => d.label))
+        .range([0, width])
+        .padding(0.1);
+
+    const y = d3.scaleLinear()
+        .domain([0, d3.max(finalSortedData, d => d.value)])
+        .nice()
+        .range([height, 0]);
+
+    svg.append("g")
+        .attr("class", "x-axis")
+        .attr("transform", `translate(0, ${height})`) // Menambahkan translate untuk sumbu X
+        .call(d3.axisBottom(x))
+        .selectAll("text") // Mengatur rotasi teks di sumbu X
+        .attr("transform", "rotate(-85)") // Rotasi teks
+        .style("text-anchor", "end")
+        .attr("dx", "-5") // Menambah jarak horizontal di akhir label
+        .attr("dy", "-8")
+        .style("font-size", "11px");
+
+    svg.append("g")
+        .attr("class", "y-axis")
+        .call(d3.axisLeft(y));
+
+    // Warna bergantian antara biru tua dan biru muda
+    const getColor = (index) => {
+        return index % 2 === 0 ? "#1f77b4" : "#add8e6"; // Biru tua untuk indeks genap, biru muda untuk ganjil
+    };
+
+    // Membuat barchart dengan warna bergantian
+    svg.selectAll(".bar")
+        .data(finalSortedData)
+        .enter()
+        .append("rect")
+        .attr("class", "bar")
+        .attr("x", (d, i) => x(d.label))
+        .attr("y", d => y(d.value))
+        .attr("width", x.bandwidth())
+        .attr("height", d => height - y(d.value))
+        .attr("fill", (d, i) => getColor(i)); // Set warna berdasarkan indeks
+
+    // Label nilai pada bar
+    svg.selectAll(".text")
+        .data(finalSortedData)
+        .enter()
+        .append("text")
+        .attr("class", "label")
+        .attr("x", (d, i) => x(d.label) + x.bandwidth() / 5 + 15) // Menambah 5 untuk menggeser ke kanan
+        .attr("y", d => y(d.value) - 0) // Menempatkan label sedikit lebih tinggi
+        .attr("text-anchor", "middle")
+        .text(d => d.value.toFixed(2))
+        .style("font-size", "11px")
+        .attr("transform", function(d, i) {
+            const xPos = x(d.label) + x.bandwidth() / 2 - 5; // Geser ke kanan
+            const yPos = y(d.value) - 10;
+            return `rotate(-90, ${xPos}, ${yPos})`; // Rotasi 90 derajat pada titik baru
+        });
+</script>
+
+
+<!-- <script>
     // Data dari Controller
     const labels = <?= $ikmUnitLabels; ?>;
     const data = <?= $ikmUnitData; ?>;
@@ -399,7 +518,7 @@
             const yPos = y(d) - 10;
             return `rotate(-90, ${xPos}, ${yPos})`; // Rotasi 90 derajat pada titik baru
         });
-</script>
+</script> -->
 <script>
     var ctx = document.getElementById('doughnutChart').getContext('2d');
     var doughnutChart = new Chart(ctx, {
@@ -410,11 +529,11 @@
                 label: 'Jumlah Responden',
                 data: <?= $chartValues ?>, // Menampilkan jumlah responden per kategori
                 backgroundColor: [
-                    'rgba(255, 87, 51, 0.6)',
-                    'rgba(51, 255, 87, 0.6)',
-                    'rgba(51, 87, 255, 0.6)',
-                    'rgba(241, 196, 15, 0.6)',
-                    'rgba(155, 89, 182, 0.6)'
+                    'rgba(255, 87, 51, 0.8)',
+                    'rgba(51, 255, 87, 0.8)',
+                    'rgba(51, 87, 255, 0.8)',
+                    'rgba(241, 196, 15, 0.8)',
+                    'rgba(155, 89, 182, 0.8)'
                 ],
                 borderColor: [
                     'rgba(255, 87, 51, 1)',
@@ -423,7 +542,7 @@
                     'rgba(241, 196, 15, 1)',
                     'rgba(155, 89, 182, 1)'
                 ],
-                borderWidth: 2
+                borderWidth: 4
             }]
 
         },

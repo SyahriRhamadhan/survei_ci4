@@ -36,7 +36,7 @@ class FakultasSeeder extends Seeder
                 'updated_at' => date('Y-m-d H:i:s'),
             ],
             [
-                'nama' => 'Program Pascasarjana (Magister)',
+                'nama' => 'Program Pascasarjana (PPS)',
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s'),
             ],

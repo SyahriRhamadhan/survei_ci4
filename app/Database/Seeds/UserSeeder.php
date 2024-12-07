@@ -14,20 +14,15 @@ class UserSeeder extends Seeder
             'email' => 'admin@gmail.com',
             'password' => password_hash('123', PASSWORD_BCRYPT),
             'role' => 'admin',
+            'akses' => 'yes'
         ]);
         // Role Unit
         $this->db->table('users')->insert([
-            'name' => 'Unit 1',
-            'email' => 'unit1@gmail.com',
+            'name' => 'Rektor',
+            'email' => 'rektor@gmail.com',
             'password' => password_hash('123', PASSWORD_BCRYPT),
-            'role' => 'unit'
-        ]);
-        // Role Pimpinan
-        $this->db->table('users')->insert([
-            'name' => 'Pimpinan',
-            'email' => 'pimpinan@gmail.com',
-            'password' => password_hash('123', PASSWORD_BCRYPT),
-            'role' => 'pimpinan'
+            'role' => 'admin',
+            'akses' => 'no'
         ]);
         
     }

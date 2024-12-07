@@ -32,6 +32,11 @@ class Users extends Migration
                 'constraint' => ['unit', 'pimpinan', 'admin'],
                 'null' => true,
             ],
+            'akses' => [
+                'type' => 'ENUM',
+                'constraint' => ['yes', 'no'],
+                'null' => true,
+            ],
             'created_at' => [
                 'type' => 'DATETIME',
                 'null' => true,

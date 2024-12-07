@@ -8,7 +8,7 @@ class RespondenSeeder extends Seeder
 {
     public function run()
     {
-        $kategoriRespondenOptions = ['mahasiswa', 'dosen', 'tendik', 'mitra', 'umum'];
+        $kategoriRespondenOptions = ['mahasiswa', 'dosen', 'tendik', 'mitra', 'umum', 'alumni'];
         $jenisKelaminOptions = ['Laki-laki', 'Perempuan'];
         $jamSurveiOptions = ['08.00 - 12.00', '13.00 - 17.00'];
         $startTimestamp = strtotime('2024-01-01');
@@ -34,7 +34,7 @@ class RespondenSeeder extends Seeder
                 'tanggal_survei' => $tanggalSurvei,
                 'saran_masukan' => $saranMasukan,
                 'kategori_responden' => $kategoriResponden,
-                'id_survei' => rand(1, 212),
+                'id_survei' => rand(1, 250),
                 'created_at' => $createdAt,
                 'updated_at' => $updatedAt,
             ];
@@ -46,6 +46,8 @@ class RespondenSeeder extends Seeder
                 $dataResponden['id_fakultas'] = rand(1, 7);
             } elseif ($kategoriResponden === 'tendik') {
                 $dataResponden['id_unit'] = rand(1, 16);
+            } elseif ($kategoriResponden === 'alumni') {
+                $dataResponden['angkatan'] = $angkatan;
             }
 
             $this->db->table('responden')->insert($dataResponden);

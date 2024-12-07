@@ -72,7 +72,11 @@ class Survei extends BaseController
 
         $data = [
             'title' => 'Tambah survei',
-            'unit_placeholder' => $unitPlaceholderPertanyaanModel->findAll(),
+            'unit_placeholder' => $unitPlaceholderPertanyaanModel
+                ->orderBy('jenis_unit', 'ASC')
+                ->orderBy('nama_unit', 'ASC')
+                ->orderBy('jenis_layanan_yang_diterima', 'ASC')
+                ->findAll(),
             'pertanyaanGrouped' => $pertanyaanGrouped,
             'validation' => \Config\Services::validation()
         ];

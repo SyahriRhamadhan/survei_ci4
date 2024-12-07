@@ -56,7 +56,8 @@ class Responden extends Migration
                     'dosen',
                     'tendik',
                     'mitra',
-                    'umum'
+                    'umum',
+                    'alumni'
                 ],
                 'null' => true,
             ],

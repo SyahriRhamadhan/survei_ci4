@@ -25,9 +25,10 @@ class Dashboard extends BaseController
         $userRole = $session->get('role_id');
 
         $placeholder = new UnitPlaceholderPertanyaanModel();
-
+        $unitModel = new SurveiModel();
         $data = [
             'title' => 'Dashboard',
+            'unitList' => $unitModel->getSurveiWithUnitFilter(),
             'filter2' => $placeholder->getSortedUnits(),
             'filter' => $dataId1,
             'user_id' => $userId,
@@ -51,12 +52,12 @@ class Dashboard extends BaseController
             return redirect()->to('/admin/dashboard')->with('status', 'Status updated successfully');
         }
 
-        return redirect()->to('/admin/dashboard')->with('status', 'Invalid status value');
+        return redirect()->to('/admin/dashboard')->with('error', 'Invalid status value');
     }
 
     public function hitungIKMUnit($namaUnit)
     {
-        ini_set('max_execution_time', 100);
+        ini_set('max_execution_time', 500);
         $placeholderModel = new UnitPlaceholderPertanyaanModel();
         $surveiModel = new SurveiModel();
         $jawabanSurveiModel = new JawabanSurveiModel();
@@ -95,6 +96,8 @@ class Dashboard extends BaseController
                 'genderCounts' => '[]',
                 'angkatanLabels' => '[]',
                 'angkatanCounts' => '[]',
+                'alumniLabels' => '[]',
+                'alumniCounts' => '[]',
                 'prodiLabels' => '[]',
                 'prodiCounts' => '[]',
                 'fakultasLabels' => '[]',
@@ -131,13 +134,14 @@ class Dashboard extends BaseController
         }
 
         // Define kategori responden dan hitung jumlah kategori
-        $kategoriLabels = ['Mahasiswa', 'Dosen', 'Tendik', 'Mitra', 'Umum'];
+        $kategoriLabels = ['Mahasiswa', 'Dosen', 'Tendik', 'Mitra', 'Umum', 'Alumni'];
         $kategoriCounts = [
             $kategoriRespondenData['mahasiswa'] ?? 0,
             $kategoriRespondenData['dosen'] ?? 0,
             $kategoriRespondenData['tendik'] ?? 0,
             $kategoriRespondenData['mitra'] ?? 0,
-            $kategoriRespondenData['umum'] ?? 0
+            $kategoriRespondenData['umum'] ?? 0,
+            $kategoriRespondenData['alumni'] ?? 0,
         ];
 
         $jawabanSurvei = $jawabanSurveiModel
@@ -173,7 +177,7 @@ class Dashboard extends BaseController
             }
         }
         $ikmDataByUnit = $jawabanSurveiModel
-            ->select('unit_placeholder_pertanyaan.nama_unit, 
+            ->select('unit_placeholder_pertanyaan.nama_unit, unit_placeholder_pertanyaan.jenis_unit,
              unit_placeholder_pertanyaan.jenis_layanan_yang_diterima, 
              AVG(jawaban_survei.jawaban) as ikm_avg, 
              pertanyaan.tipe_pertanyaan')
@@ -183,6 +187,7 @@ class Dashboard extends BaseController
             ->whereIn('survei.id_unit_placeholder', $unitPlaceholderIds)
             ->where('YEAR(jawaban_survei.created_at)', $tahun)
             ->groupBy([
+                'unit_placeholder_pertanyaan.jenis_unit',
                 'unit_placeholder_pertanyaan.nama_unit',
                 'unit_placeholder_pertanyaan.jenis_layanan_yang_diterima',
                 'pertanyaan.tipe_pertanyaan'
@@ -214,9 +219,9 @@ class Dashboard extends BaseController
 
         $IKM = $totalKategori > 0 ? ($totalNilai / $totalKategori) * 25 : 0;
         if ($IKM >= 1 && $IKM <= 64.99) {
-            $ikmCategory = 'Tidak Baik';
+            $ikmCategory = 'Tidak Baik/Kurang';
         } elseif ($IKM >= 65 && $IKM <= 76.60) {
-            $ikmCategory = 'Kurang Baik';
+            $ikmCategory = 'Kurang Baik/Cukup';
         } elseif ($IKM >= 76.61 && $IKM <= 88.30) {
             $ikmCategory = 'Baik';
         } elseif ($IKM >= 88.31 && $IKM <= 100) {
@@ -230,6 +235,7 @@ class Dashboard extends BaseController
         foreach ($ikmDataByUnit as $ikmRow) {
             $namaUnit = $ikmRow['nama_unit'];
             $jenisLayanan = $ikmRow['jenis_layanan_yang_diterima'];
+            $jenisLayanan1 = $ikmRow['jenis_unit'];
             $ikmAvg = $ikmRow['ikm_avg'];
 
             if (isset($kategoriJawaban[$jenisLayanan])) {
@@ -245,7 +251,7 @@ class Dashboard extends BaseController
                 $singkatanNamaUnit = $namaUnit;
             }
 
-            $ikmUnitLabels[] = "{$singkatanNamaUnit} - {$jenisLayanan}";
+            $ikmUnitLabels[] = "{$jenisLayanan1} - {$singkatanNamaUnit} - {$jenisLayanan}";
             $ikmUnitData[] = round($rataIkm * 25, 2); // Multiply by 25 to scale
         }
 
@@ -262,6 +268,20 @@ class Dashboard extends BaseController
 
         $angkatanLabels = array_column($angkatanMahasiswa, 'angkatan');
         $angkatanCounts = array_column($angkatanMahasiswa, 'jumlah_responden');
+
+        // Data responden kategori mahasiswa dengan filtering berdasarkan survei dan tahun
+        $alumniMahasiswa = $respondenModel
+            ->select('angkatan, COUNT(DISTINCT responden.id) as jumlah_responden')
+            ->join('jawaban_survei', 'jawaban_survei.id_responden = responden.id')
+            ->where('responden.kategori_responden', 'alumni')
+            ->whereIn('jawaban_survei.id_survei', $surveiIds)
+            ->where('YEAR(jawaban_survei.created_at)', $tahun)
+            ->groupBy('angkatan')
+            ->orderBy('angkatan', 'ASC')
+            ->findAll();
+
+        $alumniLabels = array_column($alumniMahasiswa, 'angkatan');
+        $alumniCounts = array_column($alumniMahasiswa, 'jumlah_responden');
 
         // Data responden kategori mahasiswa berdasarkan survei, tahun, dan program studi
         $prodiMahasiswa = $respondenModel
@@ -366,6 +386,8 @@ class Dashboard extends BaseController
             'ikmUnitDataAvg' => round($IKM, 2),
             'angkatanLabels' => json_encode($angkatanLabels),
             'angkatanCounts' => json_encode($angkatanCounts),
+            'alumniLabels' => json_encode($alumniLabels),
+            'alumniCounts' => json_encode($alumniCounts),
             'prodiLabels' => json_encode($prodiLabels),
             'prodiCounts' => json_encode($prodiCounts),
             'fakultasLabels' => json_encode($fakultasLabels),

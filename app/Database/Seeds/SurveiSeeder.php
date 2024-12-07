@@ -11,7 +11,7 @@ class SurveiSeeder extends Seeder
         // Variabel survei untuk Unit Layanan
         $judul1 = 'Instrumen survei kepuasan Unit Layanan di lingkungan UMRAH';
         $status1 = 'on';
-        $idUnitPlaceholderRange1 = range(32, 119);
+        $idUnitPlaceholderRange1 = range(32, 157);
 
         // Variabel survei tambahan untuk UPPS
         $judul2 = 'Instrumen survei kepuasan mahasiswa di UPPS';

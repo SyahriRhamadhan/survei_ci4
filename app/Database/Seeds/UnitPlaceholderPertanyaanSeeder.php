@@ -46,7 +46,7 @@ class UnitPlaceholderPertanyaanSeeder extends Seeder
                 'Kimia',
                 'Teknik Industri'
             ],
-            'Program Pascasarjana (Magister)' => [
+            'Program Pascasarjana (PPS)' => [
                 'Magister Administrasi Publik',
                 'Magister Ilmu Lingkungan',
                 'Magister Pedagogi FKIP UMRAH'
@@ -96,7 +96,7 @@ class UnitPlaceholderPertanyaanSeeder extends Seeder
                 'Layanan Kelompok Kepakaran (KERJASAMA, PENELITIAN DAN PKM)',
                 'Layanan Pendidikan Khusus Profesi Advokat (PKPA)'
             ],
-            'Program Pascasarjana (Magister)' => [
+            'Program Pascasarjana (PPS)' => [
                 'Layanan administrasi akademik dan kemahasiswaan',
                 'Layanan pengelolaan keuangan dan sumber daya manusia',
                 'Layanan Umum dan kerjasama'
@@ -178,6 +178,50 @@ class UnitPlaceholderPertanyaanSeeder extends Seeder
                 'Molecular Identification & Spectroscopy',
                 'Electrochemical Research & Analysis',
                 'Computational Analysis',
+            ],
+            'Unit Penunjang Akademik Teknologi Informasi dan Komunikasi (UPA TIK)' => [
+                'Layanan teknis perbaikan jaringan internet',
+                'Layanan teknis email umrah.ac.id',
+                'Layanan penyediaan hosting web',
+                'Layanan teknis perbaikan aplikasi institusi',
+            ],
+            'Fakultas Teknik dan Teknologi Kemaritiman (FTTK)' => [
+                'Layanan Akademik dan Kemahasiswaan',
+                'Layanan Pengelolaan Keuangan dan Sumberdaya Manusia',
+                'Layanan Pengelolaan Sarana dan Prasarana',
+                'Layanan Umum dan Kerjasama',
+                'Layanan Alumni (Legalisir)',
+            ],
+            'Unit Penunjang Akademik Perpustakaan (UPA Perpus)' => [
+                'Layanan Front Office',
+                'Layanan Loker',
+                'Layanan Sirkulasi',
+                'Layanan Referensi',
+                'Layanan Multimedia',
+                'E-Journal',
+                'E-Book',
+                'Turnitin',
+                'Layanan Ruang Diskusi',
+                'Layanan Pojok Statistik',
+                'Layanan Baca Ditempat',
+                'Layanan Repository',
+                'Layanan Pendaftaran Anggota Perpustakaan',
+                'Layanan Peringatan Jatuh Tempo Pengembalian',
+                'Layanan Helpdesk Perpustakaan',
+                'Layanan OPAC',
+                'Layanan UMRAH Digital Library (playstore)',
+                'Layanan SKBP',
+                'Layanan Publikasi Jurnal Mahasiswa (SOJ)',
+                'Layanan Offline Database',
+                'Layanan Perpustakaan Digital',
+                'Layanan Reference Desk',
+                'Layanan SKBP Secara Online',
+                'China, Singapore, Melayu Corner',
+                'Layanan Printing',
+                'Layanan Li & Co (Library Coffee) Café',
+                'Layanan Book Reservation',
+                'Layanan Promosi (Live Instagram)',
+                'Pojok Baca Fakultas',
             ],
         ];
 

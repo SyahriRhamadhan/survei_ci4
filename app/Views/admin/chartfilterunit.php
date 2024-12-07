@@ -107,9 +107,14 @@
                                                 <span class="text-dark float-end font-weight-medium" id="mitra-count">0</span>
                                             </li>
                                             <li class="mt-3">
-                                                <i class="fas fa-circle" style="color: rgba(255, 159, 64, 0.5);"></i>
+                                                <i class="fas fa-circle" style="color: rgb(204, 178, 255);"></i>
                                                 <span class="text-muted">Umum</span>
                                                 <span class="text-dark float-end font-weight-medium" id="umum-count">0</span>
+                                            </li>
+                                            <li class="mt-3">
+                                                <i class="fas fa-circle" style="color: rgb(255,207,159);"></i>
+                                                <span class="text-muted">Alumni</span>
+                                                <span class="text-dark float-end font-weight-medium" id="alumni-count">0</span>
                                             </li>
                                         </ul>
 
@@ -178,6 +183,14 @@
     </div>
 
     <div id="halaman2">
+        <div class="col-md-12 ms-3 d-flex">
+            <div class="card border-5 flex-fill">
+                <div class="card-body">
+                    <h3 class="fw-bold text-center">Tahun Angkatan Responden Alumni</h3>
+                    <canvas id="alumniChart" height="35"></canvas>
+                </div>
+            </div>
+        </div>
         <div class="col-md-12 m-3 d-flex">
             <div class="card border-5 flex-fill">
                 <div class="card-body">
@@ -466,6 +479,35 @@
     });
 </script>
 <script>
+    const ctxAlumni = document.getElementById('alumniChart').getContext('2d');
+    const alumniChart = new Chart(ctxAlumni, {
+        type: 'bar',
+        data: {
+            labels: <?= $alumniLabels ?>,
+            datasets: [{
+                label: 'Jumlah Responden Alumni',
+                data: <?= $alumniCounts ?>,
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    display: false
+                },
+            },
+            scales: {
+                y: {
+                    beginAtZero: true
+                },
+            }
+        }
+    });
+</script>
+<script>
     const ikmUnitLabels = <?= $ikmUnitLabels ?>;
     const ikmUnitData = <?= $ikmUnitData ?>;
 
@@ -539,6 +581,7 @@
     document.getElementById('tendik-count').textContent = kategoriCounts[2] || 0;
     document.getElementById('mitra-count').textContent = kategoriCounts[3] || 0;
     document.getElementById('umum-count').textContent = kategoriCounts[4] || 0;
+    document.getElementById('alumni-count').textContent = kategoriCounts[5] || 0;
 
     var ctx = document.getElementById('doughnutChart').getContext('2d');
     var doughnutChart = new Chart(ctx, {

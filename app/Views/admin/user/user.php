@@ -59,6 +59,7 @@
                                     <th>Nama</th>
                                     <th>Email</th>
                                     <th>Role</th>
+                                    <th>Full Akses</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -70,6 +71,13 @@
                                         <td><?= htmlspecialchars($per['name']) ?></td>
                                         <td><?= htmlspecialchars($per['email']) ?></td>
                                         <td><?= htmlspecialchars($per['role']) ?></td>
+                                        <td>
+                                            <?php if ($per['akses'] === 'yes'): ?>
+                                                <span class="badge bg-success">Yes</span>
+                                            <?php else: ?>
+                                                <span class="badge bg-danger">No</span>
+                                            <?php endif; ?>
+                                        </td>
                                         <td>
                                             <a href="<?= base_url('admin/user/edit/' . $per['id']) ?>" class="btn btn-primary">Edit</a>
                                             <a href="<?= base_url('admin/user/delete/' . $per['id']) ?>" class="btn btn-danger tombol-hapus">Delete</a>
@@ -83,6 +91,7 @@
                                     <th>Nama</th>
                                     <th>Email</th>
                                     <th>Role</th>
+                                    <th>Full Akses</th>
                                     <th>Action</th>
                                 </tr>
                             </tfoot>

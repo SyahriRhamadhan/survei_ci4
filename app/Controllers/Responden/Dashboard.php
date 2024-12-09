@@ -56,11 +56,24 @@ class Dashboard extends BaseController
         $surveiModel = new SurveiModel();
         $totalSurveiOn = $surveiModel->where('status', 'on')->countAllResults();
 
+        $urutKategori = [
+            'mahasiswa' => 1,
+            'dosen' => 2,
+            'tendik' => 3,
+            'mitra' => 4,
+            'umum' => 5,
+            'alumni' => 6
+        ];
+
         // Ambil jumlah responden berdasarkan kategori_responden
         $kategoriRespondenCounts = $respondenModel
             ->select('kategori_responden, COUNT(*) as total')
             ->groupBy('kategori_responden')
             ->findAll();
+
+        usort($kategoriRespondenCounts, function ($a, $b) use ($urutKategori) {
+            return $urutKategori[$a['kategori_responden']] <=> $urutKategori[$b['kategori_responden']];
+        });
 
         // Data untuk chart Doughnut
         $chartData = [];
@@ -450,5 +463,4 @@ class Dashboard extends BaseController
         ];
         return view('responden/chartfilter', $data);
     }
-
 }

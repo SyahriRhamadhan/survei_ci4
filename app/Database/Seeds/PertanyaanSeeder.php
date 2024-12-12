@@ -24,7 +24,8 @@ class PertanyaanSeeder extends Seeder
                 '<tag> membuka jalur pengaduan dan saran yang berfungsi baik serta melakukan tindaklanjut atas pengaduan dan saran terkait dengan layanannya.',
                 '<tag> memiliki lingkungan pelayanan yang nyaman.',
                 '<tag> memiliki lingkungan yang aman dan mendukung pemberian layanan.',
-                'Layanan di <tag> didukung dengan sarana dan prasarana (termasuk teknologi informasi) yang baik dan memadai.'
+                'Layanan di <tag> didukung dengan sarana dan prasarana (termasuk teknologi informasi) yang baik dan memadai.',
+                'Tidak ada pungutan liar (pungli) pada unit layanan <tag>'
             ],
             'Tata Kelola, Tata Pamong, dan Kerjasama' => [
                 'Sistem Informasi Akademik (SIPA) bekerja dengan handal dan mudah diakses.',

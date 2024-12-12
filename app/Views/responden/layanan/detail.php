@@ -613,7 +613,7 @@
                                 <div class="d-flex">
                                     <?php for ($i = 4; $i >= 1; $i--): ?>
                                         <div class="form-check form-check-inline ms-3">
-                                            <input class="form-check-input" type="radio" name="penilaian[<?= $pertanyaan['id'] ?>]" value="<?= $i ?>" required>
+                                            <input class="form-check-input border border-dark border-1" type="radio" name="penilaian[<?= $pertanyaan['id'] ?>]" value="<?= $i ?>" required>
                                             <label class="form-check-label"><?= $i ?></label>
                                         </div>
                                     <?php endfor; ?>

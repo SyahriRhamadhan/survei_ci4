@@ -367,7 +367,7 @@ class Dashboard extends BaseController
             ->whereIn('jawaban_survei.id_survei', $surveiIds)
             ->where('jawaban_survei.created_at >=', $tahun . '-01-01') // Membatasi secara eksplisit dengan tanggal
             ->where('jawaban_survei.created_at <=', $tahun . '-12-31')
-            ->groupBy(['responden.kategori_responden', 'responden.saran_masukan', 'unit_placeholder_pertanyaan.jenis_layanan_yang_diterima'])
+            ->groupBy(['responden.kategori_responden', 'responden.saran_masukan', 'unit_placeholder_pertanyaan.jenis_layanan_yang_diterima', 'unit_placeholder_pertanyaan.nama_unit'])
             ->orderBy('responden.kategori_responden', 'ASC')
             ->findAll();
 

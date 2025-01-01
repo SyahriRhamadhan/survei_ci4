@@ -97,6 +97,16 @@ class PertanyaanSeeder extends Seeder
                 '<tag> menyediakan fasilitas pendukung yang memadai untuk mendukung tanggung jawab pekerjaan yang dijalankan.',
                 'Fasilitas yang tersedia di <tag> nyaman dan menjamin keamanan.'
             ],
+            'Kerjasama UPPS Dengan Mitra' => [
+                'Kerjasama dengan <tag> memberikan kemanfaatan untuk pengembangan instansi kami',
+                '<tag> menindaklanjuti kerjasama dengan menerbitkan nota kesepakatan',
+                '<tag> melaksanakan kerjasama sesuai dengan nota kesepakatan.',
+                '<tag> melakukan evaluasi kerjasama yang telah dilakukan.',
+                '<tag> menindaklanjuti hasil evaluasi untuk perbaikan kerjasama selanjutnya.',
+                '<tag> melibatkan instansi kami dalam pelaksanaan kegiatan',
+                'Kegiatan kerjasama dengan <tag> memberikan kontribusi dalam pengembangan instansi kami',
+                'Keberlanjutan kerjasama dengan <tag> memberikan kontribusi dalam pengembangan instansi kami'
+            ],
         ];
 
         $data = [];
